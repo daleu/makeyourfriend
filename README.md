@@ -4,7 +4,7 @@ This sample shows how to bootstrap a sample [Neo4j](https://neo4j.org) project o
 
 The Heroku Neo4j add-on used for this example is a free [GrapheneDB](https://elements.heroku.com/addons/graphenedb) instance, but other options are available.
 
-## Usage
+## Usag
 
 ### Run locally
 
