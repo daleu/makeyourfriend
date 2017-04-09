@@ -56,8 +56,8 @@ class Neo4jApi {
   clearNodes() {
     const session = this.driver.session();
     return session.run(`
-        MATCH (n:EXPRESS_SAMPLE_NAME)
-        DELETE n`);
+        MATCH (n)
+        DETACH DELETE n`);
   }
 
   close() {

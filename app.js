@@ -21,6 +21,15 @@ app.get('/', (req, res) => {
     .catch(error => res.status(500).send(error));
 });
 
+/*REGISTRE*/
+app.get('/register', (req, res) => {
+  db.getNodes()
+      .then((nodes) => {
+        res.render('./register.pug', { nodes });
+      })
+      .catch(error => res.status(500).send(error));
+});
+
 app.post('/', (req, res) => {
   const name = req.body.name;
   db.createNode(name)
