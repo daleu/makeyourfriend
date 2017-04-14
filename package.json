@@ -11,6 +11,8 @@
   "repository": "git@github.com:visby/neo4j-express-heroku-sample.git",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "bootstrap": "3.3.7",
+    "jquery"  : "3.2.1",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
     "neo4j-driver": "^1.0.5",
