@@ -13,10 +13,14 @@ const port = process.env.PORT;
 app.set('view engine', 'pug');
 app.use(bodyParser.urlencoded({ extended: true }));
 
+/*PATHS*/
 app.use('/', express.static(__dirname + '/www')); // redirect root
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+app.use('/images', express.static(__dirname + '/public/images'));
+app.use('/style', express.static(__dirname + '/public/style'));
+
 
 app.get('/', (req, res) => {
   db.getNodes()

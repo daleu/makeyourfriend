@@ -1,0 +1,21 @@
+.topbar{
+    height:70px;
+    background-color: rgb(42, 124, 82);
+}
+
+.topbar img{
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+/*NAVBAR*/
+.navbar-brand,
+.navbar-nav li a {
+    line-height: 70px;
+    height: 70px;
+    padding-top: 0;
+}
+
+.navbar-right.dropdown.dropdown-menu li{
+    background-color: aqua;
+}
