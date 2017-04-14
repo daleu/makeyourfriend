@@ -15,7 +15,24 @@
     height: 70px;
     padding-top: 0;
 }
+.navbar-default {
+    background-color: #2A7C52;
+    border-color: #E7E7E7;
+}
 
-.navbar-right.dropdown.dropdown-menu li{
-    background-color: aqua;
+.navbar-right .dropdown ul{
+    background-color: #2A7C52;
+}
+
+.navbar-right .dropdown .dropdown-menu li{
+    background-color: #2A7C52;
+}
+
+#bs-example-navbar-collapse-1 .navbar-nav li a{
+    color:white;
+    font-size: 20px;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: white;
 }
