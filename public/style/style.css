@@ -1,6 +1,6 @@
 .topbar{
     height:70px;
-    background-color: rgb(42, 124, 82);
+    background-color: #25DA7E;
 }
 
 .topbar img{
@@ -16,16 +16,16 @@
     padding-top: 0;
 }
 .navbar-default {
-    background-color: #2A7C52;
+    background-color: #25DA7E;
     border-color: #E7E7E7;
 }
 
 .navbar-right .dropdown ul{
-    background-color: #2A7C52;
+    background-color: #51A078;
 }
 
 .navbar-right .dropdown .dropdown-menu li{
-    background-color: #2A7C52;
+    background-color: #51A078;
 }
 
 #bs-example-navbar-collapse-1 .navbar-nav li a{
@@ -33,6 +33,37 @@
     font-size: 20px;
 }
 
+#bs-example-navbar-collapse-1 .navbar-nav li a:hover{
+    color:#25DA7E;
+    background-color: white;
+    font-size: 20px;
+}
+
+#bs-example-navbar-collapse-1 .navbar-nav li a:focus{
+    color:#25DA7E;
+    background-color: white;
+    font-size: 20px;
+}
+
 .navbar-default .navbar-toggle .icon-bar {
     background-color: white;
+}
+
+/*W3 HEADER CONTAINER*/
+
+header.w3-container{
+    color: white;
+    background-color: #25DA7E;
+}
+
+form.w3-container{
+    margin-top:10px;
+}
+
+.w3-container label{
+    color: #25DA7E;
+}
+
+.w3-btn button{
+    background-color: #25DA7E;
 }

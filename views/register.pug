@@ -6,12 +6,15 @@ head
     meta(name='viewport', content='width=device-width, initial-scale=1')
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/style/style.css')
+    link(rel='stylesheet', href='/css/w3.css')
+    link(rel='stylesheet', href='/style/datepicker.min.css')
     script(src='/js/jquery.min.js')
+    script(src='/js/datepicker.min.js')
+    script(src='/js/datepicker.en.js')
     script(src='/js/bootstrap.min.js')
-body
-    nav.navbar.navbar-default
+body(style='background-color: #C8FB94;')
+    nav.navbar.navbar-default.navbar-fixed-top
         .container-fluid(style='background-color: rgb(42, 124, 82) important;')
-            // Brand and toggle get grouped for better mobile display
             .navbar-header
                 button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
                     span.sr-only Toggle navigation
@@ -20,34 +23,14 @@ body
                     span.icon-bar
                 a.navbar-brand(href='#')
                     img(alt="Brand" src="/images/logo_v4_100.png" height='60px;' style='margin-top:5px !important;')
-            // Collect the nav links, forms, and other content for toggling
             #bs-example-navbar-collapse-1.collapse.navbar-collapse
                 ul.nav.navbar-nav
                     li
                         a(href='#') INICI
-                    //li.dropdown
-                        a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
-                            | Dropdown
-                            span.caret
-                        ul.dropdown-menu
-                            li
-                                a(href='#') Action
-                            li
-                                a(href='#') Another action
-                            li
-                                a(href='#') Something else here
-                            li.divider(role='separator')
-                            li
-                                a(href='#') Separated link
-                            li.divider(role='separator')
-                            li
-                                a(href='#') One more separated link
                 ul.nav.navbar-nav.navbar-right
-                    //li
-                        a(href='#') Link
                     li.dropdown
                         a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
-                            | IDIOMA
+                            | LANGUAGE
                             span.caret
                         ul.dropdown-menu
                             li
@@ -56,10 +39,45 @@ body
                                 a(href='#') CASTELLANO
                             li
                                 a(href='#') ENGLISH
-            // /.navbar-collapse
-        // /.container-fluid
 
-    .container
+    .w3-display-topmiddle
+        .w3-card-4(style='margin-top:90px; background-color: white;')
+            header.w3-container
+                h1 Register
+            form.w3-container
+                label.w3-text
+                    b(style='text-decoration:underline;') FIRST NAME
+                input.w3-input.w3-border(type='text', style="text-transform:uppercase;", placeholder="WRITE YOUR FIRST NAME HERE")
+                label.w3-text
+                    b(style='text-decoration:underline;') LAST NAME
+                input.w3-input.w3-border(type='text', style="text-transform:uppercase;", placeholder="WRITE YOUR LAST NAME HERE")
+                label.w3-text
+                    b(style='text-decoration:underline;') GENDER
+                p
+                    input.w3-radio(type='radio', name='gender', value='male')
+                    label(style='margin-left: 10px;') MALE
+                p
+                    input.w3-radio(type='radio', name='gender', value='female')
+                    label(style='margin-left: 10px;') FEMALE
+                label.w3-text
+                    b(style='text-decoration:underline;') BIRTHDAY
+                p
+                input.datepicker-here.w3-input.w3-border(type='text', data-language='en', placeholder="WRITE OR SELECT YOUR BIRTHDAY DATE LIKE THIS EXEMPLE: 06/12/95")
+                p
+                label.w3-text
+                    b(style='text-decoration:underline;') E-MAIL
+                p
+                input.w3-input.w3-border(type='text', style="text-transform:uppercase", placeholder="WRITE E-MAIL HERE")
+                label.w3-text
+                    b(style='text-decoration:underline;') ABOUT YOU
+                textarea.w3-input.w3-border(style='width:50vw; text-transform:uppercase;',placeholder="WRITE SOMETHING ABOUT YOU HERE")
+                button.w3-btn.w3-padding(type='button', style='width:140px; margin-top:10px; margin-bottom:10px;') REGISTER   ❯
+                //p
+                    | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            //footer.w3-container.w3-blue
+                h5 Footer
+
+    //.container(style='margin-top:70px;')
         .row
             .col-sm-4
                 h3 Column 1

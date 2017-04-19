@@ -12,9 +12,10 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "bootstrap": "3.3.7",
-    "jquery"  : "3.2.1",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
+    "glyphicons": "^0.2.0",
+    "jquery": "3.2.1",
     "neo4j-driver": "^1.0.5",
     "pug": "^2.0.0-beta6",
     "uuid": "^3.0.1"
@@ -22,6 +23,8 @@
   "devDependencies": {
     "eslint": "^3.12.2",
     "eslint-config-airbnb-base": "^11.0.0",
-    "eslint-plugin-import": "^2.2.0"
+    "eslint-plugin-import": "^2.2.0",
+    "font-awesome": "^4.7.0",
+    "w3-css": "^2.9.9"
   }
 }

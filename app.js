@@ -15,9 +15,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 /*PATHS*/
 app.use('/', express.static(__dirname + '/www')); // redirect root
+app.use('/js', express.static(__dirname + '/public/js'));
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js'));
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
 app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css'));
+app.use('/css', express.static(__dirname + '/node_modules/w3-css'));
 app.use('/images', express.static(__dirname + '/public/images'));
 app.use('/style', express.static(__dirname + '/public/style'));
 
