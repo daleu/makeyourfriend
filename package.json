@@ -18,7 +18,9 @@
     "jquery": "3.2.1",
     "neo4j-driver": "^1.0.5",
     "pug": "^2.0.0-beta6",
-    "uuid": "^3.0.1"
+    "uuid": "^3.0.1",
+    "font-awesome": "^4.7.0",
+    "w3-css": "^2.9.9"
   },
   "devDependencies": {
     "eslint": "^3.12.2",
