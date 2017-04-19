@@ -12,6 +12,36 @@ class Neo4jApi {
     this.driver = neo4j.driver(url, neo4j.auth.basic(user, pass));
   }
 
+  createUser(name,surname,gender,birthday,email,about){
+    const session = this.driver.session();
+    const resp = session
+        .run(`
+          CREATE (n:USER {
+            name: {name},
+            surname: {surname},
+            gender: {gender},
+            birthday: {birthday},
+            email: {email},
+            about: {about},
+            uuid: {uuid}
+          })
+          RETURN n.name`, {
+          name,
+          surname,
+          gender,
+          birthday,
+          email,
+          about,
+          uuid: uuid(),
+        });
+
+    resp.then(() => session.close())
+        .catch(() => session.close());
+
+    return resp;
+
+  }
+
   createNode(name) {
     const session = this.driver.session();
     const resp = session

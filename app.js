@@ -42,6 +42,19 @@ app.get('/register', (req, res) => {
       .catch(error => res.status(500).send(error));
 });
 
+app.post('/register', (req, res) => {
+    const name = req.body.name;
+    const surname = req.body.surname;
+    const gender = req.body.gender;
+    const birthday = req.body.birthday;
+    const email = req.body.email;
+    const about = req.body.about;
+
+    db.createUser(name,surname,gender,birthday,email,about)
+        .then(() => res.redirect('/'))
+        .catch(error => res.status(500).send(error));
+});
+
 app.post('/', (req, res) => {
   const name = req.body.name;
   db.createNode(name)

@@ -46,50 +46,41 @@ body(style='background-color: #C8FB94;')
         .w3-card-4(style='margin-top:90px; background-color: white;')
             header.w3-container
                 h1 Register
-            form.w3-container
+            form#registerform.w3-container(action="/register", method="post")
                 label.w3-text
                     b(style='text-decoration:underline;') FIRST NAME
-                input.w3-input.w3-border(type='text', style="text-transform:uppercase;", placeholder="WRITE YOUR FIRST NAME HERE")
+                input.w3-input.w3-border(type='text', style="text-transform:uppercase;",name='name', placeholder="WRITE YOUR FIRST NAME HERE" required)
                 label.w3-text
                     b(style='text-decoration:underline;') LAST NAME
-                input.w3-input.w3-border(type='text', style="text-transform:uppercase;", placeholder="WRITE YOUR LAST NAME HERE")
+                input.w3-input.w3-border(type='text', style="text-transform:uppercase;",name='surname', placeholder="WRITE YOUR LAST NAME HERE" required)
                 label.w3-text
                     b(style='text-decoration:underline;') GENDER
                 p
-                    input.w3-radio(type='radio', name='gender', value='male')
+                    input.w3-radio(type='radio', name='gender', value='male' required)
                     label(style='margin-left: 10px;') MALE
                 p
-                    input.w3-radio(type='radio', name='gender', value='female')
+                    input.w3-radio(type='radio', name='gender', value='female' required)
                     label(style='margin-left: 10px;') FEMALE
                 label.w3-text
                     b(style='text-decoration:underline;') BIRTHDAY
                 p
-                input.datepicker-here.w3-input.w3-border(type='text', data-language='en', placeholder="WRITE OR SELECT YOUR BIRTHDAY DATE LIKE THIS EXEMPLE: 06/12/95")
+                input.datepicker-here.w3-input.w3-border(type='text',name='birthday', data-language='en', placeholder="WRITE OR SELECT YOUR BIRTHDAY DATE LIKE THIS EXEMPLE: 06/12/95" required)
                 p
                 label.w3-text
                     b(style='text-decoration:underline;') E-MAIL
                 p
-                input.w3-input.w3-border(type='text', style="text-transform:uppercase", placeholder="WRITE E-MAIL HERE")
+                input.w3-input.w3-border(type='text', style="text-transform:uppercase",name='email', placeholder="WRITE E-MAIL HERE" required)
                 label.w3-text
                     b(style='text-decoration:underline;') ABOUT YOU
-                textarea.w3-input.w3-border(style='width:50vw; text-transform:uppercase;',placeholder="WRITE SOMETHING ABOUT YOU HERE")
-                button.w3-btn.w3-padding(type='button', style='width:140px; margin-top:10px; margin-bottom:10px;') REGISTER   ❯
-                //p
-                    | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            //footer.w3-container.w3-blue
-                h5 Footer
+                textarea.w3-input.w3-border(style='width:50vw; text-transform:uppercase;',name='about',placeholder="WRITE SOMETHING ABOUT YOU HERE" required)
+                button#submitbutton.w3-btn.w3-padding(type='submit', style='width:140px; margin-top:10px; margin-bottom:10px;') REGISTER   ❯
+    #spinnerbackground
+    #spinner
 
-    //.container(style='margin-top:70px;')
-        .row
-            .col-sm-4
-                h3 Column 1
-                p Lorem ipsum dolor sit amet, consectetur adipisicing elit...
-                p Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...
-            .col-sm-4
-                h3 Column 2
-                p Lorem ipsum dolor sit amet, consectetur adipisicing elit...
-                p Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...
-            .col-sm-4
-                h3 Column 3
-                p Lorem ipsum dolor sit amet, consectetur adipisicing elit...
-                p Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris...
+    script.
+        $( "#submitbutton" ).click(function() {
+            //if($("#registerform").valid()) {
+                $('#spinnerbackground').css('display', 'block');
+                $('#spinner').css('display', 'block');
+            //}
+        });
