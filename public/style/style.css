@@ -21,26 +21,29 @@
 }
 
 .navbar-right .dropdown ul{
-    background-color: #51A078;
+    background-color: #52E59A;
 }
 
 .navbar-right .dropdown .dropdown-menu li{
-    background-color: #51A078;
+    background-color: #52E59A;
 }
 
 #bs-example-navbar-collapse-1 .navbar-nav li a{
     color:white;
+    font-weight: bold;
     font-size: 20px;
 }
 
 #bs-example-navbar-collapse-1 .navbar-nav li a:hover{
     color:#25DA7E;
+    font-weight: bold;
     background-color: white;
     font-size: 20px;
 }
 
 #bs-example-navbar-collapse-1 .navbar-nav li a:focus{
     color:#25DA7E;
+    font-weight: bold;
     background-color: white;
     font-size: 20px;
 }
