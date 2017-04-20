@@ -23,12 +23,12 @@ body
                     span.icon-bar
                     span.icon-bar
                     span.icon-bar
-                a.navbar-brand(href='#')
+                a.navbar-brand(href='/')
                     img(alt="Brand" src="/images/logo_v4_100.png" height='60px;' style='margin-top:5px !important;')
             #bs-example-navbar-collapse-1.collapse.navbar-collapse
                 ul.nav.navbar-nav
                     li
-                        a(href='#') INICI
+                        a(href='/') HOME
                 ul.nav.navbar-nav.navbar-right
                     li.dropdown
                         a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
@@ -45,7 +45,8 @@ body
     .w3-display-topmiddle
         .w3-card-4(style='margin-top:90px; background-color: white;')
             header.w3-container
-                h1 Register
+                h1 REGISTER
+                    span.fa.fa-pencil(style='margin-left:10px;')
             form#registerform.w3-container(action="/register", method="post")
                 label.w3-text
                     b(style='text-decoration:underline;') FIRST NAME
@@ -73,7 +74,23 @@ body
                 label.w3-text
                     b(style='text-decoration:underline;') ABOUT YOU
                 textarea.w3-input.w3-border(style='width:50vw; text-transform:uppercase;',name='about',placeholder="WRITE SOMETHING ABOUT YOU HERE" required)
-                button#submitbutton.w3-btn.w3-padding(type='submit', style='width:140px; margin-top:10px; margin-bottom:10px;') REGISTER   ❯
+                label.w3-text
+                    b(style='text-decoration:underline;') PASSWORD
+                p
+                .row
+                    .col-sm-11
+                        input#pass1.w3-input.w3-border(type='password', style="text-transform:uppercase",name='email', placeholder="WRITE YOUR PASSWORD HERE" required)
+                    .col-sm-1
+                        span#pass1span.fa.fa-eye.fa-2x(style='color: rgb(204, 204, 204);' onmouseover="onoverpass1();" onmouseout="onoutpass1();")
+                label.w3-text
+                    b(style='text-decoration:underline;') REPEAT PASSWORD
+                p
+                .row
+                    .col-sm-11
+                        input#pass2.w3-input.w3-border(type='password', style="text-transform:uppercase",name='email', placeholder="WRITE YOUR PASSWORD HERE AGAIN" required)
+                    .col-sm-1
+                        span#pass2span.fa.fa-eye.fa-2x(style='color: rgb(204, 204, 204);' onmouseover="onoverpass2();" onmouseout="onoutpass2();")
+                button#submitbutton.w3-btn.w3-padding(style='width:140px; margin-top:10px; margin-bottom:10px;') REGISTER   ❯
     #spinnerbackground
     #spinner
 
@@ -82,5 +99,29 @@ body
             if($("#registerform").valid()) {
                 $('#spinnerbackground').css('display', 'block');
                 $('#spinner').css('display', 'block');
+                $('#registerform').submit();
             }
         });
+        
+        function onoverpass1() {
+            var obj = document.getElementById('pass1');
+            obj.type = "text";
+            $('#pass1span').css('color', 'black');
+        }
+
+        function onoutpass1() {
+            var obj = document.getElementById('pass1');
+            obj.type = "password";
+            $('#pass1span').css('color', 'rgb(204, 204, 204)');
+        }
+        function onoverpass2() {
+            var obj = document.getElementById('pass2');
+            obj.type = "text";
+            $('#pass2span').css('color', 'black');
+        }
+
+        function onoutpass2() {
+            var obj = document.getElementById('pass2');
+            obj.type = "password";
+            $('#pass2span').css('color', 'rgb(204, 204, 204)');
+        }
