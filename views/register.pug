@@ -14,7 +14,7 @@ head
     script(src='/js/datepicker.en.js')
     script(src='/js/bootstrap.min.js')
 
-body(style='background-color: #C8FB94;')
+body
     nav.navbar.navbar-default.navbar-fixed-top
         .container-fluid(style='background-color: rgb(42, 124, 82) important;')
             .navbar-header
@@ -79,8 +79,8 @@ body(style='background-color: #C8FB94;')
 
     script.
         $( "#submitbutton" ).click(function() {
-            //if($("#registerform").valid()) {
+            if($("#registerform").valid()) {
                 $('#spinnerbackground').css('display', 'block');
                 $('#spinner').css('display', 'block');
-            //}
+            }
         });

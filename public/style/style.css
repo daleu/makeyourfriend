@@ -1,3 +1,7 @@
+body{
+    background: #D8FFEB;
+}
+
 .topbar{
     height:70px;
     background-color: #25DA7E;
@@ -18,6 +22,10 @@
 .navbar-default {
     background-color: #25DA7E;
     border-color: #E7E7E7;
+    background: -webkit-linear-gradient(left, #25DA7E , #2D95D2); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #25DA7E, #2D95D2); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #25DA7E, #2D95D2); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #25DA7E , #2D95D2); /* Standard syntax */
 }
 
 .navbar-right .dropdown ul{
