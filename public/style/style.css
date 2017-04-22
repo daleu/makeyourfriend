@@ -1,6 +1,7 @@
 /*FONTS*/
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat|Raleway');
+@import url('https://fonts.googleapis.com/css?family=Raleway:900');
 
 /*DESIGN*/
 
@@ -71,6 +72,10 @@ body{
 
 header.w3-container{
     color: white;
+    background-color: #25DA7E;
+}
+
+footer.w3-container{
     background-color: #25DA7E;
 }
 
@@ -156,4 +161,24 @@ form.w3-container{
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/*INFO*/
+#infobackground{
+    display: none;
+    position:fixed;
+    top:0px;
+    right:0px;
+    width:100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.3;
+}
+
+#infocard{
+    display: none;
+}
+
+#closeinfo:hover{
+    cursor: pointer;
 }

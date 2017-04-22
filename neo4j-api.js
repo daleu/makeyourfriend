@@ -1,5 +1,6 @@
 const neo4j = require('neo4j-driver').v1;
 const uuid = require('uuid/v4');
+const crypto = require('crypto');
 
 const url = process.env.GRAPHENEDB_BOLT_URL;
 const user = process.env.GRAPHENEDB_BOLT_USER;
@@ -12,8 +13,11 @@ class Neo4jApi {
     this.driver = neo4j.driver(url, neo4j.auth.basic(user, pass));
   }
 
-  createUser(name,surname,gender,birthday,email,about){
+  createUser(name,surname,gender,birthday,email,about,password){
     const session = this.driver.session();
+
+    const hash = crypto.createHash('sha256').update(password).digest('base64');
+
     const resp = session
         .run(`
           CREATE (n:USER {
@@ -23,6 +27,7 @@ class Neo4jApi {
             birthday: {birthday},
             email: {email},
             about: {about},
+            password: {hash},
             uuid: {uuid}
           })
           RETURN n.name`, {
@@ -32,6 +37,7 @@ class Neo4jApi {
           birthday,
           email,
           about,
+          hash,
           uuid: uuid(),
         });
 

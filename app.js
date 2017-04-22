@@ -24,6 +24,7 @@ app.use('/css', express.static(__dirname + '/node_modules/w3-css'));
 app.use('/images', express.static(__dirname + '/public/images'));
 app.use('/style', express.static(__dirname + '/public/style'));
 app.use('/css', express.static(__dirname + '/node_modules/font-awesome/css'));
+//app.use('/fonts', express.static(__dirname + '/node_modules/font-awesome/fonts'));
 
 
 app.get('/', (req, res) => {
@@ -50,8 +51,9 @@ app.post('/register', (req, res) => {
     const birthday = req.body.birthday;
     const email = req.body.email;
     const about = req.body.about;
+    const password = req.body.pass1;
 
-    db.createUser(name,surname,gender,birthday,email,about)
+    db.createUser(name,surname,gender,birthday,email,about,password)
         .then(() => res.redirect('/'))
         .catch(error => res.status(500).send(error));
 });

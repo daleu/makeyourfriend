@@ -44,21 +44,27 @@ body
                                 a(href='#') ENGLISH
 
     .w3-display-topmiddle
-        .w3-card-4(style='margin-top:90px; background-color: white;')
+        .w3-card-4(style='margin-top:90px; margin-bottom:50px; background-color: white;')
             header.w3-container
                 h1 REGISTER
                     span.fa.fa-pencil(style='margin-left:10px;')
             form#registerform.w3-container(action="/register", method="post")
                 label.w3-text
                     b(style='text-decoration:underline;') FIRST NAME
+                        sup
+                            span.fa.fa-asterisk
                 input.w3-input.w3-border(type='text', style="text-transform:uppercase;",name='name', placeholder="WRITE YOUR FIRST NAME HERE" required)
                 p
                 label.w3-text
                     b(style='text-decoration:underline;') LAST NAME
+                        sup
+                            span.fa.fa-asterisk
                 input.w3-input.w3-border(type='text', style="text-transform:uppercase;",name='surname', placeholder="WRITE YOUR LAST NAME HERE" required)
                 p
                 label.w3-text
                     b(style='text-decoration:underline;') GENDER
+                        sup
+                            span.fa.fa-asterisk
                 p
                     input.w3-radio(type='radio', name='gender', value='male' required)
                     label(style='margin-left: 10px;') MALE
@@ -67,11 +73,15 @@ body
                     label(style='margin-left: 10px;') FEMALE
                 label.w3-text
                     b(style='text-decoration:underline;') BIRTHDAY
+                        sup
+                            span.fa.fa-asterisk
                 p
                 input#datapicker.datepicker-here.w3-input.w3-border(type='text',name='birthday', data-language='en', placeholder="WRITE OR SELECT YOUR BIRTHDAY DATE LIKE THIS EXEMPLE: 06/12/95" required)
                 p
                 label.w3-text
                     b(style='text-decoration:underline;') E-MAIL
+                        sup
+                            span.fa.fa-asterisk
                 p
                 input.w3-input.w3-border(type='text', style="text-transform:uppercase",name='email', placeholder="WRITE E-MAIL HERE" required)
                 p
@@ -80,23 +90,62 @@ body
                 textarea.w3-input.w3-border(style='width:50vw; text-transform:uppercase;',name='about',placeholder="WRITE SOMETHING ABOUT YOU HERE")
                 label.w3-text
                     b(style='text-decoration:underline;') PASSWORD
+                        sup
+                            span.fa.fa-asterisk
                 p
                 .row
                     .col-sm-11
-                        input#pass1.w3-input.w3-border(type='password', style="text-transform:uppercase",name='pass1', placeholder="WRITE YOUR PASSWORD HERE" required)
+                        input#pass1.w3-input.w3-border(type='password', name='pass1', placeholder="WRITE YOUR PASSWORD HERE" required)
                     .col-sm-1
                         span#pass1span.fa.fa-eye.fa-2x(style='color: rgb(204, 204, 204);' onmouseover="onoverpass1();" onmouseout="onoutpass1();")
                 label.w3-text
                     b(style='text-decoration:underline;') REPEAT PASSWORD
+                        sup
+                            span.fa.fa-asterisk
                 p
                 .row
                     .col-sm-11
-                        input#pass2.w3-input.w3-border(type='password', style="text-transform:uppercase",name='pass2', placeholder="WRITE YOUR PASSWORD HERE AGAIN" required)
+                        input#pass2.w3-input.w3-border(type='password', name='pass2', placeholder="WRITE YOUR PASSWORD HERE AGAIN" required)
                     .col-sm-1
                         span#pass2span.fa.fa-eye.fa-2x(style='color: rgb(204, 204, 204);' onmouseover="onoverpass2();" onmouseout="onoutpass2();")
-                button#submitbutton.w3-btn.w3-padding(type='button', style='width:140px; margin-top:10px; margin-bottom:10px;') REGISTER   ❯
+            footer.w3-container
+                button#submitbutton.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px;') REGISTER   ❯
+                button#infobutton.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') INFORMATION
+                    span.fa.fa-info-circle(style='margin-left:10px;')
     #spinnerbackground
     #spinner
+    #infobackground
+    #infocard.w3-display-middle
+        .w3-card-4
+            header.w3-container.w3-blue
+                h1 INFORMATION
+                    span.fa.fa-info-circle(style='margin-left:10px;')
+            .w3-container(style="background-color: white;")
+                p
+                | TO HAVE AN ACCOUNT ON THIS PAGE, YOU NEED TO FILL UP THIS PAGE, AND THEN CLICK ON REGISTER BUTTON BELOW.
+                p
+                | THING TO BE CONSIDERED:
+                p
+                    | - THE FIELDS THAT HAVE
+                    sup
+                        span.fa.fa-asterisk
+                    |  SYMBOL ARE REQUIRED TO BE REGISTRED ON THIS PAGE.
+                P
+                    | - THE
+                    b  BIRTHDAY DATE
+                    |  MUST HAVE THE FORMAT MONTH/DAY/YEAR.
+                P
+                    | - THE
+                    b  EMAIL
+                    |  FIELD NEEDS TO BE A REAL EMAIL.
+                P
+                    | - THE
+                    b  PASSWORD
+                    |  HAVE TO BE IDENTICAL.
+                P
+            footer.w3-container.w3-blue
+                button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
 
     script.
 
@@ -183,3 +232,16 @@ body
             obj.type = "password";
             $('#pass2span').css('color', 'rgb(204, 204, 204)');
         }
+
+        /*WHEN INFO IS CLICKED*/
+        $( "#infobutton" ).click(function() {
+            alert("hi");
+            $('#infobackground').css('display', 'block');
+            $('#infocard').css('display', 'block');
+        });
+
+        $("#closeinfo").click(function () {
+            alert("hi");
+            $('#infobackground').css('display', 'none');
+            $('#infocard').css('display', 'none');
+        });
