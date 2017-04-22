@@ -94,9 +94,9 @@ body
                             span.fa.fa-asterisk
                 p
                 .row
-                    .col-sm-11
+                    .col-sm-10
                         input#pass1.w3-input.w3-border(type='password', name='pass1', placeholder="WRITE YOUR PASSWORD HERE" required)
-                    .col-sm-1
+                    .col-sm-2
                         span#pass1span.fa.fa-eye.fa-2x(style='color: rgb(204, 204, 204);' onmouseover="onoverpass1();" onmouseout="onoutpass1();")
                 label.w3-text
                     b(style='text-decoration:underline;') REPEAT PASSWORD
@@ -104,9 +104,9 @@ body
                             span.fa.fa-asterisk
                 p
                 .row
-                    .col-sm-11
+                    .col-sm-10
                         input#pass2.w3-input.w3-border(type='password', name='pass2', placeholder="WRITE YOUR PASSWORD HERE AGAIN" required)
-                    .col-sm-1
+                    .col-sm-2
                         span#pass2span.fa.fa-eye.fa-2x(style='color: rgb(204, 204, 204);' onmouseover="onoverpass2();" onmouseout="onoutpass2();")
             footer.w3-container
                 button#submitbutton.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px;') REGISTER   ❯
@@ -116,7 +116,7 @@ body
     #spinner
     #infobackground
     #infocard.w3-display-middle
-        .w3-card-4
+        .w3-card-4(style='margin-top:75px !important;')
             header.w3-container.w3-blue
                 h1 INFORMATION
                     span.fa.fa-info-circle(style='margin-left:10px;')
@@ -140,9 +140,17 @@ body
                     |  FIELD NEEDS TO BE A REAL EMAIL.
                 P
                     | - THE
-                    b  PASSWORD
-                    |  HAVE TO BE IDENTICAL.
+                    b  PASSWORDS
+                    |  HAVE TO BE IDENTICAL, AND HAVE TO BE AT LEAST 8 CHARACTERS.
                 P
+                    | - IN THE
+                    b  PASSWORD FIELDS
+                    | , YOU CAN SEE WHAT YOU HAVE WRITTEN PASSING YOUR MOUSE ABOVE THE EYE '
+                    span.fa.fa-eye
+                    | ' ON THE RIGHT.
+                p
+                    b ENJOY THE EXPERIENCE!!! :-)
+                p
             footer.w3-container.w3-blue
                 button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
                     span.fa.fa-close(style='margin-left:10px;')
@@ -159,7 +167,8 @@ body
                         email: true
                     },
                     pass1: {
-                        required: true
+                        required: true,
+                        minlength: 8
                     },
                     pass2: {
                         required: true,
