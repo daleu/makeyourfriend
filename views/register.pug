@@ -13,6 +13,7 @@ head
     script(src='/js/datepicker.min.js')
     script(src='/js/datepicker.en.js')
     script(src='/js/bootstrap.min.js')
+    script(src='/js/jquery.validate.min.js')
 
 body
     nav.navbar.navbar-default.navbar-fixed-top
@@ -51,9 +52,11 @@ body
                 label.w3-text
                     b(style='text-decoration:underline;') FIRST NAME
                 input.w3-input.w3-border(type='text', style="text-transform:uppercase;",name='name', placeholder="WRITE YOUR FIRST NAME HERE" required)
+                p
                 label.w3-text
                     b(style='text-decoration:underline;') LAST NAME
                 input.w3-input.w3-border(type='text', style="text-transform:uppercase;",name='surname', placeholder="WRITE YOUR LAST NAME HERE" required)
+                p
                 label.w3-text
                     b(style='text-decoration:underline;') GENDER
                 p
@@ -65,21 +68,22 @@ body
                 label.w3-text
                     b(style='text-decoration:underline;') BIRTHDAY
                 p
-                input.datepicker-here.w3-input.w3-border(type='text',name='birthday', data-language='en', placeholder="WRITE OR SELECT YOUR BIRTHDAY DATE LIKE THIS EXEMPLE: 06/12/95" required)
+                input#datapicker.datepicker-here.w3-input.w3-border(type='text',name='birthday', data-language='en', placeholder="WRITE OR SELECT YOUR BIRTHDAY DATE LIKE THIS EXEMPLE: 06/12/95" required)
                 p
                 label.w3-text
                     b(style='text-decoration:underline;') E-MAIL
                 p
                 input.w3-input.w3-border(type='text', style="text-transform:uppercase",name='email', placeholder="WRITE E-MAIL HERE" required)
+                p
                 label.w3-text
                     b(style='text-decoration:underline;') ABOUT YOU
-                textarea.w3-input.w3-border(style='width:50vw; text-transform:uppercase;',name='about',placeholder="WRITE SOMETHING ABOUT YOU HERE" required)
+                textarea.w3-input.w3-border(style='width:50vw; text-transform:uppercase;',name='about',placeholder="WRITE SOMETHING ABOUT YOU HERE")
                 label.w3-text
                     b(style='text-decoration:underline;') PASSWORD
                 p
                 .row
                     .col-sm-11
-                        input#pass1.w3-input.w3-border(type='password', style="text-transform:uppercase",name='email', placeholder="WRITE YOUR PASSWORD HERE" required)
+                        input#pass1.w3-input.w3-border(type='password', style="text-transform:uppercase",name='pass1', placeholder="WRITE YOUR PASSWORD HERE" required)
                     .col-sm-1
                         span#pass1span.fa.fa-eye.fa-2x(style='color: rgb(204, 204, 204);' onmouseover="onoverpass1();" onmouseout="onoutpass1();")
                 label.w3-text
@@ -87,22 +91,76 @@ body
                 p
                 .row
                     .col-sm-11
-                        input#pass2.w3-input.w3-border(type='password', style="text-transform:uppercase",name='email', placeholder="WRITE YOUR PASSWORD HERE AGAIN" required)
+                        input#pass2.w3-input.w3-border(type='password', style="text-transform:uppercase",name='pass2', placeholder="WRITE YOUR PASSWORD HERE AGAIN" required)
                     .col-sm-1
                         span#pass2span.fa.fa-eye.fa-2x(style='color: rgb(204, 204, 204);' onmouseover="onoverpass2();" onmouseout="onoutpass2();")
-                button#submitbutton.w3-btn.w3-padding(style='width:140px; margin-top:10px; margin-bottom:10px;') REGISTER   ❯
+                button#submitbutton.w3-btn.w3-padding(type='button', style='width:140px; margin-top:10px; margin-bottom:10px;') REGISTER   ❯
     #spinnerbackground
     #spinner
 
     script.
+
+        /*WHEN SUBMIT IS CLICKED*/
         $( "#submitbutton" ).click(function() {
-            if($("#registerform").valid()) {
+            var form = $("#registerform");
+            form.validate({
+                rules: {
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    pass1: {
+                        required: true
+                    },
+                    pass2: {
+                        required: true,
+                        equalTo: "#pass1"
+                    },
+                    birthday:{
+                        isValidDate: true
+                    }
+                }
+            });
+
+            if(form.valid()) {
                 $('#spinnerbackground').css('display', 'block');
                 $('#spinner').css('display', 'block');
-                $('#registerform').submit();
+                form.submit();
             }
         });
-        
+
+        /*TEST VALID DATE*/
+        $.validator.addMethod(
+                "isValidDate",
+                function () {
+
+                    var dateString = $('#datapicker').val();
+
+                    if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString)) return false;
+
+                    //Get Date parts to Integer
+                    var parts = dateString.split("/");
+                    var day = parseInt(parts[1], 10);
+                    var month = parseInt(parts[0], 10);
+                    var year = parseInt(parts[2], 10);
+
+                    //Check month and year ranges
+                    var actualYear = new Date().getFullYear();
+                    if (year < actualYear - 100 || year > actualYear || month <= 0 || month > 12) return false;
+
+                    //Define month days
+                    var monthLenght = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+                    //Leap years
+                    if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)) monthLenght[1] = 29;
+
+                    //Check day range
+                    return day > 0 && day <= monthLenght[month - 1];
+                },
+                "Please enter a date in the format mm/dd/yyyy."
+        );
+
+        /*SEE PASSWORD FUNCTIONS*/
         function onoverpass1() {
             var obj = document.getElementById('pass1');
             obj.type = "text";

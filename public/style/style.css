@@ -106,6 +106,11 @@ form.w3-container{
     color: #25DA7E;
 }
 
+.w3-container .error {
+    text-transform:uppercase;
+    color: red;
+}
+
 .w3-btn button{
     background-color: #25DA7E;
 }
