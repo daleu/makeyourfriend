@@ -36,15 +36,15 @@ app.get('/', (req, res) => {
 });
 
 /*REGISTRE*/
-app.get('/register', (req, res) => {
+app.get('/register-en', (req, res) => {
   db.getNodes()
       .then((nodes) => {
-        res.render('./register.pug', { nodes });
+        res.render('./register-en.pug', { nodes });
       })
       .catch(error => res.status(500).send(error));
 });
 
-app.post('/register', (req, res) => {
+app.post('/register-en', (req, res) => {
     const name = req.body.name;
     const surname = req.body.surname;
     const gender = req.body.gender;
@@ -55,6 +55,15 @@ app.post('/register', (req, res) => {
 
     db.createUser(name,surname,gender,birthday,email,about,password)
         .then(() => res.redirect('/'))
+        .catch(error => res.status(500).send(error));
+});
+
+/*LOGIN*/
+app.get('/login-en', (req, res) => {
+    db.getNodes()
+        .then((nodes) => {
+            res.render('./login-en.pug', { nodes });
+        })
         .catch(error => res.status(500).send(error));
 });
 
