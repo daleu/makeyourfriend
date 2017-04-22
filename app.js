@@ -24,7 +24,7 @@ app.use('/css', express.static(__dirname + '/node_modules/w3-css'));
 app.use('/images', express.static(__dirname + '/public/images'));
 app.use('/style', express.static(__dirname + '/public/style'));
 app.use('/css', express.static(__dirname + '/node_modules/font-awesome/css'));
-//app.use('/fonts', express.static(__dirname + '/node_modules/font-awesome/fonts'));
+app.use('/fonts', express.static(__dirname + '/node_modules/font-awesome/fonts'));
 
 
 app.get('/', (req, res) => {
