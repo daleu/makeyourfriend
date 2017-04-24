@@ -182,3 +182,8 @@ form.w3-container{
 #closeinfo:hover{
     cursor: pointer;
 }
+
+/*DATAPICKER*/
+.datepicker--day-name{
+    color: #25DA7E !important;
+}

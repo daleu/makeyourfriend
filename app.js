@@ -36,6 +36,29 @@ app.get('/', (req, res) => {
 });
 
 /*REGISTRE*/
+
+app.get('/register-ca', (req, res) => {
+    db.getNodes()
+        .then((nodes) => {
+            res.render('./register/register-ca.pug', { nodes });
+        })
+        .catch(error => res.status(500).send(error));
+});
+
+app.post('/register-ca', (req, res) => {
+    const name = req.body.name;
+    const surname = req.body.surname;
+    const gender = req.body.gender;
+    const birthday = req.body.birthday;
+    const email = req.body.email;
+    const about = req.body.about;
+    const password = req.body.pass1;
+
+    db.createUser(name,surname,gender,birthday,email,about,password)
+        .then(() => res.redirect('/'))
+        .catch(error => res.status(500).send(error));
+});
+
 app.get('/register-en', (req, res) => {
   db.getNodes()
       .then((nodes) => {

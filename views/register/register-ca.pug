@@ -1,6 +1,6 @@
 doctype html(lang='en')
 head
-    title Registre
+    title REGISTRE
     link(rel="shortcut icon" href="/images/logo_v4_100.png")
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
@@ -11,7 +11,7 @@ head
     link(rel='stylesheet', href='/css/font-awesome.min.css')
     script(src='/js/jquery.min.js')
     script(src='/js/datepicker.min.js')
-    script(src='/js/datepicker.en.js')
+    script(src='/js/datepicker.ca.js')
     script(src='/js/bootstrap.min.js')
     script(src='/js/jquery.validate.min.js')
     style.
@@ -39,11 +39,11 @@ body
             #bs-example-navbar-collapse-1.collapse.navbar-collapse
                 ul.nav.navbar-nav
                     li
-                        a(href='/') HOME
+                        a(href='/') INICI
                 ul.nav.navbar-nav.navbar-right
                     li.dropdown
                         a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
-                            | LANGUAGE
+                            | IDIOMA
                             span.fa.fa-chevron-down(style='margin-left:10px;')
                         ul.dropdown-menu
                             li
@@ -56,71 +56,71 @@ body
     .w3-display-topmiddle
         .w3-card-4(style='margin-top:90px; margin-bottom:50px; background-color: white;')
             header.w3-container
-                h1 REGISTER
+                h1 REGISTRE
                     span.fa.fa-pencil(style='margin-left:10px;')
             form#registerform.w3-container(action="/register-en", method="post")
                 label.w3-text
-                    b(style='text-decoration:underline;') FIRST NAME
+                    b(style='text-decoration:underline;') NOM
                         sup
                             span.fa.fa-asterisk
-                input.w3-input.w3-border(type='text', style="text-transform:uppercase;",name='name', placeholder="WRITE YOUR FIRST NAME HERE" required)
+                input.w3-input.w3-border(type='text', style="text-transform:uppercase;",name='name', placeholder="ESCRIU EL TEU NOM AQUÍ" required)
                 p
                 label.w3-text
-                    b(style='text-decoration:underline;') LAST NAME
+                    b(style='text-decoration:underline;') COGNOMS
                         sup
                             span.fa.fa-asterisk
-                input.w3-input.w3-border(type='text', style="text-transform:uppercase;",name='surname', placeholder="WRITE YOUR LAST NAME HERE" required)
+                input.w3-input.w3-border(type='text', style="text-transform:uppercase;",name='surname', placeholder="ESCRIU ELS TEUS COGNOMS AQUÍ" required)
                 p
                 label.w3-text
-                    b(style='text-decoration:underline;') GENDER
+                    b(style='text-decoration:underline;') GÈNERE
                         sup
                             span.fa.fa-asterisk
                 p
                     input.w3-radio(type='radio', name='gender', value='male' required)
-                    label(style='margin-left: 10px;') MALE
+                    label(style='margin-left: 10px;') HOME
                 p
                     input.w3-radio(type='radio', name='gender', value='female' required)
-                    label(style='margin-left: 10px;') FEMALE
+                    label(style='margin-left: 10px;') DONA
                 label.w3-text
-                    b(style='text-decoration:underline;') BIRTHDAY
+                    b(style='text-decoration:underline;') DATA DE NAIXAMENT
                         sup
                             span.fa.fa-asterisk
                 p
-                input#datapicker.datepicker-here.w3-input.w3-border(type='text',name='birthday', data-language='en', placeholder="WRITE OR SELECT YOUR BIRTHDAY DATE. THE FORMAT NEEDS TO BE LIKE THIS EXAMPLE: 10/22/1995" required)
+                input#datapicker.datepicker-here.w3-input.w3-border(type='text',name='birthday', data-language='en', placeholder="ESCRIU O SELECCIONA LA TEVA DATA DE NAIXAMENT. EL FORMAT A DE SER COM AQUEST: 22/10/1995" required)
                 p
                 label.w3-text
-                    b(style='text-decoration:underline;') E-MAIL
+                    b(style='text-decoration:underline;') CORREU ELECTRÓNIC
                         sup
                             span.fa.fa-asterisk
                 p
-                input.w3-input.w3-border(type='text', style="text-transform:uppercase",name='email', placeholder="WRITE E-MAIL HERE" required)
+                input.w3-input.w3-border(type='text', style="text-transform:uppercase",name='email', placeholder="ESCRIU EL TEU CORREU ELECTRÓNIC AQUÍ" required)
                 p
                 label.w3-text
-                    b(style='text-decoration:underline;') ABOUT YOU
-                textarea.w3-input.w3-border(style='width:50vw; text-transform:uppercase;',name='about',placeholder="WRITE SOMETHING ABOUT YOU HERE")
+                    b(style='text-decoration:underline;') SOBRE TU
+                textarea.w3-input.w3-border(style='width:50vw; text-transform:uppercase;',name='about',placeholder="ESCRIU ALGUNA COSA SOBRE TU AQUÍ")
                 label.w3-text
-                    b(style='text-decoration:underline;') PASSWORD
+                    b(style='text-decoration:underline;') CONTRASENYA
                         sup
                             span.fa.fa-asterisk
                 p
                 .row
                     .col-sm-10
-                        input#pass1.w3-input.w3-border(type='password', name='pass1', placeholder="WRITE YOUR PASSWORD HERE" required)
+                        input#pass1.w3-input.w3-border(type='password', name='pass1', placeholder="ESCRIU LA TEVA CONTRASENYA AQUÍ" required)
                     .col-sm-2
                         span#pass1span.fa.fa-eye.fa-2x(style='color: rgb(204, 204, 204);' onmouseover="onoverpass1();" onmouseout="onoutpass1();")
                 label.w3-text
-                    b(style='text-decoration:underline;') REPEAT PASSWORD
+                    b(style='text-decoration:underline;') REPETEIX LA CONTRASENYA
                         sup
                             span.fa.fa-asterisk
                 p
                 .row
                     .col-sm-10
-                        input#pass2.w3-input.w3-border(type='password', name='pass2', placeholder="WRITE YOUR PASSWORD HERE AGAIN" required)
+                        input#pass2.w3-input.w3-border(type='password', name='pass2', placeholder="ESCRIU LA TEVA CONTRASENYA AQUÍ UNA ALTRA VEGADA" required)
                     .col-sm-2
                         span#pass2span.fa.fa-eye.fa-2x(style='color: rgb(204, 204, 204);' onmouseover="onoverpass2();" onmouseout="onoutpass2();")
             footer.w3-container
-                button#submitbutton.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; position:relative;') REGISTER   ❯
-                button#infobutton.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;position:relative;') INFORMATION
+                button#submitbutton.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; position:relative;') REGISTRAR   ❯
+                button#infobutton.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;position:relative;') INFORMACIÓ
                     span.fa.fa-info-circle(style='margin-left:10px;')
     #spinnerbackground
     #spinner
@@ -128,38 +128,38 @@ body
     #infocard.w3-display-middle
         .w3-card-4(style='margin-top:75px !important;')
             header.w3-container.w3-blue
-                h1 INFORMATION
+                h1 INFORMACIÓ
                     span.fa.fa-info-circle(style='margin-left:10px;')
             .w3-container(style="background-color: white;")
                 p
-                | TO HAVE AN ACCOUNT ON THIS PAGE, YOU NEED TO FILL UP THIS PAGE, AND THEN CLICK ON REGISTER BUTTON BELOW.
+                | PER TENIR UN COMPTE EN AQUESTA PÀGINA, I DESPRES PREMER EL BOTÓ REGISTRAR, QUE ES TROBA A BAIX DE TOT.
                 p
-                | THING TO BE CONSIDERED:
+                | COSES A TENIR EN COMPTE:
                 p
-                    | - THE FIELDS THAT HAVE
+                    | - ELS CAMPS QUE TENEN EL SIMBOL
                     sup
                         span.fa.fa-asterisk
-                    |  SYMBOL ARE REQUIRED TO BE REGISTRED ON THIS PAGE.
+                    |  SÓN OBLIGATORIS.
                 P
-                    | - THE
-                    b  BIRTHDAY DATE
-                    |  MUST HAVE THE FORMAT MONTH/DAY/YEAR.
+                    | - LA
+                    b  DATA DE NAIXAMENT
+                    |  HA DE TENIR EL FORMAT DIA/MES/ANY.
                 P
-                    | - THE
-                    b  EMAIL
-                    |  FIELD NEEDS TO BE A REAL EMAIL.
+                    | - EL
+                    b  CORREU ELECTRÓNIC
+                    |  HA DE SER UN CORREU EXISTENT.
                 P
-                    | - THE
-                    b  PASSWORDS
-                    |  HAVE TO BE IDENTICAL, AND HAVE TO BE AT LEAST 8 CHARACTERS.
+                    | - LES
+                    b  CONTRASENYES
+                    |  HAN DE SER IDÈNTIQUES, I HAN DE TENIR UN MÍNIM DE 8 LLETRES.
                 P
-                    | - IN THE
-                    b  PASSWORD FIELDS
-                    | , YOU CAN SEE WHAT YOU HAVE WRITTEN PASSING YOUR MOUSE ABOVE THE EYE '
+                    | - ALS CAMPS DE LES
+                    b  CONTRASENYES
+                    | , POTS VEURE EL QUE HAS ESCRIT PASSANT EL RATOLÍ PER SOBRE DE L'ULL '
                     span.fa.fa-eye
-                    | ' ON THE RIGHT.
+                    | ' OQUE ES TROBA A LA DRETA.
                 p
-                    b ENJOY THE EXPERIENCE!!! :-)
+                    b VIU L'EXPERIENCIA!!! :-)
                 p
             footer.w3-container.w3-blue
                 button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
