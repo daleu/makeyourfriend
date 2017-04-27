@@ -187,3 +187,8 @@ form.w3-container{
 .datepicker--day-name{
     color: #25DA7E !important;
 }
+
+/*ERROR*/
+#errorcard{
+    display: none;
+}

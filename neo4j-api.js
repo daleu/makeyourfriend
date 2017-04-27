@@ -47,6 +47,27 @@ class Neo4jApi {
     return resp;
   }
 
+  getAllUsers(){
+      const session = this.driver.session();
+
+      const promise = new Promise((resolve, reject) => {
+          session
+              .run(`
+            MATCH (n:USER)
+            RETURN n`)
+              .then((result) => {
+                  session.close();
+                  resolve(result.records
+                      .map(record => record._fields[0].properties));
+              })
+              .catch((error) => {
+                  session.close();
+                  reject(error);
+              });
+      });
+      return promise;
+  }
+
   findUser(email){
       const session = this.driver.session();
 

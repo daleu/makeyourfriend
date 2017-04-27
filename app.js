@@ -35,7 +35,7 @@ app.use(session({
     activeDuration: 5 * 60 * 1000,
 }));
 
-function setLogin(email,password,res,req,page,next){
+function setLogin(email,password,res,req,page){
     db.findUser(email).then(function(usr){
         console.log("USER INFO");
         console.log(usr);
@@ -47,7 +47,7 @@ function setLogin(email,password,res,req,page,next){
             if(usr[0].password == hash){
                 console.log("GOOD USER!!!");
                 req.session.usr = usr;
-                next();
+                res.render('./login-en.pug');
             }
             else{
                 console.log("BAD PASSWORD");
@@ -58,14 +58,14 @@ function setLogin(email,password,res,req,page,next){
 }
 
 function requireLogin (req, res, next) {
-    if (!req.user) {
-        res.redirect('/login');
+    if (!req.session.usr) {
+        res.redirect('/');
     } else {
         next();
     }
 }
 
-/*MAIN PAGE*/
+/*INITIAL REDIRECT*/
 app.get('/', (req, res) => {
     res.redirect('/login-en');
 });
@@ -75,13 +75,10 @@ app.get('/login-en', (req, res) => {
     res.render('./login-en.pug');
 });
 
-app.post('/login-en', (req, res, next) => {
+app.post('/login-en', (req, res) => {
     const email = req.body.email;
     const password = req.body.pass1;
-
-    setLogin(email,password,res,req, "./login-en.pug", next);
-
-    res.render('./login-en.pug');
+    setLogin(email,password,res,req, "./login-en.pug");
 });
 
 /*REGISTRE*/
@@ -105,7 +102,9 @@ app.post('/register-ca', (req, res) => {
 });
 
 app.get('/register-en', (req, res) => {
-    res.render('./register/register-en.pug');
+    db.getAllUsers().then((users) => {
+        res.render('./register/register-en.pug', { users });
+    });
 });
 
 app.post('/register-en', (req, res) => {
@@ -121,6 +120,8 @@ app.post('/register-en', (req, res) => {
         .then(() => res.redirect('/'))
         .catch(error => res.status(500).send(error));
 });
+
+/*MAIN PAGE*/
 
 
 
@@ -171,7 +172,7 @@ app.post('/clear', (req, res) => {
 });
 
 
- app.get('/aux', (req, res) => {
+ app.get('/aux', requireLogin, (req, res) => {
  db.getNodes()
  .then((nodes) => {
  res.render('./home.pug', { nodes });

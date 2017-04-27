@@ -115,7 +115,26 @@ body
             footer.w3-container.w3-blue
                 button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
                     span.fa.fa-close(style='margin-left:10px;')
+    #errorcard.w3-display-middle
+        .w3-card-4
+            header.w3-container.w3-red
+                h1 ERROR
+                    span.fa.fa-exclamation-circle(style='margin-left:10px;')
+            .w3-container(style="background-color: white;")
+                p
+                | INVALID EMAIL OR PASSWORD.
+                p
+            footer.w3-container.w3-red
+                button#closeerror.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
+    if error != null
+        script.
+            $('#infobackground').css('display', 'block');
+            $('#errorcard').css('display', 'block');
 script.
+
+   /* var variable = JSON.parse(document.getElementById('variable'));
+    alert(variable);*/
 
     /*WHEN SUBMIT IS CLICKED*/
     $("#submitbutton").click(function () {
@@ -162,4 +181,9 @@ script.
     $("#closeinfo").click(function () {
         $('#infobackground').css('display', 'none');
         $('#infocard').css('display', 'none');
+    });
+
+    $("#closeerror").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#errorcard').css('display', 'none');
     });
