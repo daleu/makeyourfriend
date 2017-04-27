@@ -47,7 +47,7 @@ function setLogin(email,password,res,req,page){
             if(usr[0].password == hash){
                 console.log("GOOD USER!!!");
                 req.session.usr = usr;
-                res.render('./login-en.pug');
+                res.render(page);
             }
             else{
                 console.log("BAD PASSWORD");
@@ -80,13 +80,23 @@ app.get('/', (req, res) => {
 
 /*LOGIN*/
 app.get('/login-en', (req, res) => {
-    res.render('./login-en.pug');
+    res.render('./login/login-en.pug');
 });
 
 app.post('/login-en', (req, res) => {
     const email = req.body.email;
     const password = req.body.pass1;
-    setLogin(email,password,res,req, "./login-en.pug");
+    setLogin(email,password,res,req, "./login/login-en.pug");
+});
+
+app.get('/login-ca', (req, res) => {
+    res.render('./login/login-ca.pug');
+});
+
+app.post('/login-ca', (req, res) => {
+    const email = req.body.email;
+    const password = req.body.pass1;
+    setLogin(email,password,res,req, "./login/login-ca.pug");
 });
 
 /*REGISTRE*/
