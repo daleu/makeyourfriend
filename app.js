@@ -2,16 +2,13 @@ require('dotenv').config();
 
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const Neo4jApi = require('./neo4j-api');
-
+const session = require('client-sessions');  //ADD SESSION MANAGEMENT
+const crypto = require('crypto');
 
 const app = express();
 const db = new Neo4jApi();
 const port = process.env.PORT;
-
-app.set('view engine', 'pug');
-app.use(bodyParser.urlencoded({ extended: true }));
 
 /*PATHS*/
 app.use('/', express.static(__dirname + '/www')); // redirect root
@@ -27,22 +24,70 @@ app.use('/css', express.static(__dirname + '/node_modules/font-awesome/css'));
 app.use('/fonts', express.static(__dirname + '/node_modules/font-awesome/fonts'));
 
 
+app.set('view engine', 'pug');
+app.use(bodyParser.urlencoded({ extended: true }));
+
+/*SESSION COOKIE & COOKIE MANAGEMENT*/
+app.use(session({
+    cookieName: 'session',
+    secret: 'randomWord',
+    duration: 30 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000,
+}));
+
+function setLogin(email,password,res,req,page,next){
+    db.findUser(email).then(function(usr){
+        console.log("USER INFO");
+        console.log(usr);
+        if(!usr[0]){
+            console.log("NO USER");
+            res.render(page, { error: 'Invalid email or password.' });
+        } else {
+            const hash = crypto.createHash('sha256').update(password).digest('base64');
+            if(usr[0].password == hash){
+                console.log("GOOD USER!!!");
+                req.session.usr = usr;
+                next();
+            }
+            else{
+                console.log("BAD PASSWORD");
+                res.render(page, { error: 'Invalid email or password.' });
+            }
+        }
+    });
+}
+
+function requireLogin (req, res, next) {
+    if (!req.user) {
+        res.redirect('/login');
+    } else {
+        next();
+    }
+}
+
+/*MAIN PAGE*/
 app.get('/', (req, res) => {
-  db.getNodes()
-    .then((nodes) => {
-      res.render('./home.pug', { nodes });
-    })
-    .catch(error => res.status(500).send(error));
+    res.redirect('/login-en');
+});
+
+/*LOGIN*/
+app.get('/login-en', (req, res) => {
+    res.render('./login-en.pug');
+});
+
+app.post('/login-en', (req, res, next) => {
+    const email = req.body.email;
+    const password = req.body.pass1;
+
+    setLogin(email,password,res,req, "./login-en.pug", next);
+
+    res.render('./login-en.pug');
 });
 
 /*REGISTRE*/
 
 app.get('/register-ca', (req, res) => {
-    db.getNodes()
-        .then((nodes) => {
-            res.render('./register/register-ca.pug', { nodes });
-        })
-        .catch(error => res.status(500).send(error));
+    res.render('./register/register-ca.pug');
 });
 
 app.post('/register-ca', (req, res) => {
@@ -60,11 +105,7 @@ app.post('/register-ca', (req, res) => {
 });
 
 app.get('/register-en', (req, res) => {
-  db.getNodes()
-      .then((nodes) => {
-        res.render('./register-en.pug', { nodes });
-      })
-      .catch(error => res.status(500).send(error));
+    res.render('./register/register-en.pug');
 });
 
 app.post('/register-en', (req, res) => {
@@ -81,16 +122,42 @@ app.post('/register-en', (req, res) => {
         .catch(error => res.status(500).send(error));
 });
 
-/*LOGIN*/
-app.get('/login-en', (req, res) => {
-    db.getNodes()
-        .then((nodes) => {
-            res.render('./login-en.pug', { nodes });
-        })
-        .catch(error => res.status(500).send(error));
-});
 
-app.post('/', (req, res) => {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* SOMETHING */
+app.post('/aux', (req, res) => {
   const name = req.body.name;
   db.createNode(name)
     .then(() => res.redirect('/'))
@@ -102,6 +169,15 @@ app.post('/clear', (req, res) => {
     .then(() => res.redirect('/'))
     .catch(error => res.status(500).send(error));
 });
+
+
+ app.get('/aux', (req, res) => {
+ db.getNodes()
+ .then((nodes) => {
+ res.render('./home.pug', { nodes });
+ })
+ .catch(error => res.status(500).send(error));
+ });
 
 app.listen(port,
   () => console.log(`Server listening on http://localhost:${port}`));

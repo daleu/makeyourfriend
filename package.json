@@ -12,17 +12,18 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "bootstrap": "3.3.7",
+    "client-sessions": "^0.8.0",
+    "crypto": "0.0.3",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
+    "font-awesome": "^4.7.0",
     "glyphicons": "^0.2.0",
     "jquery": "3.2.1",
     "jquery-validation": "1.16.0",
     "neo4j-driver": "^1.0.5",
     "pug": "^2.0.0-beta6",
     "uuid": "^3.0.1",
-    "font-awesome": "^4.7.0",
-    "w3-css": "^2.9.9",
-    "crypto": "0.0.3"
+    "w3-css": "^2.9.9"
   },
   "devDependencies": {
     "eslint": "^3.12.2",

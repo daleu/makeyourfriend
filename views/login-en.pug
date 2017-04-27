@@ -1,6 +1,6 @@
 doctype html(lang='en')
 head
-    title Registre
+    title LOGIN
     link(rel="shortcut icon" href="/images/logo_v4_100.png")
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
@@ -53,22 +53,92 @@ body
                     b(style='text-decoration:underline;') EMAIL
                         sup
                             span.fa.fa-asterisk
-                input.w3-input.w3-border(type='text', style="text-transform:uppercase; width:50vw;",name='name', placeholder="WRITE E-MAIL HERE" required)
+                input.w3-input.w3-border(type='text', style="text-transform:uppercase; width:50vw;",name='email', placeholder="WRITE E-MAIL HERE" required)
                 p
                 label.w3-text
                     b(style='text-decoration:underline;') PASSWORD
                         sup
                             span.fa.fa-asterisk
-                .row
+                .row(style='padding-bottom: 20px;')
                     .col-sm-10
                         input#pass1.w3-input.w3-border(type='password', name='pass1', placeholder="WRITE YOUR PASSWORD HERE" required)
                     .col-sm-2
                         span#pass1span.fa.fa-eye.fa-2x(style='color: rgb(204, 204, 204);' onmouseover="onoverpass1();" onmouseout="onoutpass1();")
-            footer.w3-container
                 button#submitbutton.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px;') LOGIN   ❯
                 button#infobutton.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') INFORMATION
                     span.fa.fa-info-circle(style='margin-left:10px;')
+            footer.w3-container(style='background-color: #A8F658 !important;')
+                label.w3-text(style='padding-top:10px;')
+                    b(style='text-decoration:underline; color: black;') NEW ON MAKEYOURFRIEND?
+                p
+                form(action="/register-en")
+                    button.w3-btn.w3-padding(type='submit', style='width:155px; margin-top:10px; margin-bottom:10px;') SIGN UP   ❯
+    #spinnerbackground
+    #spinner
+    #infobackground
+    #infocard.w3-display-middle
+        .w3-card-4(style='margin-top:75px !important;')
+            header.w3-container.w3-blue
+                h1 INFORMATION
+                    span.fa.fa-info-circle(style='margin-left:10px;')
+            .w3-container(style="background-color: white;")
+                p
+                | TO HAVE AN ACCOUNT ON THIS PAGE, YOU NEED TO FILL UP THIS PAGE, AND THEN CLICK ON REGISTER BUTTON BELOW.
+                p
+                | THING TO BE CONSIDERED:
+                p
+                    | - THE FIELDS THAT HAVE
+                    sup
+                        span.fa.fa-asterisk
+                    |  SYMBOL ARE REQUIRED TO BE REGISTRED ON THIS PAGE.
+                P
+                    | - THE
+                    b  BIRTHDAY DATE
+                    |  MUST HAVE THE FORMAT MONTH/DAY/YEAR.
+                P
+                    | - THE
+                    b  EMAIL
+                    |  FIELD NEEDS TO BE A REAL EMAIL.
+                P
+                    | - THE
+                    b  PASSWORDS
+                    |  HAVE TO BE IDENTICAL, AND HAVE TO BE AT LEAST 8 CHARACTERS.
+                P
+                    | - IN THE
+                    b  PASSWORD FIELDS
+                    | , YOU CAN SEE WHAT YOU HAVE WRITTEN PASSING YOUR MOUSE ABOVE THE EYE '
+                    span.fa.fa-eye
+                    | ' ON THE RIGHT.
+                p
+                    b ENJOY THE EXPERIENCE!!! :-)
+                p
+            footer.w3-container.w3-blue
+                button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
 script.
+
+    /*WHEN SUBMIT IS CLICKED*/
+    $("#submitbutton").click(function () {
+        var form = $("#registerform");
+        form.validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true
+                },
+                pass1: {
+                    required: true,
+                    minlength: 8
+                }
+            }
+        });
+
+        if (form.valid()) {
+            $('#spinnerbackground').css('display', 'block');
+            $('#spinner').css('display', 'block');
+            form.submit();
+        }
+    });
 
     /*SEE PASSWORD FUNCTIONS*/
     function onoverpass1() {
@@ -82,3 +152,14 @@ script.
         obj.type = "password";
         $('#pass1span').css('color', 'rgb(204, 204, 204)');
     }
+
+    /*WHEN INFO IS CLICKED*/
+    $("#infobutton").click(function () {
+        $('#infobackground').css('display', 'block');
+        $('#infocard').css('display', 'block');
+    });
+
+    $("#closeinfo").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#infocard').css('display', 'none');
+    });
