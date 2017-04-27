@@ -164,6 +164,19 @@ body
             footer.w3-container.w3-blue
                 button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
                     span.fa.fa-close(style='margin-left:10px;')
+    #errorcard.w3-display-middle
+        .w3-card-4
+            header.w3-container.w3-red
+                h1 ERROR
+                    span.fa.fa-exclamation-circle(style='margin-left:10px;')
+            .w3-container(style="background-color: white;")
+                p
+                | THIS EMAIL ALREADY EXISTS IN OUR SYSTEM.
+                | PLIS, PUT ANOTHER ONE.
+                p
+            footer.w3-container.w3-red
+                button#closeerror.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
     script.
 
         /*WHEN SUBMIT IS CLICKED*/
@@ -192,7 +205,30 @@ body
             if(form.valid()) {
                 $('#spinnerbackground').css('display', 'block');
                 $('#spinner').css('display', 'block');
-                form.submit();
+                $.ajax({
+                    url: "/getUsers"
+                }).done(function (users) {
+                    var i = 0;
+                    var exists = false;
+                    for (i = 0; i < users.length; ++i) {
+                        if (users[i].email == document.getElementsByName("email")[0].value) {
+                            exists = true;
+                            i = users.length;
+                        }
+                    }
+                    if (exists) {
+                        $('#spinnerbackground').css('display', 'none');
+                        $('#spinner').css('display', 'none');
+                        $('#infobackground').css('display', 'block');
+                        $('#errorcard').css('display', 'block');
+                    }
+                    else {
+                        form.submit();
+                    }
+                }).fail(function () {
+                    $('#spinnerbackground').css('display', 'none');
+                    $('#spinner').css('display', 'none');
+                });
             }
         });
 
@@ -207,8 +243,8 @@ body
 
                     //Get Date parts to Integer
                     var parts = dateString.split("/");
-                    var day = parseInt(parts[1], 10);
-                    var month = parseInt(parts[0], 10);
+                    var day = parseInt(parts[0], 10);
+                    var month = parseInt(parts[1], 10);
                     var year = parseInt(parts[2], 10);
 
                     //Check month and year ranges
@@ -260,4 +296,9 @@ body
         $("#closeinfo").click(function () {
             $('#infobackground').css('display', 'none');
             $('#infocard').css('display', 'none');
+        });
+
+        $("#closeerror").click(function () {
+            $('#infobackground').css('display', 'none');
+            $('#errorcard').css('display', 'none');
         });

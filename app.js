@@ -65,6 +65,14 @@ function requireLogin (req, res, next) {
     }
 }
 
+/*AJAX FUNCTIONS*/
+
+app.get('/getUsers',(req,res) =>{
+    db.getAllUsers().then(function (users) {
+        res.send(users);
+    });
+});
+
 /*INITIAL REDIRECT*/
 app.get('/', (req, res) => {
     res.redirect('/login-en');
@@ -102,16 +110,19 @@ app.post('/register-ca', (req, res) => {
 });
 
 app.get('/register-en', (req, res) => {
-    db.getAllUsers().then((users) => {
-        res.render('./register/register-en.pug', { users });
-    });
+    res.render('./register/register-en.pug');
 });
 
 app.post('/register-en', (req, res) => {
     const name = req.body.name;
     const surname = req.body.surname;
     const gender = req.body.gender;
-    const birthday = req.body.birthday;
+
+    //FORMAT TO STANDAR DATE
+    var auxDate = req.body.birthday;
+    var parts = auxDate.split("/");
+    const birthday = parts[1] + '/' + parts[0] + '/' + parts[2];
+
     const email = req.body.email;
     const about = req.body.about;
     const password = req.body.pass1;
