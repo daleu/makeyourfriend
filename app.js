@@ -33,6 +33,7 @@ app.use(session({
     secret: 'randomWord',
     duration: 30 * 60 * 1000,
     activeDuration: 5 * 60 * 1000,
+    ephemeral: true
 }));
 
 function setLogin(email,password,res,req,page){
@@ -59,11 +60,22 @@ function setLogin(email,password,res,req,page){
 
 function requireLogin (req, res, next) {
     if (!req.session.usr) {
-        res.redirect('/');
+        if(req.get("accept-language").includes("ca")){
+            res.redirect("/login-ca");
+        }
+        else if(req.get("accept-language").includes("es")){
+            res.redirect("/login-en");  ///////////////////////////////////////////////////FALTA PAGINA CASTELLÀ
+        }
+        else res.redirect('/login-en');
     } else {
         next();
     }
 }
+
+app.get('/logout', function(req, res) {
+    req.session.reset();
+    res.redirect('/');
+});
 
 /*AJAX FUNCTIONS*/
 
@@ -74,15 +86,14 @@ app.get('/getUsers',(req,res) =>{
 });
 
 /*INITIAL REDIRECT*/
-app.get('/', (req, res) => {
-    console.log(req.get("accept-language"));
+app.get('/', requireLogin, (req, res) => {
     if(req.get("accept-language").includes("ca")){
-        res.redirect("/login-ca");
+        res.redirect("/main-page-ca");
     }
     else if(req.get("accept-language").includes("es")){
-        res.redirect("/login-en");  ///////////////////////////////////////////////////FALTA PAGINA CASTELLÀ
+        res.redirect("/main-page-en");  ///////////////////////////////////////////////////FALTA PAGINA CASTELLÀ
     }
-    else res.redirect('/login-en');
+    else res.redirect('/main-page-en');
 });
 
 /*LOGIN*/
@@ -90,14 +101,14 @@ app.get('/login-en', (req, res) => {
     res.render('./login/login-en.pug');
 });
 
+app.get('/login-ca', (req, res) => {
+    res.render('./login/login-ca.pug'); /////////////////////////////////////////////// INFO CATALÀ I CAT REQUIRED FIELDS
+});
+
 app.post('/login-en', (req, res) => {
     const email = req.body.email;
     const password = req.body.pass1;
-    setLogin(email,password,res,req, "./login/login-en.pug");
-});
-
-app.get('/login-ca', (req, res) => {
-    res.render('./login/login-ca.pug');
+    setLogin(email,password,res,req, "./mainPage/main-page-en.pug");
 });
 
 app.post('/login-ca', (req, res) => {
@@ -106,10 +117,16 @@ app.post('/login-ca', (req, res) => {
     setLogin(email,password,res,req, "./login/login-ca.pug");
 });
 
+///////////////////////////////////////////////////////////////////////////////////////// FALTA CASTELLÀ
+
 /*REGISTRE*/
 
 app.get('/register-ca', (req, res) => {
-    res.render('./register/register-ca.pug');
+    res.render('./register/register-ca.pug');  //////////////////////////////////////////////// CAT REQUIRED FIELDS
+});
+
+app.get('/register-en', (req, res) => {
+    res.render('./register/register-en.pug');
 });
 
 app.post('/register-ca', (req, res) => {
@@ -124,10 +141,6 @@ app.post('/register-ca', (req, res) => {
     db.createUser(name,surname,gender,birthday,email,about,password)
         .then(() => res.redirect('/'))
         .catch(error => res.status(500).send(error));
-});
-
-app.get('/register-en', (req, res) => {
-    res.render('./register/register-en.pug');
 });
 
 app.post('/register-en', (req, res) => {
@@ -149,8 +162,20 @@ app.post('/register-en', (req, res) => {
         .catch(error => res.status(500).send(error));
 });
 
-/*MAIN PAGE*/
+/////////////////////////////////////////////////////////////////////////////////////////// FALTA CASTELLÀ
 
+/*MAIN PAGE*/
+app.get('/main-page-en',requireLogin, (req, res) => {
+    res.render('./mainPage/main-page-en.pug');
+});
+
+app.get('/main-page-ca',requireLogin, (req, res) => {
+    res.render('./mainPage/main-page-ca.pug');
+});
+
+app.get('/main-page-es',requireLogin, (req, res) => {
+    res.render('./mainPage/main-page-es.pug');
+});
 
 
 

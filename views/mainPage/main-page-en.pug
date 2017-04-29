@@ -1,0 +1,102 @@
+doctype html(lang='en')
+head
+    title REGISTER
+    link(rel="shortcut icon" href="/images/logo_v4_100.png")
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/style/style.css')
+    link(rel='stylesheet', href='/css/w3.css')
+    link(rel='stylesheet', href='/style/datepicker.min.css')
+    link(rel='stylesheet', href='/css/font-awesome.min.css')
+    script(src='/js/jquery.min.js')
+    script(src='/js/datepicker.min.js')
+    script(src='/js/datepicker.en.js')
+    script(src='/js/bootstrap.min.js')
+    script(src='/js/jquery.validate.min.js')
+body
+    nav.navbar.navbar-default.navbar-fixed-top
+        .container-fluid(style='background-color: rgb(42, 124, 82) important;')
+            .navbar-header
+                button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+                    span.sr-only Toggle navigation
+                    span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+                a.navbar-brand(href='/')
+                    img(alt="Brand" src="/images/logo_v4_100.png" height='60px;' style='margin-top:5px !important;')
+            #bs-example-navbar-collapse-1.collapse.navbar-collapse
+                ul.nav.navbar-nav
+                    li
+                        a(href='/')
+                            span.fa.fa-home
+                            |  HOME
+                ul.nav.navbar-nav.navbar-right
+                    li
+                        a(href='/logout')
+                            span.fa.fa-sign-out
+                            |  SIGN OUT
+                    li.dropdown
+                        a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+                            | LANGUAGE
+                            span.fa.fa-chevron-down(style='margin-left:10px;')
+                        ul.dropdown-menu
+                            li
+                                a(href='/register-ca') CATALÀ
+                            li
+                                a(href='#') CASTELLANO
+                            li
+                                a(href='#') ENGLISH
+    .container
+        a.w3-hover-shadow.w3-center(href='#' style='background-color: #25DA7E; color: white;')
+            p.fa.fa-user-circle.fa-2x
+            p MY PROFILE
+        a.w3-hover-shadow.w3-center(href='#' style='background-color: #00CD65; color: white;')
+            p.fa.fa-book.fa-2x
+            p MY HISTORIES
+        a.w3-hover-shadow.w3-center(href='#' style='background-color: #008B44; color: white;')
+            p.fa.fa-address-book.fa-2x
+            p MY FRIENDS
+        a.w3-hover-shadow.w3-center(href='#' style='background-color: #036E61; color: white;')
+            p.fa.fa-calendar.fa-2x
+            p MY EVENTS &nbsp;
+        a.w3-hover-shadow.w3-center(href='#' style='background-color: #06517E; color: white;')
+            p.fa.fa-clock-o.fa-2x
+            p TIMELINE &nbsp;
+        a.w3-hover-shadow.w3-center(href='#' style='background-color: #097EC3; color: white;')
+            p.fa.fa-search.fa-2x
+            p SEARCH PEOPLE &nbsp;
+        a.w3-hover-shadow.w3-center(href='#' style='background-color: #2D95D2; color: white;')
+            p.fa.fa-plus-circle.fa-2x
+            p POST HISTORY
+style.
+    /*RESPONSIVE TEXT*/
+    .container {
+        font-size: 0; /*fix white space*/
+        margin-top:90px;
+        margin-bottom: 20px;
+    }
+    .container > a {
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: bold;
+        font-size: 20px; /*reset font size*/
+        display: inline-block;
+        vertical-align: middle;
+        width: 20%;
+        padding-bottom: 7%;
+        padding-top: 7%;
+        margin-left: 2.5%;
+        margin-right: 2.5%;
+        margin-top: 50px;
+        text-align: center;
+    }
+    .container > a:hover{
+        cursor: pointer;
+        text-decoration: inherit;
+    }
+    @media (max-width: 480px) { /*breakpoint*/
+        .container > a {
+            display: block;
+            width: 100%;
+        }
+    }
