@@ -75,7 +75,14 @@ app.get('/getUsers',(req,res) =>{
 
 /*INITIAL REDIRECT*/
 app.get('/', (req, res) => {
-    res.redirect('/login-en');
+    console.log(req.get("accept-language"));
+    if(req.get("accept-language").includes("ca")){
+        res.redirect("/login-ca");
+    }
+    else if(req.get("accept-language").includes("es")){
+        res.redirect("/login-en");  ///////////////////////////////////////////////////FALTA PAGINA CASTELLÀ
+    }
+    else res.redirect('/login-en');
 });
 
 /*LOGIN*/
@@ -200,6 +207,7 @@ app.post('/clear', (req, res) => {
  })
  .catch(error => res.status(500).send(error));
  });
+
 
 app.listen(port,
   () => console.log(`Server listening on http://localhost:${port}`));
