@@ -10,6 +10,8 @@ const app = express();
 const db = new Neo4jApi();
 const port = process.env.PORT;
 
+var user;
+
 /*PATHS*/
 app.use('/', express.static(__dirname + '/www')); // redirect root
 app.use('/js', express.static(__dirname + '/public/js'));
@@ -36,23 +38,19 @@ app.use(session({
     ephemeral: true
 }));
 
-function setLogin(email,password,res,req,page){
+function setLogin(email,password,res,req,page,pageer){
     db.findUser(email).then(function(usr){
-        console.log("USER INFO");
-        console.log(usr);
         if(!usr[0]){
-            console.log("NO USER");
-            res.render(page, { error: 'Invalid email or password.' });
+            res.render(pageer, { error: 'Invalid email or password.' });
         } else {
             const hash = crypto.createHash('sha256').update(password).digest('base64');
             if(usr[0].password == hash){
-                console.log("GOOD USER!!!");
+                user = usr[0];
                 req.session.usr = usr;
-                res.render(page);
+                res.redirect(page);
             }
             else{
-                console.log("BAD PASSWORD");
-                res.render(page, { error: 'Invalid email or password.' });
+                res.render(pageer, { error: 'Invalid email or password.' });
             }
         }
     });
@@ -74,6 +72,7 @@ function requireLogin (req, res, next) {
 
 app.get('/logout', function(req, res) {
     req.session.reset();
+    user = null;
     res.redirect('/');
 });
 
@@ -108,13 +107,13 @@ app.get('/login-ca', (req, res) => {
 app.post('/login-en', (req, res) => {
     const email = req.body.email;
     const password = req.body.pass1;
-    setLogin(email,password,res,req, "./mainPage/main-page-en.pug");
+    setLogin(email,password,res,req, "/main-page-en", "./login/login-en.pug");
 });
 
 app.post('/login-ca', (req, res) => {
     const email = req.body.email;
     const password = req.body.pass1;
-    setLogin(email,password,res,req, "./login/login-ca.pug");
+    setLogin(email,password,res,req, "/main-page-ca", "./login/login-ca.pug");
 });
 
 ///////////////////////////////////////////////////////////////////////////////////////// FALTA CASTELLÀ
@@ -169,12 +168,26 @@ app.get('/main-page-en',requireLogin, (req, res) => {
     res.render('./mainPage/main-page-en.pug');
 });
 
-app.get('/main-page-ca',requireLogin, (req, res) => {
+app.get('/main-page-ca',requireLogin, (req, res) => {   //////////////////////////////////// FALTA FER
     res.render('./mainPage/main-page-ca.pug');
 });
 
-app.get('/main-page-es',requireLogin, (req, res) => {
+app.get('/main-page-es',requireLogin, (req, res) => {   //////////////////////////////////// FALTA FER
     res.render('./mainPage/main-page-es.pug');
+});
+
+/*MY PROFILE*/
+app.get('/profile-en',requireLogin, (req, res) => {     //////////////////////////////////// BULDING
+    console.log(user);
+    res.render('./profile/profile-en.pug',{user});
+});
+
+app.get('/profile-ca',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
+    res.render('./profile/profile-ca.pug',{user});
+});
+
+app.get('/profile-es',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
+    res.render('./profile/profile-es.pug',{user});
 });
 
 
