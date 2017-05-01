@@ -71,7 +71,7 @@ body
                             h6(style='text-transform: uppercase;')= user.birthday
                             hr
                             h6(style='font-weight: bold !important;') ABOUT ME:
-                            if user.about == null
+                            if user.about != null
                                 p(style='text-transform: uppercase;')= user.about
                             else
                                 p(style='text-transform: uppercase; color:silver;') YOU DO NOT HAVE A DESCRIPTION ABOUT YOU.
