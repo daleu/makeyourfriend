@@ -57,35 +57,35 @@ body
                     h3
                         b
                             span.fa.fa-user-circle
-                        |  PERSONAL INFORMATION
+                        | &nbsp; PERSONAL INFORMATION
                 .w3-container(style='margin-top:10px;')
                     .w3-row
                         .w3-col.l4.s12
-                            if user[0].foto != null
+                            if user.foto != null
                                 img#profileimg.circletag
                             else
-                                img(src="/images/profile/profile.jpg")#profileimg.circletag
+                                img(src="/images/profile/profile-en.jpg")#profileimg.circletag
                         .w3-col.l8.s12
                             p
-                            h3= user[0].name + " " + user[0].surname
-                            h6= user[0].birthday
+                            h3(style='text-transform: uppercase;')= user.name + " " + user.surname
+                            h6(style='text-transform: uppercase;')= user.birthday
                             hr
                             h6(style='font-weight: bold !important;') ABOUT ME:
-                            p
-                                | Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at. Phasellus sed ultricies mi non congue ullam corper. Praesent tincidunt sed
-                                | tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.
+                            if user.about == null
+                                p(style='text-transform: uppercase;')= user.about
+                            else
+                                p(style='text-transform: uppercase; color:silver;') YOU DO NOT HAVE A DESCRIPTION ABOUT YOU.
                     button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(style='margin-bottom: 15px;')
                         span.fa.fa-pencil
                         b &nbsp; &nbsp; EDIT PROFILE
             hr
             // Blog entry
             .w3-card-4.w3-margin.w3-white
-                .w3-container
+                header.w3-container
                     h3
-                        b BLOG ENTRY
-                    h5
-                        | Title description,
-                        span.w3-opacity April 2, 2014
+                        b
+                            span.fa.fa-exchange
+                        | &nbsp; LAST ACTIVITY
                 .w3-container
                     p
                         | Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at. Phasellus sed ultricies mi non congue ullam corper. Praesent tincidunt sed
@@ -105,20 +105,22 @@ body
         .w3-col.l4
             // About Card
             .w3-card-2.w3-margin.w3-margin-top.w3-white
-                    header.w3-container
-                        h4
-                            b MY FRIENDS
-                    .w3-container(style='margin-top:10px;')
-                        p
-                            | Just me, myself and I, exploring the universe of uknownment. I have a heart of love and a interest of lorem ipsum and mauris neque quam blog. I want to share my world with you.
-                        button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(style='margin-bottom: 15px;')
-                            b SHOW MORE FRIENDS »
+                header.w3-container
+                    h3
+                        b
+                            span.fa.fa-users
+                        | &nbsp; MY FRIENDS
+                .w3-container(style='margin-top:10px;')
+                    p
+                        | Just me, myself and I, exploring the universe of uknownment. I have a heart of love and a interest of lorem ipsum and mauris neque quam blog. I want to share my world with you.
+                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(style='margin-bottom: 15px;')
+                        b SHOW MORE FRIENDS »
     // END w3-content
 style.
     .circletag {
         margin: 0 auto;
         margin-bottom: 15px;
-        margin-top: 10px;
+        margin-top: 15px;
         display: block;
         width: 200px;
         height: 200px;
