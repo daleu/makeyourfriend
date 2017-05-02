@@ -10,6 +10,7 @@
   "license": "MIT",
   "repository": "git@github.com:visby/neo4j-express-heroku-sample.git",
   "dependencies": {
+    "blueimp-file-upload-node": "^2.1.0",
     "body-parser": "^1.15.2",
     "bootstrap": "3.3.7",
     "client-sessions": "^0.8.0",
@@ -20,7 +21,9 @@
     "glyphicons": "^0.2.0",
     "jquery": "3.2.1",
     "jquery-validation": "1.16.0",
+    "multer": "^1.3.0",
     "neo4j-driver": "^1.0.5",
+    "path": "^0.12.7",
     "pug": "^2.0.0-beta6",
     "uuid": "^3.0.1",
     "w3-css": "^2.9.9"

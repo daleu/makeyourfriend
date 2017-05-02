@@ -5,12 +5,29 @@ const bodyParser = require('body-parser');
 const Neo4jApi = require('./neo4j-api');
 const session = require('client-sessions');  //ADD SESSION MANAGEMENT
 const crypto = require('crypto');
+const multer  = require('multer');
+const path = require('path');
+
+var user;
+
+var storage = multer.diskStorage({
+    destination: './uploads/',
+    filename: function (req, file, cb) {
+        crypto.pseudoRandomBytes(16, function (err, raw) {
+            if (err) return cb(err);
+            console.log(raw.toString('hex'));
+            console.log(file);
+            user.foto = "./uploads/" + raw.toString('hex') + path.extname(file.originalname);
+            cb(null, raw.toString('hex') + path.extname(file.originalname));
+        });
+    }
+});
+
+var upload = multer({ storage: storage });
 
 const app = express();
 const db = new Neo4jApi();
 const port = process.env.PORT;
-
-var user;
 
 /*PATHS*/
 app.use('/', express.static(__dirname + '/www')); // redirect root
@@ -24,6 +41,7 @@ app.use('/images', express.static(__dirname + '/public/images'));
 app.use('/style', express.static(__dirname + '/public/style'));
 app.use('/css', express.static(__dirname + '/node_modules/font-awesome/css'));
 app.use('/fonts', express.static(__dirname + '/node_modules/font-awesome/fonts'));
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 
 app.set('view engine', 'pug');
@@ -57,7 +75,7 @@ function setLogin(email,password,res,req,page,pageer){
 }
 
 function requireLogin (req, res, next) {
-    if (!req.session.usr) {
+    if (!req.session.usr || user==null) {
         if(req.get("accept-language").includes("ca")){
             res.redirect("/login-ca");
         }
@@ -177,7 +195,7 @@ app.get('/main-page-es',requireLogin, (req, res) => {   ////////////////////////
 });
 
 /*MY PROFILE*/
-app.get('/profile-en',requireLogin, (req, res) => {     //////////////////////////////////// BULDING
+app.get('/profile-en',requireLogin, (req, res) => {
     console.log(user);
     res.render('./profile/profile-en.pug',{user});
 });
@@ -189,6 +207,26 @@ app.get('/profile-ca',requireLogin, (req, res) => {     ////////////////////////
 app.get('/profile-es',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
     res.render('./profile/profile-es.pug',{user});
 });
+
+/*EDIT PROFILE*/
+app.get('/profile-edit-en',requireLogin, (req, res) => {     //////////////////////////////////// BULDING
+    console.log(user);
+    res.render('./profile-edit/profile-edit-en.pug',{user});
+});
+
+app.get('/profile-edit-ca',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
+    res.render('./profile-edit/profile-edit-ca.pug',{user});
+});
+
+app.get('/profile-edit-es',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
+    res.render('./profile-edit/profile-edit-es.pug',{user});
+});
+
+app.post('/upload-profile-image',upload.single('image'), (req, res) => {
+    console.log(req.files);
+    //res.render('./profile-edit/profile-edit-es.pug',{user});
+});
+
 
 
 
