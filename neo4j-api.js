@@ -58,6 +58,17 @@ class Neo4jApi {
       return resp;
   }
 
+  updateProfileAbout(email,about){
+      const session = this.driver.session();
+
+      const resp = session.run('MATCH (n {email: "'+ email +'"}) SET n.about="'+about+'" RETURN n');
+
+      resp.then(()=> session.close())
+          .catch(()=> session.close());
+
+      return resp;
+  }
+
   getAllUsers(){
       const session = this.driver.session();
 

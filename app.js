@@ -232,8 +232,14 @@ app.get('/profile-edit-es',requireLogin, (req, res) => {     ///////////////////
 });
 
 app.post('/upload-profile-image',upload.single('image'), (req, res) => {
-    console.log(req.files);
-    res.render('./profile/profile-en.pug',{user});
+    res.redirect("/profile-en");
+});
+
+app.post('/upload-profile-about',requireLogin,(req, res) => {
+    var about = req.body.about;
+    user.about = about;
+    db.updateProfileAbout(user.email,about);
+    res.redirect("/profile-en");
 });
 
 

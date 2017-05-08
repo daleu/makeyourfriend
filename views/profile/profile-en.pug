@@ -72,7 +72,7 @@ body
                             hr
                             h6(style='font-weight: bold !important;') ABOUT ME:
                             if user.about != null
-                                p(style='text-transform: uppercase;')= user.about
+                                p(style='text-transform: uppercase; word-wrap: break-word;')= user.about
                             else
                                 p(style='text-transform: uppercase; color:silver;') YOU DO NOT HAVE A DESCRIPTION ABOUT YOU.
                     form(action="/profile-edit-en")

@@ -76,8 +76,29 @@ body
                         form#imageform.w3-col.l8.s12(action="/upload-profile-image", method="post", enctype="multipart/form-data")
                             input#profileimage(name='image', type='file', accept="image/x-png,image/jpeg" required)
                     button#imagebutton.w3-button.w3-padding-large.w3-black.w3-border.w3-right(style='margin-bottom: 15px;',type='button')
-                        span.fa.fa-pencil
-                        b &nbsp; &nbsp; EDIT PROFILE
+                        span.fa.fa-upload
+                        b &nbsp; &nbsp; UPLOAD IMAGE
+        .w3-col.l4
+            // About Card
+            .w3-card-2.w3-margin.w3-margin-top.w3-white
+                header.w3-container
+                    h3
+                        b
+                            span.fa.fa-file-text
+                        | &nbsp; MY DESCRIPTION
+                .w3-container(style='margin-top:10px;')
+                    h6(style='font-weight: bold !important;') YOUR ACTUAL DESCRIPTION:
+                    if user.about != null
+                        p(style='text-transform: uppercase;word-wrap: break-word;')= user.about
+                    else
+                        p(style='text-transform: uppercase; color:silver;') YOU DO NOT HAVE A DESCRIPTION ABOUT YOU.
+                    hr
+                    h6(style='font-weight: bold !important;') YOUR NEW DESCRIPTION:
+                    form#aboutform(action="/upload-profile-about", method="post")
+                        textarea.w3-input.w3-border(style='text-transform:uppercase;margin-bottom:20px;',name='about',placeholder="WRITE YOUR NEW DESCRIPTION HERE")
+                    button#aboutbutton.w3-button.w3-padding-large.w3-black.w3-border.w3-right(style='margin-bottom: 15px;')
+                        span.fa.fa-upload
+                        b &nbsp; &nbsp; UPLOAD DESCRIPTION
 style.
     .circletag {
         margin: 0 auto;
@@ -117,5 +138,10 @@ style.
 script.
     $("#imagebutton").click(function () {
         var form = $("#imageform");
+        form.submit();
+    });
+
+    $("#aboutbutton").click(function () {
+        var form = $("#aboutform");
         form.submit();
     });
