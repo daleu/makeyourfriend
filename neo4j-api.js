@@ -47,6 +47,17 @@ class Neo4jApi {
     return resp;
   }
 
+  updateProfileImage(email,foto){
+      const session = this.driver.session();
+
+      const resp = session.run('MATCH (n {email: "'+ email +'"}) SET n.foto="'+foto+'" RETURN n');
+
+      resp.then(()=> session.close())
+          .catch(()=> session.close());
+
+      return resp;
+  }
+
   getAllUsers(){
       const session = this.driver.session();
 

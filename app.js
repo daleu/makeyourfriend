@@ -7,8 +7,11 @@ const session = require('client-sessions');  //ADD SESSION MANAGEMENT
 const crypto = require('crypto');
 const multer  = require('multer');
 const path = require('path');
+const fs = require('fs');
 
 var user;
+
+const db = new Neo4jApi();
 
 var storage = multer.diskStorage({
     destination: './uploads/',
@@ -17,7 +20,14 @@ var storage = multer.diskStorage({
             if (err) return cb(err);
             console.log(raw.toString('hex'));
             console.log(file);
+            if(user.foto!=null){
+               //var fd = new File(user.foto);
+              //  fd.remove();
+                var pathFoto = user.foto;
+                fs.unlink(pathFoto);
+            }
             user.foto = "./uploads/" + raw.toString('hex') + path.extname(file.originalname);
+            db.updateProfileImage(user.email, user.foto);
             cb(null, raw.toString('hex') + path.extname(file.originalname));
         });
     }
@@ -26,7 +36,6 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 const app = express();
-const db = new Neo4jApi();
 const port = process.env.PORT;
 
 /*PATHS*/
@@ -224,7 +233,7 @@ app.get('/profile-edit-es',requireLogin, (req, res) => {     ///////////////////
 
 app.post('/upload-profile-image',upload.single('image'), (req, res) => {
     console.log(req.files);
-    //res.render('./profile-edit/profile-edit-es.pug',{user});
+    res.render('./profile/profile-en.pug',{user});
 });
 
 

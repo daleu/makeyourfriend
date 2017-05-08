@@ -65,7 +65,7 @@ body
                             h4 YOUR IMAGE:
                         .w3-col.l7.s12
                             if user.foto != null
-                                img#profileimg.circletag(src= user.foto)
+                                div#profileimg.circletag(style="background-size: cover;background-repeat: no-repeat;background-position: 50% 50%;background-image: url("+user.foto+")")
                             else
                                 img(src="/images/profile/profile-en.jpg")#profileimg.circletag
                         .w3-col.l1.s12
