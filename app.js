@@ -13,27 +13,39 @@ var user;
 
 const db = new Neo4jApi();
 
-var storage = multer.diskStorage({
-    destination: './uploads/',
+var storageProfile = multer.diskStorage({
+    destination: './uploadsProfile/',
     filename: function (req, file, cb) {
         crypto.pseudoRandomBytes(16, function (err, raw) {
             if (err) return cb(err);
-            console.log(raw.toString('hex'));
-            console.log(file);
             if(user.foto!=null){
-               //var fd = new File(user.foto);
-              //  fd.remove();
                 var pathFoto = user.foto;
                 fs.unlink(pathFoto);
             }
-            user.foto = "./uploads/" + raw.toString('hex') + path.extname(file.originalname);
+            user.foto = "./uploadsProfile/" + raw.toString('hex') + path.extname(file.originalname);
             db.updateProfileImage(user.email, user.foto);
             cb(null, raw.toString('hex') + path.extname(file.originalname));
         });
     }
 });
 
-var upload = multer({ storage: storage });
+var storagePost = multer.diskStorage({
+    destination: './uploadsPost/',
+    filename: function (req, file, cb) {
+        crypto.pseudoRandomBytes(16, function (err, raw) {
+            if (err) return cb(err);
+            var description = req.body.description;
+            var foto = "./uploadsPost/" + raw.toString('hex') + path.extname(file.originalname);
+            var date = new Date();
+            var dateInMilliseconds = date.getTime();
+            db.newPost(user.email, description, foto, dateInMilliseconds);
+            cb(null, raw.toString('hex') + path.extname(file.originalname));
+        });
+    }
+});
+
+var uploadProfile = multer({ storage: storageProfile });
+var uploadPost = multer({ storage: storagePost });
 
 const app = express();
 const port = process.env.PORT;
@@ -50,7 +62,8 @@ app.use('/images', express.static(__dirname + '/public/images'));
 app.use('/style', express.static(__dirname + '/public/style'));
 app.use('/css', express.static(__dirname + '/node_modules/font-awesome/css'));
 app.use('/fonts', express.static(__dirname + '/node_modules/font-awesome/fonts'));
-app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use('/uploadsProfile', express.static(__dirname + '/uploadsProfile'));
+app.use('/uploadsPost', express.static(__dirname + '/uploadsPost'));
 
 
 app.set('view engine', 'pug');
@@ -62,7 +75,7 @@ app.use(session({
     secret: 'randomWord',
     duration: 30 * 60 * 1000,
     activeDuration: 5 * 60 * 1000,
-    ephemeral: true
+    //ephemeral: true
 }));
 
 function setLogin(email,password,res,req,page,pageer){
@@ -218,9 +231,8 @@ app.get('/profile-es',requireLogin, (req, res) => {     ////////////////////////
 });
 
 /*EDIT PROFILE*/
-app.get('/profile-edit-en',requireLogin, (req, res) => {     //////////////////////////////////// BULDING
-    console.log(user);
-    res.render('./profile-edit/profile-edit-en.pug',{user});
+app.get('/profile-edit-en',requireLogin, (req, res) => {
+    res.render('./profile-edit/profile-edit-en.pug',{user}); //////////////////////////////////// BULDING
 });
 
 app.get('/profile-edit-ca',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
@@ -231,7 +243,7 @@ app.get('/profile-edit-es',requireLogin, (req, res) => {     ///////////////////
     res.render('./profile-edit/profile-edit-es.pug',{user});
 });
 
-app.post('/upload-profile-image',upload.single('image'), (req, res) => {
+app.post('/upload-profile-image',uploadProfile.single('image'), (req, res) => {
     res.redirect("/profile-en");
 });
 
@@ -242,6 +254,22 @@ app.post('/upload-profile-about',requireLogin,(req, res) => {
     res.redirect("/profile-en");
 });
 
+/*NEW POST*/
+app.get('/new-post-en',requireLogin, (req, res) => {     //////////////////////////////////// BULDING
+    res.render('./new-post/new-post-en.pug');
+});
+
+app.get('/new-post-es',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
+    res.render('./new-post/new-post-es.pug');
+});
+
+app.get('/new-post-en',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
+    res.render('./new-post/new-post-ca.pug');
+});
+
+app.post('/post-story',uploadPost.single('image'), (req, res) => {
+    res.redirect("/main-page-en");
+});
 
 
 

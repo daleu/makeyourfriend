@@ -69,6 +69,39 @@ class Neo4jApi {
       return resp;
   }
 
+  newPost(email,description,foto, date){
+      const session = this.driver.session();
+
+      console.log("before neo4j");
+
+      const resp = session
+          .run(`CREATE (n:POST {
+            description: {description},
+            foto: {foto},
+            date: {date},
+            uuid: {uuid}
+            }) RETURN n.uuid`, {
+              description,
+              foto,
+              date,
+              uuid: uuid(),
+          });
+
+      resp.then(()=> session.close())
+          .catch(()=> session.close());
+
+      console.log(resp);
+
+      const session2 = this.driver.session();
+
+      const resp2 = session2.run("MATCH (u:USER), (r:POST) WHERE u.email = '"+email+"' AND r.date = "+date+" CREATE (u)-[t:MY_POST]->(r) RETURN t");
+
+      resp2.then(()=> session2.close())
+          .catch(()=> session2.close());
+
+      return resp2;
+  }
+
   getAllUsers(){
       const session = this.driver.session();
 
