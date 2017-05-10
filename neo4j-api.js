@@ -87,19 +87,32 @@ class Neo4jApi {
               uuid: uuid(),
           });
 
-      resp.then(()=> session.close())
+      resp.then(() => session.close())
           .catch(()=> session.close());
 
       console.log(resp);
 
-      const session2 = this.driver.session();
+      return resp;
+  }
 
-      const resp2 = session2.run("MATCH (u:USER), (r:POST) WHERE u.email = '"+email+"' AND r.date = "+date+" CREATE (u)-[t:MY_POST]->(r) RETURN t");
+  relationToNewPost(email,date){
+      const session = this.driver.session();
 
-      resp2.then(()=> session2.close())
-          .catch(()=> session2.close());
+      console.log("Parametres " +
+          email + " " + date);
 
-      return resp2;
+      var query = "MATCH (u:USER), (r:POST) WHERE u.email = '"+email+"' AND r.date = "+date+" CREATE (u)-[t:MY_POST]->(r) RETURN t";
+      console.log(query);
+      const resp = session.run(query);
+
+      console.log("resp "+resp);
+
+      resp.then(()=> session.close())
+          .catch(()=> session.close());
+
+      console.log("resp2 "+resp);
+
+      return resp;
   }
 
   getAllUsers(){
@@ -110,6 +123,25 @@ class Neo4jApi {
               .run(`
             MATCH (n:USER)
             RETURN n`)
+              .then((result) => {
+                  session.close();
+                  resolve(result.records
+                      .map(record => record._fields[0].properties));
+              })
+              .catch((error) => {
+                  session.close();
+                  reject(error);
+              });
+      });
+      return promise;
+  }
+
+  getMyStories(email){
+      const session = this.driver.session();
+
+      const promise = new Promise((resolve, reject) => {
+          session
+              .run(`MATCH (n:USER {email: "`+email+`"})-[:MY_POST]->(p:POST) RETURN p`)
               .then((result) => {
                   session.close();
                   resolve(result.records

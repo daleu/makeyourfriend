@@ -36,9 +36,14 @@ var storagePost = multer.diskStorage({
             if (err) return cb(err);
             var description = req.body.description;
             var foto = "./uploadsPost/" + raw.toString('hex') + path.extname(file.originalname);
+            if(foto==null) foto = "nothing";
+            if(description == null) description = "nothing";
             var date = new Date();
             var dateInMilliseconds = date.getTime();
-            db.newPost(user.email, description, foto, dateInMilliseconds);
+            db.newPost(user.email, description, foto, dateInMilliseconds).then(function(){
+                console.log("relation");
+                db.relationToNewPost(user.email,dateInMilliseconds);
+            });
             cb(null, raw.toString('hex') + path.extname(file.originalname));
         });
     }
@@ -268,9 +273,39 @@ app.get('/new-post-en',requireLogin, (req, res) => {     ///////////////////////
 });
 
 app.post('/post-story',uploadPost.single('image'), (req, res) => {
-    res.redirect("/main-page-en");
+    if(req.body.image != undefined){
+        console.log("BADBAD " + req.body.image);
+        var description = req.body.description;
+        var date = new Date();
+        var dateInMilliseconds = date.getTime();
+        db.newPost(user.email, description, "nothing", dateInMilliseconds)
+            .then(function(){
+                db.relationToNewPost(user.email,dateInMilliseconds).then(() => res.redirect("/main-page-en"));
+            });
+    }
+    else{
+        res.redirect("/main-page-en");
+   }
 });
 
+/*MY STORIES*/
+app.get('/my-posts-en',requireLogin, (req, res) => {     //////////////////////////////////// BULDING
+    db.getMyStories(user.email).then(function (posts) {
+        res.render('./my-posts/my-posts-en.pug',{posts, user});
+    });
+});
+
+app.get('/my-posts-es',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
+    db.getMyStories(user.email).then(function (posts) {
+        res.render('./my-posts/my-posts-es.pug',{posts, user});
+    });
+});
+
+app.get('/my-posts-ca',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
+    db.getMyStories(user.email).then(function (posts) {
+        res.render('./my-posts/my-posts-ca.pug',{posts, user});
+    });
+});
 
 
 
