@@ -307,6 +307,32 @@ app.get('/my-posts-ca',requireLogin, (req, res) => {     ///////////////////////
     });
 });
 
+/*SEARCH PEOPLE*/
+app.get('/search-people-en',requireLogin, (req, res) => {     //////////////////////////////////// BULDING
+    res.render('./search-people/search-people-en.pug');
+});
+
+app.get('/search-people-es',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
+    res.render('./search-people/search-people-es.pug');
+});
+
+app.get('/search-people-en',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
+    res.render('./search-people/search-people-ca.pug');
+});
+
+app.get('/get-people-by-name/:letters',requireLogin,(req, res)=>{
+    var letters = req.params.letters;
+    db.getUsersByName(letters).then(function (users) {
+        res.send(users);
+    });
+});
+
+app.get('/get-people',requireLogin,(req, res)=>{
+    db.getAllUsers().then(function (users) {
+        res.send(users);
+    });
+});
+
 
 
 

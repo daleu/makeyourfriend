@@ -1,0 +1,82 @@
+<!DOCTYPE html(lang='en')><head><title>SEARCH FRIENDS</title><link rel="shortcut icon" href="/images/logo_v4_100.png"/><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="/css/bootstrap.min.css"/><link rel="stylesheet" href="/style/style.css"/><link rel="stylesheet" href="/css/w3.css"/><link rel="stylesheet" href="/style/datepicker.min.css"/><link rel="stylesheet" href="/css/font-awesome.min.css"/><script src="/js/jquery.min.js"></script><script src="/js/datepicker.min.js"></script><script src="/js/datepicker.en.js"></script><script src="/js/bootstrap.min.js"></script><script src="/js/jquery.validate.min.js"></script></head><body><nav class="navbar navbar-default navbar-fixed-top"><div class="container-fluid" style="background-color: rgb(42, 124, 82) important;"><div class="navbar-header"><button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="/"><img alt="Brand" src="/images/logo_v4_100.png" height="60px;" style="margin-top:5px !important;"/></a></div><div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"><ul class="nav navbar-nav"><li><a href="/"><span class="fa fa-home"></span> HOME</a></li></ul><ul class="nav navbar-nav navbar-right"><li><a href="/logout"><span class="fa fa-sign-out"></span> SIGN OUT</a></li><li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">LANGUAGE<span class="fa fa-chevron-down" style="margin-left:10px;"></span></a><ul class="dropdown-menu"><li><a href="#">CATALÀ</a></li><li><a href="#">CASTELLANO</a></li><li><a href="#">ENGLISH</a></li></ul></li></ul></div></div></nav><div class="container w3-center"><input class="w3-input w3-border" id="searchPeople" name="name" placeholder="WRITE LETTERS OF YOUR FRIEND NAME" required="required"/><button class="w3-button w3-padding-large w3-black w3-border" id="buttonSearch" style="margin-top: 15px;"><span class="fa fa-search"></span><b>&nbsp; &nbsp; SEARCH</b></button></div><div class="w3-container"><hr/></div><div class="w3-container" id="resultPeople"><div class="w3-card-4 w3-white" style="cursor: pointer;"><div class="w3-row"><div class="w3-col l3 s3"><img class="circletag" src="/images/profile/profile-en.jpg"/></div><div class="w3-col l7 s7 w3-center" style="margin-left: 20px;"><p></p><h3 style="text-transform: uppercase;">MY</h3><h6 style="text-transform: uppercase;">MYMY</h6><button class="w3-button w3-padding-large w3-black w3-border w3-right" style="margin-bottom: 15px; heigth: 40px;"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; SEE PROFILE</b></button></div></div></div><!--.w3-card-4.w3-white.w3-row
+    .w3-col.l3.s3
+        img(src="/images/profile/profile-en.jpg").circletag
+    .w3-col.l9.s9
+        h3(style='text-transform: uppercase;') MY
+        h6(style='text-transform: uppercase;') MYMY--><!--.w3-card-4.w3-white.w3-row
+    .w3-col.l3.s3
+        img(src="/images/profile/profile-en.jpg").circletag
+    .w3-col.l9.s9
+        h3(style='text-transform: uppercase;') MY
+        h6(style='text-transform: uppercase;') MYMY--></div><div id="spinnerbackground"></div><div id="spinner"></div></body><style>/*RESPONSIVE TEXT*/
+.container {
+    margin-top: 90px;
+    margin-bottom: 20px;
+}
+
+.w3-container div {
+    vertical-align: middle;
+    width: 300px;
+    height: 130px;
+    display: inline-block;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    margin-bottom: 20px;
+}
+
+.circletag {
+    margin: 0 auto;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    display: block;
+    width: 100px;
+    height: 100px;
+    background: #E6E7ED;
+    -moz-border-radius: 200px;
+    -webkit-border-radius: 200px;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    border: #2D95D2 solid 5px;
+}
+
+h5 {
+    font-family: 'Montserrat', sans-serif !important;
+    font-weight: bold;
+}
+</style><script>$("#buttonSearch").click(function () {
+    $('#spinnerbackground').css('display', 'block');
+    $('#spinner').css('display', 'block');
+    var letters = $('#searchPeople').val();
+    var append = "";
+    console.log(letters);
+    if(letters==""){
+        $.ajax({
+            url: "/get-people", success: function (result) {
+                console.log(result);
+                /*$("#resultPeople").html(result);*/
+                $(result).each(function (item) {
+                    if (this.foto == null)append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
+                    else append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="'+this.foto+'" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h3><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
+                });
+                $("#resultPeople").html(append);
+                $('#spinnerbackground').css('display', 'none');
+                $('#spinner').css('display', 'none');
+            }
+        });
+    }
+    else{
+        $.ajax({
+            url: "/get-people-by-name/" + letters, success: function (result) {
+                console.log(result);
+                /*$("#resultPeople").html(result);*/
+                $(result).each(function (item) {
+                    if (this.foto == null)append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
+                    else append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">MY</h3><h6 style="text-transform: uppercase;">MYMY</h6><button style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
+                });
+                $("#resultPeople").html(append);
+                $('#spinnerbackground').css('display', 'none');
+                $('#spinner').css('display', 'none');
+            }
+        });
+    }
+});</script>

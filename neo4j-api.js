@@ -155,6 +155,30 @@ class Neo4jApi {
       return promise;
   }
 
+  getUsersByName(letters){
+      const session = this.driver.session();
+
+      var query = `MATCH (n) WHERE n.name =~ '.*`+letters+`.*' RETURN n`;
+
+      console.log(query);
+
+      const promise = new Promise((resolve, reject) => {
+          session
+              .run(query)
+              .then((result) => {
+                  session.close();
+                  resolve(result.records
+                      .map(record => record._fields[0].properties));
+              })
+              .catch((error) => {
+                  session.close();
+                  reject(error);
+              });
+      });
+      return promise;
+  }
+
+
   findUser(email){
       const session = this.driver.session();
 
