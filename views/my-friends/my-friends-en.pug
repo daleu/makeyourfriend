@@ -1,0 +1,233 @@
+doctype html(lang='en')
+head
+    title MY FRENDS
+    link(rel="shortcut icon" href="/images/logo_v4_100.png")
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/style/style.css')
+    link(rel='stylesheet', href='/css/w3.css')
+    link(rel='stylesheet', href='/style/datepicker.min.css')
+    link(rel='stylesheet', href='/css/font-awesome.min.css')
+    script(src='/js/jquery.min.js')
+    script(src='/js/datepicker.min.js')
+    script(src='/js/datepicker.en.js')
+    script(src='/js/bootstrap.min.js')
+    script(src='/js/jquery.validate.min.js')
+body
+    nav.navbar.navbar-default.navbar-fixed-top
+        .container-fluid(style='background-color: rgb(42, 124, 82) important;')
+            .navbar-header
+                button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+                    span.sr-only Toggle navigation
+                    span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+                a.navbar-brand(href='/')
+                    img(alt="Brand" src="/images/logo_v4_100.png" height='60px;' style='margin-top:5px !important;')
+            #bs-example-navbar-collapse-1.collapse.navbar-collapse
+                ul.nav.navbar-nav
+                    li
+                        a(href='/')
+                            span.fa.fa-home
+                            |  HOME
+                ul.nav.navbar-nav.navbar-right
+                    li
+                        a(href='/logout')
+                            span.fa.fa-sign-out
+                            |  SIGN OUT
+                    li.dropdown
+                        a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+                            | LANGUAGE
+                            span.fa.fa-chevron-down(style='margin-left:10px;')
+                        ul.dropdown-menu
+                            li
+                                a(href='#') CATALÀ
+                            li
+                                a(href='#') CASTELLANO
+                            li
+                                a(href='#') ENGLISH
+    .container.w3-center
+        .w3-row
+            button#myRequestsButton.w3-button.w3-padding-large.w3-black.w3-border(style='margin-bottom: 15px; width: 290px;')
+                span.fa.fa-mail-forward
+                b &nbsp; &nbsp; MY REQUESTS
+            button#myFriendsButton.w3-button.w3-padding-large.w3-border.w3-blue(style='margin-bottom: 15px;width: 290px;')
+                span.fa.fa-book
+                b &nbsp; &nbsp; MY FRIENDS
+            button#myInRequestsButton.w3-button.w3-padding-large.w3-border.w3-black(style='margin-bottom: 15px;width: 290px;')
+                span.fa.fa-mail-reply
+                b &nbsp; &nbsp; REQUESTS THAT I HAVE
+        input#searchPeople.w3-input.w3-border(name='name', placeholder="WRITE LETTERS OF YOUR FRIEND NAME" required)
+        button#buttonSearch.w3-button.w3-padding-large.w3-black.w3-border(style='margin-top: 15px;')
+            span.fa.fa-search
+            b &nbsp; &nbsp; SEARCH
+    .w3-container
+        hr
+    .w3-container#resultPeople
+        each friend in friends
+            .w3-card-4.w3-white(style='cursor: pointer;')
+                .w3-row
+                    .w3-col.l3.s3
+                        if(friend.foto==undefined)
+                            img.circletag(src='/images/profile/profile-en.jpg')
+                        else
+                            img.circletag(src=friend.foto)
+                    .w3-col.l7.s7.w3-center(style='margin-left: 20px;')
+                        p
+                        h5(style='text-transform: uppercase;')= friend.name + ' ' + friend.surname
+                        h6(style='text-transform: uppercase;')= friend.birthday
+                        //button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(onclick="sendRequest(\''+this.email+'\')", style='margin-bottom: 15px; heigth: 40px;')
+                            span.fa.fa-pencil
+                            b     ADD FRIEND
+        else
+            p YOU DON'T HAVE FRIENDS, PLEASE GO TO SEARCH PEOPLE SECTION AND SEND REQUESTS TO HAVE FRIENDS! :)
+    #spinnerbackground
+    #spinner
+    #infobackground
+    #infocard.w3-display-middle
+        .w3-card-4(style='margin-top:75px !important;')
+            header.w3-container.w3-blue
+                h1 SUCCESS!
+                    span.fa.fa-info-circle(style='margin-left:10px;')
+            .w3-container(style="background-color: white;")
+                p
+                | YOUR FRIEND REQUEST HAS BEEN SENT CORRECTLY!
+                | WAIT FOR A RESPONSE!
+                p
+            footer.w3-container.w3-blue
+                button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
+style.
+    /*RESPONSIVE TEXT*/
+    .container {
+        margin-top: 90px;
+        margin-bottom: 20px;
+    }
+
+    .w3-container div {
+        vertical-align: middle;
+        width: 300px;
+        height: 130px;
+        display: inline-block;
+        margin-left: 2.5%;
+        margin-right: 2.5%;
+        margin-bottom: 20px;
+    }
+
+    .circletag {
+        margin: 0 auto;
+        margin-bottom: 15px;
+        margin-top: 15px;
+        display: block;
+        width: 100px;
+        height: 100px;
+        background: #E6E7ED;
+        -moz-border-radius: 200px;
+        -webkit-border-radius: 200px;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        border: #2D95D2 solid 5px;
+    }
+
+    h5 {
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: bold;
+    }
+
+script.
+
+    $("#buttonSearch").click(function () {
+        $('#spinnerbackground').css('display', 'block');
+        $('#spinner').css('display', 'block');
+    });
+
+    $("#myRequestsButton").click(function () {
+        $('#spinnerbackground').css('display', 'block');
+        $('#spinner').css('display', 'block');
+        $( "#myRequestsButton").removeClass( "w3-black" ).addClass( "w3-blue" );
+        $( "#myInRequestsButton").removeClass( "w3-blue" ).addClass("w3-black");
+        $( "#myFriendsButton").removeClass( "w3-blue" ).addClass("w3-black");
+        var append = "";
+        $.ajax({
+            url: "/get-my-requests", success: function (result) {
+                console.log(result);
+                /*$("#resultPeople").html(result);*/
+                $(result).each(function (item) {
+                    if (this.foto == null)append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6></div></div></div>';
+                    else append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="' + this.foto + '" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h3><h6 style="text-transform: uppercase;">' + this.birthday + '</h6></div></div></div>';
+                });
+                $("#resultPeople").html(append);
+                $('#spinnerbackground').css('display', 'none');
+                $('#spinner').css('display', 'none');
+            }
+        });
+    });
+
+    $("#myInRequestsButton").click(function () {
+        $('#spinnerbackground').css('display', 'block');
+        $('#spinner').css('display', 'block');
+        $("#myInRequestsButton").removeClass("w3-black").addClass("w3-blue");
+        $("#myRequestsButton").removeClass("w3-blue").addClass("w3-black");
+        $("#myFriendsButton").removeClass("w3-blue").addClass("w3-black");
+        var append = "";
+        $.ajax({
+            url: "/get-requests", success: function (result) {
+                console.log(result);
+                /*$("#resultPeople").html(result);*/
+                $(result).each(function (item) {
+                    if (this.foto == null)append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button onClick="acceptRequest(\'' + this.email + '\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-check"></span><b>&nbsp; &nbsp; ACCEPT</b></button></div></div></div>';
+                    else append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="' + this.foto + '" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h3><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button onClick="acceptRequest(\'' + this.email + '\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-check"></span><b>&nbsp; &nbsp; ACCEPT</b></button></div></div></div>';
+                });
+                $("#resultPeople").html(append);
+                $('#spinnerbackground').css('display', 'none');
+                $('#spinner').css('display', 'none');
+            }
+        });
+    });
+
+    $("#myFriendsButton").click(function () {
+        $('#spinnerbackground').css('display', 'block');
+        $('#spinner').css('display', 'block');
+        $("#myFriendsButton").removeClass("w3-black").addClass("w3-blue");
+        $("#myInRequestsButton").removeClass("w3-blue").addClass("w3-black");
+        $("#myRequestsButton").removeClass("w3-blue").addClass("w3-black");
+        var append = "";
+        $.ajax({
+            url: "/get-friends", success: function (result) {
+                console.log(result);
+                /*$("#resultPeople").html(result);*/
+                $(result).each(function (item) {
+                    if (this.foto == null)append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button onClick="acceptRequest(\'' + this.email + '\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-check"></span><b>&nbsp; &nbsp; ACCEPT</b></button></div></div></div>';
+                    else append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="' + this.foto + '" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h3><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button onClick="acceptRequest(\'' + this.email + '\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-check"></span><b>&nbsp; &nbsp; ACCEPT</b></button></div></div></div>';
+                });
+                $("#resultPeople").html(append);
+                $('#spinnerbackground').css('display', 'none');
+                $('#spinner').css('display', 'none');
+            }
+        });
+    });
+
+    function acceptRequest(email) {
+        $('#spinnerbackground').css('display', 'block');
+        $('#spinner').css('display', 'block');
+        $.ajax({
+            method: "POST",
+            url: "/accept-request/" + email,
+            success: function (result) {
+                console.log(result);
+                $('#spinnerbackground').css('display', 'none');
+                $('#spinner').css('display', 'none');
+                $('#infobackground').css('display', 'block');
+                if (result == "OK") {
+                    $('#infocard').css('display', 'block');
+                    //TREURE l'usuari d'aqui display none card?
+                }
+                else {
+
+                }
+            }
+        });
+        //alert(email);
+    }
+

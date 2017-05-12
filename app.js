@@ -341,18 +341,48 @@ app.post('/send-friend-request/:targetEmail',requireLogin,(req, res)=>{
 });
 
 /*MY FRIENDS*/
-app.get('/my-frinds-en',requireLogin, (req, res) => {     //////////////////////////////////// BULDING
-    res.render('./my-frinds/my-frinds-en.pug');
+app.get('/my-friends-en',requireLogin, (req, res) => {     //////////////////////////////////// BULDING
+    db.getFriends(user.email).then(function(friends){
+        res.render('./my-friends/my-friends-en.pug',{friends});
+    });
 });
 
-app.get('/my-frinds-es',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
-    res.render('./my-frinds/my-frinds-es.pug');
+app.get('/my-friends-es',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
+    res.render('./my-friends/my-friends-es.pug');
 });
 
 app.get('/my-frinds-en',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
-    res.render('./my-frinds/my-frinds-ca.pug');
+    res.render('./my-friends/my-friends-ca.pug');
 });
 
+app.get('/get-my-requests',requireLogin,(req, res)=>{
+    db.getMyFriendResquests(user.email).then(function (users) {
+        res.send(users);
+    });
+});
+
+app.get('/get-friends',requireLogin,(req, res)=>{
+    db.getFriends(user.email).then(function (users) {
+        res.send(users);
+    });
+});
+
+app.get('/get-requests',requireLogin,(req, res)=>{
+    db.getFriendResquests(user.email).then(function (users) {
+        res.send(users);
+    });
+});
+
+app.post('/accept-request/:targetEmail',requireLogin,(req, res)=>{
+    var targetEmail = req.params.targetEmail;
+    db.deleteRequest(user.email,targetEmail).then(function(){
+        db.createFriend(user.email,targetEmail).then(function(){
+            db.createFriend(targetEmail,user.email).then(function(){
+                res.send("OK");
+            });
+        });
+    });
+});
 
 
 

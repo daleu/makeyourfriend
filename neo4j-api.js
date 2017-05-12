@@ -155,6 +155,73 @@ class Neo4jApi {
       return promise;
   }
 
+  getMyFriendResquests(myemail){
+      const session = this.driver.session();
+
+      var query = "MATCH (n:USER {email: '"+myemail+"'})-[:MY_REQUEST]->(p:USER) RETURN p";
+
+      console.log(query);
+
+      const promise = new Promise((resolve,reject) => {
+         session.run(query)
+             .then((result) => {
+                 session.close();
+                 resolve(result.records
+                     .map(record => record._fields[0].properties));
+             })
+             .catch((error) => {
+                 session.close();
+                 reject(error);
+             });
+      });
+
+      return promise;
+  }
+
+    getFriendResquests(myemail){
+        const session = this.driver.session();
+
+        var query = "MATCH (p:USER)-[:MY_REQUEST]->(n:USER {email: '"+myemail+"'}) RETURN p";
+
+        console.log(query);
+
+        const promise = new Promise((resolve,reject) => {
+            session.run(query)
+                .then((result) => {
+                    session.close();
+                    resolve(result.records
+                        .map(record => record._fields[0].properties));
+                })
+                .catch((error) => {
+                    session.close();
+                    reject(error);
+                });
+        });
+
+        return promise;
+    }
+
+    getFriends(myemail){
+        const session = this.driver.session();
+
+        var query = "MATCH (n:USER {email: '"+myemail+"'})-[:MY_FRIEND]->(p:USER) RETURN p";
+
+        const promise = new Promise((resolve,reject) => {
+            session.run(query)
+                .then((result) => {
+                    session.close();
+                    resolve(result.records
+                        .map(record => record._fields[0].properties));
+                })
+                .catch((error) => {
+                    session.close();
+                    reject(error);
+                });
+        });
+
+        return promise;
+    }
+
   sendRequest(myemail,targetemail){
       const session = this.driver.session();
 
@@ -169,6 +236,36 @@ class Neo4jApi {
 
       return resp;
   }
+
+    deleteRequest(myemail,targetemail){
+        const session = this.driver.session();
+
+        var query = "MATCH (u:USER {email:'"+targetemail+"'})-[r:MY_REQUEST]->(p:USER {email:'"+myemail+"'}) DELETE r";
+
+        console.log(query);
+
+        const resp = session.run(query);
+
+        resp.then(()=> session.close())
+            .catch(()=> session.close());
+
+        return resp;
+    }
+
+    createFriend(myemail,targetemail){
+        const session = this.driver.session();
+
+        var query = "MATCH (u:USER {email:'"+myemail+"'}), (p:USER {email:'"+targetemail+"'}) CREATE (u)-[r:MY_FRIEND]->(p) RETURN r";
+
+        console.log(query);
+
+        const resp = session.run(query);
+
+        resp.then(()=> session.close())
+            .catch(()=> session.close());
+
+        return resp;
+    }
 
   getUsersByName(letters){
       const session = this.driver.session();
