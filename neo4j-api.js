@@ -155,6 +155,21 @@ class Neo4jApi {
       return promise;
   }
 
+  sendRequest(myemail,targetemail){
+      const session = this.driver.session();
+
+      var query = "MATCH (u:USER {email:'"+myemail+"'}), (p:USER {email:'"+targetemail+"'}) CREATE (u)-[r:MY_REQUEST]->(p) RETURN r";
+
+      console.log(query);
+
+      const resp = session.run(query);
+
+      resp.then(()=> session.close())
+          .catch(()=> session.close());
+
+      return resp;
+  }
+
   getUsersByName(letters){
       const session = this.driver.session();
 

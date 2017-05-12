@@ -55,33 +55,22 @@ body
     .w3-container
         hr
     .w3-container#resultPeople
-        .w3-card-4.w3-white(style="cursor: pointer;")
-            .w3-row
-                .w3-col.l3.s3
-                    img(src="/images/profile/profile-en.jpg").circletag
-                .w3-col.l7.s7(style="margin-left: 20px;").w3-center
-                    p
-                    h3(style='text-transform: uppercase;') MY
-                    h6(style='text-transform: uppercase;') MYMY
-                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(style='margin-bottom: 15px; heigth: 40px;')
-                        span.fa.fa-pencil
-                        b &nbsp; &nbsp; SEE PROFILE
-        //.w3-card-4.w3-white
-            .w3-row
-                .w3-col.l3.s3
-                    img(src="/images/profile/profile-en.jpg").circletag
-                .w3-col.l9.s9
-                    h3(style='text-transform: uppercase;') MY
-                    h6(style='text-transform: uppercase;') MYMY
-        //.w3-card-4.w3-white
-            .w3-row
-                .w3-col.l3.s3
-                    img(src="/images/profile/profile-en.jpg").circletag
-                .w3-col.l9.s9
-                    h3(style='text-transform: uppercase;') MY
-                    h6(style='text-transform: uppercase;') MYMY
     #spinnerbackground
     #spinner
+    #infobackground
+    #infocard.w3-display-middle
+        .w3-card-4(style='margin-top:75px !important;')
+            header.w3-container.w3-blue
+                h1 SUCCESS!
+                    span.fa.fa-info-circle(style='margin-left:10px;')
+            .w3-container(style="background-color: white;")
+                p
+                | YOUR FRIEND REQUEST HAS BEEN SENT CORRECTLY!
+                | WAIT FOR A RESPONSE!
+                p
+            footer.w3-container.w3-blue
+                button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
 
 style.
     /*RESPONSIVE TEXT*/
@@ -134,8 +123,8 @@ script.
                     console.log(result);
                     /*$("#resultPeople").html(result);*/
                     $(result).each(function (item) {
-                        if (this.foto == null)append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
-                        else append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="'+this.foto+'" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h3><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
+                        if (this.foto == null)append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button onClick="sendRequest(\''+this.email+'\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
+                        else append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="'+this.foto+'" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h3><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button onClick="sendRequest(\''+this.email+'\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
                     });
                     $("#resultPeople").html(append);
                     $('#spinnerbackground').css('display', 'none');
@@ -149,8 +138,8 @@ script.
                     console.log(result);
                     /*$("#resultPeople").html(result);*/
                     $(result).each(function (item) {
-                        if (this.foto == null)append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
-                        else append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">MY</h3><h6 style="text-transform: uppercase;">MYMY</h6><button style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
+                        if (this.foto == null)append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button onClick="sendRequest(\''+this.email+'\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
+                        else append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">MY</h3><h6 style="text-transform: uppercase;">MYMY</h6><button onClick="sendRequest(\''+this.email+'\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
                     });
                     $("#resultPeople").html(append);
                     $('#spinnerbackground').css('display', 'none');
@@ -158,4 +147,37 @@ script.
                 }
             });
         }
+    });
+
+    function sendRequest(email) {
+        $('#spinnerbackground').css('display', 'block');
+        $('#spinner').css('display', 'block');
+        $.ajax({
+            method: "POST",
+            url: "/send-friend-request/" + email,
+            success: function(result){
+                console.log(result);
+                $('#spinnerbackground').css('display', 'none');
+                $('#spinner').css('display', 'none');
+                $('#infobackground').css('display', 'block');
+                if(result=="OK"){
+                    $('#infocard').css('display', 'block');
+                    //TREURE l'usuari d'aqui display none card?
+                }
+                else{
+
+                }
+            }
+        });
+        //alert(email);
+    }
+
+    $("#closeinfo").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#infocard').css('display', 'none');
+    });
+
+    $("#closeerror").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#errorcard').css('display', 'none');
     });

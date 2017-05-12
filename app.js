@@ -333,7 +333,25 @@ app.get('/get-people',requireLogin,(req, res)=>{
     });
 });
 
+app.post('/send-friend-request/:targetEmail',requireLogin,(req, res)=>{
+    var targetEmail = req.params.targetEmail;
+    db.sendRequest(user.email,targetEmail).then(function(){
+        res.send("OK");
+    });
+});
 
+/*MY FRIENDS*/
+app.get('/my-frinds-en',requireLogin, (req, res) => {     //////////////////////////////////// BULDING
+    res.render('./my-frinds/my-frinds-en.pug');
+});
+
+app.get('/my-frinds-es',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
+    res.render('./my-frinds/my-frinds-es.pug');
+});
+
+app.get('/my-frinds-en',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
+    res.render('./my-frinds/my-frinds-ca.pug');
+});
 
 
 
