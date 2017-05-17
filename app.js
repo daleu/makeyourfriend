@@ -223,7 +223,6 @@ app.get('/main-page-es',requireLogin, (req, res) => {   ////////////////////////
 
 /*MY PROFILE*/
 app.get('/profile-en',requireLogin, (req, res) => {
-    console.log(user);
     res.render('./profile/profile-en.pug',{user});
 });
 
@@ -384,7 +383,19 @@ app.post('/accept-request/:targetEmail',requireLogin,(req, res)=>{
     });
 });
 
+/*OTHER PROFILE*/
 
+app.get('/profile-out-en/:targetEmail',requireLogin, (req, res) => {
+    res.render('./profile-out/profile-out-en.pug',{user});
+});
+
+app.get('/profile-out-ca/:targetEmail',requireLogin, (req, res) => {
+    res.render('./profile-out/profile-out-ca.pug',{user});
+});
+
+app.get('/profile-out-es/:targetEmail',requireLogin, (req, res) => {
+    res.render('./profile-out/profile-out-es.pug',{user});
+});
 
 
 
