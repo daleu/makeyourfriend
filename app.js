@@ -10,6 +10,7 @@ const path = require('path');
 const fs = require('fs');
 
 var user;
+var fileUploaded = false;
 
 const db = new Neo4jApi();
 
@@ -36,10 +37,10 @@ var storagePost = multer.diskStorage({
             if (err) return cb(err);
             var description = req.body.description;
             var foto = "./uploadsPost/" + raw.toString('hex') + path.extname(file.originalname);
-            if(foto==null) foto = "nothing";
-            if(description == null) description = "nothing";
             var date = new Date();
             var dateInMilliseconds = date.getTime();
+            fileUploaded = true;
+            console.log("VAAAAAAAAAAAAAA\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
             db.newPost(user.email, description, foto, dateInMilliseconds).then(function(){
                 console.log("relation");
                 db.relationToNewPost(user.email,dateInMilliseconds);
@@ -272,7 +273,7 @@ app.get('/new-post-en',requireLogin, (req, res) => {     ///////////////////////
 });
 
 app.post('/post-story',uploadPost.single('image'), (req, res) => {
-    if(req.body.image != undefined){
+    if(!fileUploaded){
         console.log("BADBAD " + req.body.image);
         var description = req.body.description;
         var date = new Date();
@@ -280,9 +281,11 @@ app.post('/post-story',uploadPost.single('image'), (req, res) => {
         db.newPost(user.email, description, "nothing", dateInMilliseconds)
             .then(function(){
                 db.relationToNewPost(user.email,dateInMilliseconds).then(() => res.redirect("/main-page-en"));
+                fileUploaded = false;
             });
     }
     else{
+        fileUploaded = false;
         res.redirect("/main-page-en");
    }
 });
@@ -321,13 +324,13 @@ app.get('/search-people-en',requireLogin, (req, res) => {     //////////////////
 
 app.get('/get-people-by-name/:letters',requireLogin,(req, res)=>{
     var letters = req.params.letters;
-    db.getUsersByName(letters).then(function (users) {
+    db.getUsersByName(letters,user.email).then(function (users) {
         res.send(users);
     });
 });
 
 app.get('/get-people',requireLogin,(req, res)=>{
-    db.getAllUsers().then(function (users) {
+    db.getAllUsersPossible(user.email).then(function (users) {
         res.send(users);
     });
 });
@@ -386,7 +389,20 @@ app.post('/accept-request/:targetEmail',requireLogin,(req, res)=>{
 /*OTHER PROFILE*/
 
 app.get('/profile-out-en/:targetEmail',requireLogin, (req, res) => {
-    res.render('./profile-out/profile-out-en.pug',{user});
+    var email = req.params.targetEmail;
+    if(email==user.email) res.redirect("/profile-en");
+    else{
+        db.findUser(email).then(function(result){
+            var usuari = result[0];
+            db.getFriends(email).then(function(result2){
+                var friends = result2;
+                db.getMyStories(email).then(function(result3){
+                    var posts = result3;
+                    res.render('./profile-out/profile-out-en.pug',{usuari,friends,posts});
+                });
+            });
+        });
+    }
 });
 
 app.get('/profile-out-ca/:targetEmail',requireLogin, (req, res) => {

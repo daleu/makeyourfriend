@@ -48,6 +48,7 @@ body
                             li
                                 a(href='#') ENGLISH
     .container
+        - var count = 0;
         each post in posts
             .w3-card-4.w3-white
                 if(post.foto!='nothing')
@@ -72,14 +73,14 @@ style.
 
     .container div img{
         max-width: 320px;
-        display: block;
+        display: inline-block;
         margin: auto;
     }
 
     .container div{
-        vertical-align: middle;
+        vertical-align: top;
         max-width: 320px;
-        display: inline-block;
+        display: block;
         margin-left: 2.5%;
         margin-right: 2.5%;
         margin-bottom: 20px;

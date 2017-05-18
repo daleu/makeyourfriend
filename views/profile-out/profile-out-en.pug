@@ -61,24 +61,20 @@ body
                 .w3-container(style='margin-top:10px;')
                     .w3-row
                         .w3-col.l4.s12
-                            if user.foto != null
+                            if usuari.foto != null
                                 div#profileimg.circletag(style="background-size: cover;background-repeat: no-repeat;background-position: 50% 50%;background-image: url("+user.foto+")")
                             else
                                 img(src="/images/profile/profile-en.jpg")#profileimg.circletag
                         .w3-col.l8.s12
                             p
-                            h3(style='text-transform: uppercase;')= user.name + " " + user.surname
-                            h6(style='text-transform: uppercase;')= user.birthday
+                            h3(style='text-transform: uppercase;')= usuari.name + " " + usuari.surname
+                            h6(style='text-transform: uppercase;')= usuari.birthday
                             hr
                             h6(style='font-weight: bold !important;') ABOUT ME:
-                            if user.about != null
-                                p(style='text-transform: uppercase; word-wrap: break-word;')= user.about
+                            if usuari.about != null
+                                p(style='text-transform: uppercase; word-wrap: break-word;')= usuari.about
                             else
                                 p(style='text-transform: uppercase; color:silver;') YOU DO NOT HAVE A DESCRIPTION ABOUT YOU.
-                    form(action="/profile-edit-en")
-                        button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(style='margin-bottom: 15px;')
-                            span.fa.fa-pencil
-                            b &nbsp; &nbsp; EDIT PROFILE
             hr
             // Blog entry
             .w3-card-4.w3-margin.w3-white
@@ -111,11 +107,22 @@ body
                         b
                             span.fa.fa-users
                         | &nbsp; HIS FRIENDS
-                .w3-container(style='margin-top:10px;')
-                    p
-                        | Just me, myself and I, exploring the universe of uknownment. I have a heart of love and a interest of lorem ipsum and mauris neque quam blog. I want to share my world with you.
-                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(style='margin-bottom: 15px;')
-                        b SHOW MORE FRIENDS »
+                .w3-container#resultPeople
+                    each friend in friends
+                        a(href='/profile-out-en/' + friend.email)
+                            .w3-card-4.w3-white(style='cursor: pointer;')
+                                .w3-row
+                                    .w3-col.l3.s3
+                                        if(friend.foto == undefined)
+                                            img.circletag(src='/images/profile/profile-en.jpg')
+                                        else
+                                            img.circletag(src=friend.foto)
+                                    .w3-col.l7.s7.w3-center(style='margin-left: 20px;')
+                                        p
+                                        h5(style='text-transform: uppercase;')= friend.name + ' ' + friend.surname
+                                        h6(style='text-transform: uppercase;')= friend.birthday
+                    else
+                        p YOU DON'T HAVE FRIENDS, PLEASE GO TO SEARCH PEOPLE SECTION AND SEND REQUESTS TO HAVE FRIENDS! :)
     // END w3-content
 style.
     .circletag {

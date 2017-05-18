@@ -267,10 +267,11 @@ class Neo4jApi {
         return resp;
     }
 
-  getUsersByName(letters){
+  getUsersByName(letters,email){
       const session = this.driver.session();
 
-      var query = `MATCH (n) WHERE n.name =~ '.*`+letters+`.*' RETURN n`;
+      var query = `MATCH (n:USER), (u:USER {email:'`+email+`'}) WHERE n.name =~ '.*`+letters+`.*' AND n.email<>'`+email+`' AND NOT (u)-[:MY_FRIEND]->(n) AND NOT (u)-[:MY_REQUEST]->(n) RETURN n`;
+      //AND n.email!='`+email+`'
 
       console.log(query);
 
@@ -290,6 +291,29 @@ class Neo4jApi {
       return promise;
   }
 
+    getAllUsersPossible(email){
+        const session = this.driver.session();
+
+        var query = `MATCH (n:USER), (u:USER {email:'`+email+`'}) WHERE n.email<>'`+email+`' AND NOT (u)-[:MY_FRIEND]->(n) AND NOT (u)-[:MY_REQUEST]->(n) RETURN n`;
+        //AND n.email!='`+email+`'
+
+        console.log(query);
+
+        const promise = new Promise((resolve, reject) => {
+            session
+                .run(query)
+                .then((result) => {
+                    session.close();
+                    resolve(result.records
+                        .map(record => record._fields[0].properties));
+                })
+                .catch((error) => {
+                    session.close();
+                    reject(error);
+                });
+        });
+        return promise;
+    }
 
   findUser(email){
       const session = this.driver.session();
