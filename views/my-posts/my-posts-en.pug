@@ -47,21 +47,61 @@ body
                                 a(href='#') CASTELLANO
                             li
                                 a(href='#') ENGLISH
+    //FUNCTION TO PUT GOOD DATE
+    - function dateToYMD(date) {
+     -   var d = date.getDate();
+     -   var m = date.getMonth() + 1;
+     -   var y = date.getFullYear();
+     -   var h = date.getHours();
+     -   var min = date.getMinutes();
+     -   var s = date.getSeconds();
+     -   return (m <= 9 ? '0' + m : m) + '/' + (d <= 9 ? '0' + d : d) + '/' + y + " " + (h <= 9 ? '0' + h : h) + ":" + (min <= 9 ? '0' + min : min) + ":" + (s <= 9 ? '0' + s : s);
+    - }
+
     .container
-        - var count = 0;
-        each post in posts
-            .w3-card-4.w3-white
-                if(post.foto!='nothing')
-                    img(src= post.foto)
-                p(style="margin-left: 10px; margin-top: 10px;") BY &nbsp;
-                    b= user.name + ' ' + user.surname
-                    p(style="margin-left: 20px; margin-top: 10px; font-color: #434343;")= "ON " + new Date(post.date)
-                if(post.description!='nothing')
-                    .w3-container.w3-center(style="width: 95%")
-                        hr
-                        b DESCRIPTION
-                        p(style='word-wrap: break-word;text-align: left;')= post.description
-        else
+        div(style="width: 33%;display:inline-block;")
+            each post,index in posts
+                if(index % 3 == 0)
+                    .w3-card-4.w3-white
+                        if(post.foto != 'nothing')
+                            img(src= post.foto)
+                        p(style="margin-left: 10px; margin-top: 10px;") BY &nbsp;
+                            b= user.name + ' ' + user.surname
+                            p(style="margin-left: 20px; margin-top: 10px; font-color: #434343;")= "ON " + dateToYMD(new Date(post.date))
+                        if(post.description != 'nothing')
+                            .w3-container.w3-center(style="width: 95%")
+                                hr
+                                b DESCRIPTION
+                                p(style='word-wrap: break-word;text-align: left;')= post.description
+        div(style="width: 33%;display:inline-block;")
+            each post,index in posts
+                if(index % 3 == 1)
+                    .w3-card-4.w3-white
+                        if(post.foto != 'nothing')
+                            img(src= post.foto)
+                        p(style="margin-left: 10px; margin-top: 10px;") BY &nbsp;
+                            b= user.name + ' ' + user.surname
+                            p(style="margin-left: 20px; margin-top: 10px; font-color: #434343;")= "ON " + dateToYMD(new Date(post.date))
+                        if(post.description != 'nothing')
+                            .w3-container.w3-center(style="width: 95%")
+                                hr
+                                b DESCRIPTION
+                                p(style='word-wrap: break-word;text-align: left;')= post.description
+        div(style="width: 33%;display:inline-block;")
+            each post,index in posts
+                if(index%3==2)
+                    .w3-card-4.w3-white
+                        if(post.foto!='nothing')
+                            img(src= post.foto)
+                        p(style="margin-left: 10px; margin-top: 10px;") BY &nbsp;
+                            b= user.name + ' ' + user.surname
+                            p(style="margin-left: 20px; margin-top: 10px; font-color: #434343;")= "ON " + dateToYMD(new Date(post.date))
+                        if(post.description!='nothing')
+                            .w3-container.w3-center(style="width: 95%")
+                                hr
+                                b DESCRIPTION
+                                p(style='word-wrap: break-word;text-align: left;')= post.description
+        //else
             p There are no stories
 
 style.
@@ -72,7 +112,7 @@ style.
     }
 
     .container div img{
-        max-width: 320px;
+        max-width: 100%;
         display: inline-block;
         margin: auto;
     }
