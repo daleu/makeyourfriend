@@ -69,7 +69,7 @@ class Neo4jApi {
       return resp;
   }
 
-  newPost(email,description,foto, date){
+  newPost(email,description,foto, date, usuari){
       const session = this.driver.session();
 
       console.log("before neo4j");
@@ -79,11 +79,13 @@ class Neo4jApi {
             description: {description},
             foto: {foto},
             date: {date},
+            usuari: {usuari},
             uuid: {uuid}
             }) RETURN n.uuid`, {
               description,
               foto,
               date,
+              usuari,
               uuid: uuid(),
           });
 
@@ -142,6 +144,25 @@ class Neo4jApi {
       const promise = new Promise((resolve, reject) => {
           session
               .run(`MATCH (n:USER {email: "`+email+`"})-[:MY_POST]->(p:POST) RETURN p`)
+              .then((result) => {
+                  session.close();
+                  resolve(result.records
+                      .map(record => record._fields[0].properties));
+              })
+              .catch((error) => {
+                  session.close();
+                  reject(error);
+              });
+      });
+      return promise;
+  }
+
+  getFriendsPosts(email){
+      const session = this.driver.session();
+
+      const promise = new Promise((resolve, reject) => {
+          session
+              .run(`MATCH (n:USER {email: "`+email+`"})-[:MY_FRIEND]->(u:USER)-[:MY_POST]->(p:POST) RETURN p ORDER BY p.date`)
               .then((result) => {
                   session.close();
                   resolve(result.records

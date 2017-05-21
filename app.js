@@ -39,9 +39,10 @@ var storagePost = multer.diskStorage({
             var foto = "./uploadsPost/" + raw.toString('hex') + path.extname(file.originalname);
             var date = new Date();
             var dateInMilliseconds = date.getTime();
+            var usuari = user.name + " " + user.surname;
             fileUploaded = true;
             console.log("VAAAAAAAAAAAAAA\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-            db.newPost(user.email, description, foto, dateInMilliseconds).then(function(){
+            db.newPost(user.email, description, foto, dateInMilliseconds,usuari).then(function(){
                 console.log("relation");
                 db.relationToNewPost(user.email,dateInMilliseconds);
             });
@@ -278,7 +279,8 @@ app.post('/post-story',uploadPost.single('image'), (req, res) => {
         var description = req.body.description;
         var date = new Date();
         var dateInMilliseconds = date.getTime();
-        db.newPost(user.email, description, "nothing", dateInMilliseconds)
+        var usuari = user.name + " " + user.surname;
+        db.newPost(user.email, description, "nothing", dateInMilliseconds, usuari)
             .then(function(){
                 db.relationToNewPost(user.email,dateInMilliseconds).then(() => res.redirect("/main-page-en"));
                 fileUploaded = false;
@@ -411,6 +413,13 @@ app.get('/profile-out-ca/:targetEmail',requireLogin, (req, res) => {
 
 app.get('/profile-out-es/:targetEmail',requireLogin, (req, res) => {
     res.render('./profile-out/profile-out-es.pug',{user});
+});
+
+app.get('/timeline-en',requireLogin, (req, res) => {
+    db.getFriendsPosts(user.email).then(function(result3){
+        var posts = result3;
+        res.render('./timeline/timeline-en.pug',{posts});
+    });
 });
 
 
