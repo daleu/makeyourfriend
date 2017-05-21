@@ -13,7 +13,7 @@ class Neo4jApi {
     this.driver = neo4j.driver(url, neo4j.auth.basic(user, pass));
   }
 
-  createUser(name,surname,gender,birthday,email,about,password){
+  createUser(name,surname,gender,birthday,email,about,password,isadmin){
     const session = this.driver.session();
 
     const hash = crypto.createHash('sha256').update(password).digest('base64');
@@ -27,6 +27,7 @@ class Neo4jApi {
             birthday: {birthday},
             email: {email},
             about: {about},
+            isadmin: {isadmin},
             password: {hash},
             uuid: {uuid}
           })
@@ -37,6 +38,7 @@ class Neo4jApi {
           birthday,
           email,
           about,
+          isadmin,
           hash,
           uuid: uuid(),
         });

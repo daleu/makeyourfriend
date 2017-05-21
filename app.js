@@ -193,6 +193,8 @@ app.post('/register-en', (req, res) => {
     const name = req.body.name;
     const surname = req.body.surname;
     const gender = req.body.gender;
+    var isAdmin = req.body.isAdmin;
+    if(isAdmin==undefined) isAdmin = 'NO';
 
     //FORMAT TO STANDAR DATE
     var auxDate = req.body.birthday;
@@ -203,7 +205,7 @@ app.post('/register-en', (req, res) => {
     const about = req.body.about;
     const password = req.body.pass1;
 
-    db.createUser(name,surname,gender,birthday,email,about,password)
+    db.createUser(name,surname,gender,birthday,email,about,password,isAdmin)
         .then(() => res.redirect('/'))
         .catch(error => res.status(500).send(error));
 });
@@ -212,15 +214,15 @@ app.post('/register-en', (req, res) => {
 
 /*MAIN PAGE*/
 app.get('/main-page-en',requireLogin, (req, res) => {
-    res.render('./mainPage/main-page-en.pug');
+    res.render('./mainPage/main-page-en.pug',{user});
 });
 
 app.get('/main-page-ca',requireLogin, (req, res) => {   //////////////////////////////////// FALTA FER
-    res.render('./mainPage/main-page-ca.pug');
+    res.render('./mainPage/main-page-ca.pug',{user});
 });
 
 app.get('/main-page-es',requireLogin, (req, res) => {   //////////////////////////////////// FALTA FER
-    res.render('./mainPage/main-page-es.pug');
+    res.render('./mainPage/main-page-es.pug',{user});
 });
 
 /*MY PROFILE*/

@@ -118,6 +118,10 @@ body
                         input#pass2.w3-input.w3-border(type='password', name='pass2', placeholder="WRITE YOUR PASSWORD HERE AGAIN" required)
                     .col-sm-2
                         span#pass2span.fa.fa-eye.fa-2x(style='color: rgb(204, 204, 204);' onmouseover="onoverpass2();" onmouseout="onoutpass2();")
+                p
+                    label.w3-text
+                        b(style='text-decoration:underline;') IS ADMIN?
+                    input.w3-check(name='isAdmin' type='checkbox' value='YES')
             footer.w3-container
                 button#submitbutton.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; position:relative;') REGISTER   ❯
                 button#infobutton.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;position:relative;') INFORMATION
