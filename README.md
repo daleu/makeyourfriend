@@ -10,6 +10,3 @@ This sample shows how to bootstrap a sample [Neo4j](https://neo4j.org) project o
 4. Install dependencies: `npm install`
 5. Start your local express instance: `npm start`
 6. Launch: http://localhost:3000
-
-## License
-MIT
