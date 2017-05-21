@@ -48,6 +48,16 @@ body
                             li
                                 a(href='#') ENGLISH
     //CONTENT
+    //FUNCTION TO PUT GOOD DATE
+    - function dateToYMD(date) {
+    -   var d = date.getDate();
+    -   var m = date.getMonth() + 1;
+    -   var y = date.getFullYear();
+    -   var h = date.getHours();
+    -   var min = date.getMinutes();
+    -   var s = date.getSeconds();
+    -   return (m <= 9 ? '0' + m : m) + '/' + (d <= 9 ? '0' + d : d) + '/' + y + " " + (h <= 9 ? '0' + h : h) + ":" + (min <= 9 ? '0' + min : min) + ":" + (s <= 9 ? '0' + s : s);
+    - }
     .w3-row(style='margin-top:90px;')
         // Blog entries
         .w3-col.l8.s12
@@ -87,22 +97,38 @@ body
                         b
                             span.fa.fa-exchange
                         | &nbsp; LAST ACTIVITY
-                .w3-container
-                    p
-                        | Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at. Phasellus sed ultricies mi non congue ullam corper. Praesent tincidunt sed
-                        | tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.
-                    .w3-row
-                        .w3-col.m8.s12
-                            p
-                                button.w3-button.w3-padding-large.w3-white.w3-border
-                                    b READ MORE »
-                        .w3-col.m4.w3-hide-small
-                            p
-                                span.w3-padding-large.w3-right
-                                    b Comments  
-                                    span.w3-badge 2
-            // END BLOG ENTRIES
-        // Introduction menu
+                .w3-container(style="margin-top: 10px;")
+                    if(posts.length == 0)
+                        p He do not have posts.
+                    else
+                        div(style="width: 49%;display:inline-block;margin-bottom:20px;")
+                            each post,index in posts
+                                if(index % 2 == 0)
+                                    .post.w3-card-4.w3-white(style="position: relative;margin: 0 auto; margin-top: 10px;")
+                                        if(post.foto != 'nothing')
+                                            img(src='.' + post.foto)
+                                        p(style="margin-left: 10px; margin-top: 10px;") BY &nbsp;
+                                            b= user.name + ' ' + user.surname
+                                            p(style="margin-left: 20px; margin-top: 10px; font-color: #434343;")= "ON " + dateToYMD(new Date(post.date))
+                                        if(post.description != 'nothing')
+                                            .w3-container.w3-center(style="width: 95%")
+                                                hr
+                                                b DESCRIPTION
+                                                p(style='word-wrap: break-word;text-align: left;')= post.description
+                        div(style="width: 49%;display:inline-block;margin-bottom:10px;")
+                            each post,index in posts
+                                if(index % 2 == 1)
+                                    .post.w3-card-4.w3-white(style="position: relative;margin: 0 auto;margin-top: 10px;")
+                                        if(post.foto != 'nothing')
+                                            img(src='.' + post.foto)
+                                        p(style="margin-left: 10px; margin-top: 10px;") BY &nbsp;
+                                            b= user.name + ' ' + user.surname
+                                            p(style="margin-left: 20px; margin-top: 10px; font-color: #434343;")= "ON " + dateToYMD(new Date(post.date))
+                                        if(post.description != 'nothing')
+                                            .w3-container.w3-center(style="width: 95%")
+                                                hr
+                                                b DESCRIPTION
+                                                p(style='word-wrap: break-word;text-align: left;')= post.description
         .w3-col.l4
             // About Card
             .w3-card-2.w3-margin.w3-margin-top.w3-white
@@ -111,16 +137,78 @@ body
                         b
                             span.fa.fa-users
                         | &nbsp; MY FRIENDS
-                .w3-container(style='margin-top:10px;')
-                    p
-                        | Just me, myself and I, exploring the universe of uknownment. I have a heart of love and a interest of lorem ipsum and mauris neque quam blog. I want to share my world with you.
-                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(style='margin-bottom: 15px;')
-                        b SHOW MORE FRIENDS »
+                .w3-container#resultPeople
+                    each friend in friends
+                        a(href='/profile-out-en/' + friend.email)
+                            #friendcard.w3-card-4.w3-white(style='cursor: pointer;')
+                                .w3-row
+                                    .w3-col.l3.s3
+                                        if(friend.foto == undefined)
+                                            img.circletagfriend(src='/images/profile/profile-en.jpg')
+                                        else
+                                            img.circletagfriend(src=friend.foto)
+                                    .w3-col.l7.s7.w3-center(style='margin-left: 20px;')
+                                        p
+                                        h5(style='text-transform: uppercase;')= friend.name + ' ' + friend.surname
+                                        h6(style='text-transform: uppercase;')= friend.birthday
+                    else
+                        p You do not have friends.
     // END w3-content
 style.
+    h3{
+        font-family: 'Montserrat', sans-serif !important;
+    font-weight: bold;
+    }
+
+    /*RESPONSIVE TEXT*/
+    .container {
+        margin-top: 90px;
+        margin-bottom: 20px;
+    }
+
+    .w3-container div .post img {
+        max-width: 100%;
+    display: inline-block;
+    margin: auto;
+    }
+
+    .w3-container div .post {
+        vertical-align: top;
+        max-width: 400px;
+        display: block;
+        margin-left: 2.5%;
+    margin-right: 2.5%;
+    margin-bottom: 20px;
+    }
+
+    #friendcard{
+        vertical-align: middle;
+        width: 300px;
+        height: 150px;
+        display: inline-block;
+        margin-left: 2.5%;
+    margin-right: 2.5%;
+    margin-bottom: 20px;
+    }
+
+    .circletagfriend {
+        margin: 0 auto;
+    margin-bottom: 15px;
+        margin-top: 15px;
+        display: block;
+        width: 100px;
+        height: 100px;
+        background: #E6E7ED;
+        -moz-border-radius: 200px;
+        -webkit-border-radius: 200px;
+        background-position: 50% 50%;
+    background-repeat: no-repeat;
+    border: #2D95D2 solid 5px;
+    }
+
     .circletag {
         margin: 0 auto;
-        margin-bottom: 15px;
+    margin-bottom: 15px;
         margin-top: 15px;
         display: block;
         width: 200px;
@@ -129,11 +217,6 @@ style.
         -moz-border-radius: 200px;
         -webkit-border-radius: 200px;
         background-position: 50% 50%;
-        background-repeat: no-repeat;
-        border: #2D95D2 solid 8px;
-    }
-
-    h3{
-        font-family: 'Montserrat', sans-serif !important;
-        font-weight: bold;
+    background-repeat: no-repeat;
+    border: #2D95D2 solid 8px;
     }

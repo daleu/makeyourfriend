@@ -105,7 +105,8 @@ class Neo4jApi {
       console.log("Parametres " +
           email + " " + date);
 
-      var query = "MATCH (u:USER), (r:POST) WHERE u.email = '"+email+"' AND r.date = "+date+" CREATE (u)-[t:MY_POST]->(r) RETURN t";
+      var time = new Date().getTime();
+      var query = "MATCH (u:USER), (r:POST) WHERE u.email = '"+email+"' AND r.date = "+date+" CREATE (u)-[t:MY_POST {date:'"+time+"'}]->(r) RETURN t";
       console.log(query);
       const resp = session.run(query);
 
@@ -278,7 +279,8 @@ class Neo4jApi {
     createFriend(myemail,targetemail){
         const session = this.driver.session();
 
-        var query = "MATCH (u:USER {email:'"+myemail+"'}), (p:USER {email:'"+targetemail+"'}) CREATE (u)-[r:MY_FRIEND]->(p) RETURN r";
+        var time = new Date().getTime();
+        var query = "MATCH (u:USER {email:'"+myemail+"'}), (p:USER {email:'"+targetemail+"'}) CREATE (u)-[r:MY_FRIEND {date:'"+time+"'}]->(p) RETURN r";
 
         console.log(query);
 
@@ -356,6 +358,26 @@ class Neo4jApi {
     });
 
     return promise;
+  }
+
+  getLastActivity(email){
+      const session = this.driver.session();
+
+      const promise = new Promise((resolve, reject) => {
+          session
+              .run(`MATCH (u:USER)-[p:MY_POST]->(u1:POST) WHERE u.email = "` + email + `" RETURN p AS activity UNION MATCH (u:USER)-[p:MY_FRIEND]->(u1:USER) WHERE u.email = "` + email + `" RETURN p AS activity`)
+              .then((result) => {
+                  session.close();
+                  resolve(result.records
+                      .map(record => record._fields[0].properties));
+              })
+              .catch((error) => {
+                  session.close();
+                  reject(error);
+              });
+      });
+
+      return promise;
   }
 
   createNode(name) {

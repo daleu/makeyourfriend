@@ -227,7 +227,11 @@ app.get('/main-page-es',requireLogin, (req, res) => {   ////////////////////////
 
 /*MY PROFILE*/
 app.get('/profile-en',requireLogin, (req, res) => {
-    res.render('./profile/profile-en.pug',{user});
+    db.getFriends(user.email).then(function (friends) {
+        db.getMyStories(user.email).then(function(posts){
+            res.render('./profile/profile-en.pug',{user,friends,posts});
+        });
+    });
 });
 
 app.get('/profile-ca',requireLogin, (req, res) => {     //////////////////////////////////// FALTA FER
