@@ -14,12 +14,20 @@ This sample shows how to bootstrap a sample [Neo4j](https://neo4j.org) project o
 ### Run locally on Linux
 
 1. Download, setup and start a [Neo4j instance](https://neo4j.com/download/)
-2. Extract the contents of the archive, using: $tar -xf <filecode>. For example, $tar -xf neo4j-enterprise-2.3.1-unix.tar.gz
+2. Extract the contents of the archive, using: 
+```bash
+$tar -xf "filecode"
+```
+For example: 
+```bash
+$tar -xf neo4j-enterprise-2.3.1-unix.tar.gz
+```
 3. Go to the folder you extracted and run: 
 ```bash
 $ /bin/neo4j start
 ```
 to start a neo4j server.
+
 4.Clone this repository:
 ```bash
 $ git clone https://github.com/daleu/makeyourfriend.git
