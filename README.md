@@ -22,7 +22,7 @@ $ /bin/neo4j start
 to start a neo4j server
 4.Clone this repository:
 ```bash
-$ git clone ...
+$ git clone https://github.com/daleu/makeyourfriend.git
 ```
 5. Install Nodejs:
 ```bash
