@@ -19,7 +19,7 @@ This sample shows how to bootstrap a sample [Neo4j](https://neo4j.org) project o
 ```bash
 $ /bin/neo4j start
 ```
-to start a neo4j server
+to start a neo4j server.
 4.Clone this repository:
 ```bash
 $ git clone https://github.com/daleu/makeyourfriend.git
