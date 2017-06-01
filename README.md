@@ -2,6 +2,7 @@
 
 This sample shows how to bootstrap a sample [Neo4j](https://neo4j.org) project on [Heroku](https://heroku.com/) using [Node](https://nodejs.org/en/) and [Express](http://expressjs.com/).
 
+
 ### Run locally
 
 1. Download, setup and start a [Neo4j instance](https://neo4j.com/download/)
