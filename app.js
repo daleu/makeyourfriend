@@ -439,10 +439,7 @@ app.get('/timeline-es', requireLogin, (req, res) => {
 
 /*CREATE EVENT*/                                            //TODO
 app.get('/create-event-en', requireLogin, (req, res) => {             //DOING
-    db.getFriendsPosts(user.email).then((result3) => {
-        const posts = result3;
-        res.render('./timeline/create-event-en.pug', { posts });
-    });
+    res.render('./create-event/create-event-en.pug');
 });
 
 app.get('/create-event-es', requireLogin, (req, res) => {
@@ -457,6 +454,27 @@ app.get('/create-event-es', requireLogin, (req, res) => {
         const posts = result3;
         res.render('./timeline/create-event-es.pug', { posts });
     });
+});
+
+app.post('/create-event', requireLogin, (req, res) => {
+
+    const description = req.body.description;
+    const title = req.body.title;
+    const auxDate = req.body.birthday;
+
+    const parts = auxDate.split('/');
+    const birthday = `${parts[1]}/${parts[0]}/${parts[2]}`;
+
+    const date = new Date();
+    const dateInMilliseconds = date.getTime();
+
+    const usuari = `${user.name} ${user.surname}`;
+
+    db.newEvent(user.email, title, birthday, description, dateInMilliseconds, usuari)
+        .then(() => {
+            db.relationToNewEvent(user.email, dateInMilliseconds).then(() => res.redirect('/main-page-en'));
+            fileUploaded = false;
+        });
 });
 
 /*EVENT MANAGING*/                                          //TODO

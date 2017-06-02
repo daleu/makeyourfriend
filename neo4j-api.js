@@ -120,6 +120,50 @@ class Neo4jApi {
       return resp;
   }
 
+  newEvent(email,title, dateEvent,description, date, usuari){
+        const session = this.driver.session();
+
+        console.log("before neo4j");
+
+        const resp = session
+            .run(`CREATE (n:EVENT {
+            title: {title},
+            dateEvent: {dateEvent},
+            description: {description},
+            date: {date},
+            usuari: {usuari},
+            uuid: {uuid}
+            }) RETURN n.uuid`, {
+                title,
+                dateEvent,
+                description,
+                date,
+                usuari,
+                uuid: uuid()
+            });
+
+        resp.then(() => session.close())
+            .catch(()=> session.close());
+
+        console.log(resp);
+
+        return resp;
+    }
+
+    relationToNewEvent(email,date){
+        const session = this.driver.session();
+
+        var time = new Date().getTime();
+        var query = "MATCH (u:USER), (r:EVENT) WHERE u.email = '"+email+"' AND r.date = "+date+" CREATE (u)-[t:MY_EVENT {date:'"+time+"'}]->(r) RETURN t";
+
+        const resp = session.run(query);
+
+        resp.then(()=> session.close())
+            .catch(()=> session.close());
+
+        return resp;
+    }
+
   getAllUsers(){
       const session = this.driver.session();
 
