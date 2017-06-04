@@ -63,12 +63,15 @@ app.use('/js', express.static(`${__dirname}/public/js`));
 app.use('/js', express.static(`${__dirname}/node_modules/bootstrap/dist/js`));
 app.use('/js', express.static(`${__dirname}/node_modules/jquery/dist`)); // redirect JS jQuery
 app.use('/js', express.static(`${__dirname}/node_modules/jquery-validation/dist`));
+app.use('/js', express.static(`${__dirname}/node_modules/moment/min`));
+app.use('/js', express.static(`${__dirname}/node_modules/fullcalendar/dist`));
 app.use('/css', express.static(`${__dirname}/node_modules/bootstrap/dist/css`));
 app.use('/css', express.static(`${__dirname}/node_modules/w3-css`));
 app.use('/images', express.static(`${__dirname}/public/images`));
 app.use('/style', express.static(`${__dirname}/public/style`));
 app.use('/css', express.static(`${__dirname}/node_modules/font-awesome/css`));
 app.use('/fonts', express.static(`${__dirname}/node_modules/font-awesome/fonts`));
+app.use('/css',express.static(`${__dirname}/node_modules/fullcalendar/dist`));
 app.use('/uploadsProfile', express.static(`${__dirname}/uploadsProfile`));
 app.use('/uploadsPost', express.static(`${__dirname}/uploadsPost`));
 
@@ -438,7 +441,7 @@ app.get('/timeline-es', requireLogin, (req, res) => {
 });
 
 /*CREATE EVENT*/                                            //TODO
-app.get('/create-event-en', requireLogin, (req, res) => {             //DOING
+app.get('/create-event-en', requireLogin, (req, res) => {             //DONE
     res.render('./create-event/create-event-en.pug');
 });
 
@@ -480,10 +483,11 @@ app.post('/create-event', requireLogin, (req, res) => {
 /*EVENT MANAGING*/                                          //TODO
 
 app.get('/see-events-en', requireLogin, (req, res) => {
-    db.getFriendsPosts(user.email).then((result3) => {
+    res.render('./see-events/see-events-en.pug');
+    /*db.getFriendsPosts(user.email).then((result3) => {
         const posts = result3;
         res.render('./see-events/see-events-en.pug', { posts });
-    });
+    });*/
 });
 
 app.get('/see-events-es', requireLogin, (req, res) => {

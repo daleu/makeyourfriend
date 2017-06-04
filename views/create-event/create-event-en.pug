@@ -50,7 +50,7 @@ body
     .w3-display-topmiddle
         .w3-card-4(style='margin-top:90px; margin-bottom:50px; background-color: white;')
             header.w3-container
-                h1 CREATE POST
+                h1 CREATE EVENT
                     span.fa.fa-plus-circle(style='margin-left:10px;')
             form#registerform.w3-container(action="/create-event", method="post")
                 label.w3-text
@@ -60,11 +60,18 @@ body
                 input.w3-input.w3-border(type='text', style="text-transform:uppercase;",name='title', placeholder="WRITE THE TITLE OF THE EVENT" required)
                 p
                 label.w3-text
-                    b(style='text-decoration:underline;') DATE OF EVENT
+                    b(style='text-decoration:underline;') START EVENT TIME
                         sup
                             span.fa.fa-asterisk
                 p
-                input#datapicker.datepicker-here.w3-input.w3-border(type='text',name='birthday', data-language='en', placeholder="WRITE OR SELECT YOUR EVENT DATE. THE FORMAT NEEDS TO BE LIKE THIS EXAMPLE: 10/22/1995" required)
+                input#datapickerstart.datepicker-here.w3-input.w3-border(type='text',name='start', data-language='en', data-timepicker="true", placeholder="WRITE OR SELECT YOUR EVENT DATE. THE FORMAT NEEDS TO BE LIKE THIS EXAMPLE: 10/22/1995" required)
+                p
+                    label.w3-text
+                        b(style='text-decoration:underline;') END EVENT TIME
+                            sup
+                                span.fa.fa-asterisk
+                    p
+                    input#datapickerend.datepicker-here.w3-input.w3-border(type='text',name='end', data-language='en', data-timepicker="true", placeholder="WRITE OR SELECT YOUR EVENT DATE. THE FORMAT NEEDS TO BE LIKE THIS EXAMPLE: 10/22/1995" required)
                 p
                 label.w3-text
                     b(style='text-decoration:underline;') STORY DESCRIPTION
@@ -136,7 +143,10 @@ script.
         var form = $("#registerform");
         form.validate({
             rules: {
-                birthday: {
+                start: {
+                    isValidDate: true
+                },
+                end: {
                     isValidDate: true
                 }
             }
@@ -165,10 +175,12 @@ script.
 
             var dateString = $('#datapicker').val();
 
-            if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString)) return false;
+            var dateStringArray = dateString.split(" ");
+
+            if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateStringArray[0])) return false;
 
             //Get Date parts to Integer
-            var parts = dateString.split("/");
+            var parts = dateStringArray[0].split("/");
             var day = parseInt(parts[1], 10);
             var month = parseInt(parts[0], 10);
             var year = parseInt(parts[2], 10);
