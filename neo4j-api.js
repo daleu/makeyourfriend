@@ -234,7 +234,7 @@ class Neo4jApi {
 
         const promise = new Promise((resolve, reject) => {
             session
-                .run(`MATCH (n:USER {email: "`+email+`"})-[:MY_EVENT]->(p:EVENT) RETURN p`)
+                .run(`MATCH (n:USER {email: "`+email+`"})-[:MY_EVENT]->(p:EVENT) RETURN p AS EVENT UNION MATCH (y:USER {email: "`+email+`"})-[:ASSIST_EVENT]->(x:EVENT) RETURN x AS EVENT`)
                 .then((result) => {
                     session.close();
                     resolve(result.records
@@ -290,6 +290,28 @@ class Neo4jApi {
       return promise;
   }
 
+    getMyEventsInvitations(myemail){
+        const session = this.driver.session();
+
+        var query = "MATCH (p:EVENT)-[:EVENT_REQUEST]->(n:USER {email: '"+myemail+"'}) RETURN p";
+
+        console.log(query);
+
+        const promise = new Promise((resolve,reject) => {
+            session.run(query)
+                .then((result) => {
+                    session.close();
+                    resolve(result.records
+                        .map(record => record._fields[0].properties));
+                })
+                .catch((error) => {
+                    session.close();
+                    reject(error);
+                });
+        });
+
+        return promise;
+    }
     getFriendResquests(myemail){
         const session = this.driver.session();
 
@@ -379,11 +401,42 @@ class Neo4jApi {
         return resp;
     }
 
+    deleteRequestEvent(myemail,uuid){
+        const session = this.driver.session();
+
+        var query = "MATCH (u:EVENT {uuid:'"+uuid+"'})-[r:EVENT_REQUEST]->(p:USER {email:'"+myemail+"'}) DELETE r";
+
+        console.log(query);
+
+        const resp = session.run(query);
+
+        resp.then(()=> session.close())
+            .catch(()=> session.close());
+
+        return resp;
+    }
+
     createFriend(myemail,targetemail){
         const session = this.driver.session();
 
         var time = new Date().getTime();
         var query = "MATCH (u:USER {email:'"+myemail+"'}), (p:USER {email:'"+targetemail+"'}) CREATE (u)-[r:MY_FRIEND {date:'"+time+"'}]->(p) RETURN r";
+
+        console.log(query);
+
+        const resp = session.run(query);
+
+        resp.then(()=> session.close())
+            .catch(()=> session.close());
+
+        return resp;
+    }
+
+    createEventRelationship(myemail,uuid){
+        const session = this.driver.session();
+
+        var time = new Date().getTime();
+        var query = "MATCH (u:USER {email:'"+myemail+"'}), (p:EVENT {uuid:'"+uuid+"'}) CREATE (u)-[r:ASSIST_EVENT {date:'"+time+"'}]->(p) RETURN r";
 
         console.log(query);
 

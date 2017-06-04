@@ -522,8 +522,8 @@ app.get('/getevents', requireLogin, (req,res) =>{
 });
 
 app.get('/see-events-en', requireLogin, (req, res) => {
-    db.getMyEvents(user.email).then((events) => {
-        res.render('./see-events/see-events-en.pug', { events });
+    db.getMyEventsInvitations(user.email).then((invitations) => {
+        res.render('./see-events/see-events-en.pug', { invitations });
     });
 });
 
@@ -538,6 +538,15 @@ app.get('/see-events-ca', requireLogin, (req, res) => {
     db.getFriendsPosts(user.email).then((result3) => {
         const posts = result3;
         res.render('./see-events/see-events-ca.pug', { posts });
+    });
+});
+
+app.post('/accept-invitation/:uuid', requireLogin, (req, res) => {
+    const uuid = req.params.uuid;
+    db.deleteRequestEvent(user.email, uuid).then(() => {
+        db.createEventRelationship(user.email, uuid).then(() => {
+            res.send('OK');
+        });
     });
 });
 

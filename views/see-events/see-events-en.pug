@@ -63,14 +63,26 @@ body
         .w3-card-4(style='margin-bottom:50px; background-color: white;')
             header.w3-container
                 h1 EVENTS CALENDAR
-            #calendar(style='margin: auto;margin-top:20px; margin-bottom:20px; width:90%;display: block;')
+            #calendar(style='margin: auto;margin-top:20px; margin-bottom:20px; width:90%;')
             div(style='height:20px;')
 
     .container.w3-center#invitationsDisplay(style="margin-top:30px !important; display:none;")
         .w3-card-4(style='margin-bottom:50px; background-color: white;')
             header.w3-container
-                h1 INVITATIONS
-            #invitations(style='margin: auto;margin-top:20px; margin-bottom:20px; width:90%;display: block;')
+                h1 MY INVITATIONS
+            each invitation in invitations
+                .w3-card-4.w3-white(id=invitation.uuid, style="margin-top:30px;margin-left:30px;margin-right:30px;")
+                    .w3-row
+                        h3(style='text-transform: uppercase;')= invitation.title
+                        h6(style='text-transform: uppercase;')= "FROM "+invitation.start
+                        h6(style='text-transform: uppercase;')= "TO "+invitation.end
+                        p
+                        h6(style='text-transform: uppercase;')= "INVITED BY "+invitation.usuari
+                        button.w3-button.w3-padding-large.w3-black.w3-border(onclick="acceptInvitation('"+invitation.uuid+"')", style='margin-bottom: 15px; heigth: 40px;')
+                            span.fa.fa-pencil
+                            b     ACCEPT INVITATION
+            else
+                p(style="padding-top: 20px;") YOU DO NOT HAVE EVENTS TO ACCEPT
             div(style='height:20px;')
 
     #infobackground
@@ -135,7 +147,10 @@ script.
     };
 
     $(document).ready(function () {
+        refreshCalendar();
+    });
 
+    function refreshCalendar(){
         $.ajax({
             url: "/getevents", success: function (result) {
                 var events = [];
@@ -168,31 +183,56 @@ script.
 
 
                         $('#infobackground').css('display', 'block');
-                        $('#infocard').css('display', 'block');
+                        $('#infocard').css('display', 'inline-block');
                         /*alert('Event: ' + calEvent.title);
-                        alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-                        alert('View: ' + view.name);*/
+                         alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+                         alert('View: ' + view.name);*/
 
                         // change the border color just for fun
                         $(this).css('border-color', 'red');
-
                     }
                 });
             }
         });
-    });
+    }
 
     $("#myInvitations").click(function () {
         $("#myInvitations").removeClass("w3-black").addClass("w3-blue");
         $("#myCalendar").removeClass("w3-blue").addClass("w3-black");
+        $("#calendarDisplay").css("display", "none");
+        $("#invitationsDisplay").css("display", "block");
     });
 
     $("#myCalendar").click(function () {
         $("#myCalendar").removeClass("w3-black").addClass("w3-blue");
         $("#myInvitations").removeClass("w3-blue").addClass("w3-black");
+        $("#calendarDisplay").css("display","block");
+        $("#invitationsDisplay").css("display","none");
     });
 
     $("#closeinfo").click(function () {
         $('#infobackground').css('display', 'none');
         $('#infocard').css('display', 'none');
     });
+
+    function acceptInvitation(uuid) {
+        $('#spinnerbackground').css('display', 'block');
+        $('#spinner').css('display', 'block');
+        $.ajax({
+            method: "POST",
+            url: "/accept-invitation/" + uuid,
+            success: function (result) {
+                console.log(result);
+                $('#spinnerbackground').css('display', 'none');
+                $('#spinner').css('display', 'none');
+                if (result == "OK") {
+                    refreshCalendar();
+                    $('#'+uuid).css("display","none");
+                }
+                else {
+
+                }
+            }
+        });
+        //alert(email);
+    }
