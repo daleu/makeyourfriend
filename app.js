@@ -9,6 +9,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
+var lastUpload;
 var eventx;
 
 let user;
@@ -29,7 +30,7 @@ const storageProfile = multer.diskStorage({
       db.updateProfileImage(user.email, user.foto);
       cb(null, raw.toString('hex') + path.extname(file.originalname));
     });
-  },
+  }
 });
 
 const storagePost = multer.diskStorage({
@@ -37,24 +38,37 @@ const storagePost = multer.diskStorage({
   filename(req, file, cb) {
     crypto.pseudoRandomBytes(16, (err, raw) => {
       if (err) return cb(err);
-      const description = req.body.description;
+      lastUpload = `./uploadsPost/${raw.toString('hex')}${path.extname(file.originalname)}`;
+        fileUploaded = true;
+      /*const description = req.body.description;
+      console.log(description);
       const foto = `./uploadsPost/${raw.toString('hex')}${path.extname(file.originalname)}`;
       const date = new Date();
       const dateInMilliseconds = date.getTime();
       const usuari = `${user.name} ${user.surname}`;
       fileUploaded = true;
-      console.log('VAAAAAAAAAAAAAA\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n');
+      console.log('VAAAAAAAAAAAAAA');
       db.newPost(user.email, description, foto, dateInMilliseconds, usuari).then(() => {
         console.log('relation');
         db.relationToNewPost(user.email, dateInMilliseconds);
-      });
+      });*/
       cb(null, raw.toString('hex') + path.extname(file.originalname));
     });
-  },
+  }
 });
 
-const uploadProfile = multer({ storage: storageProfile });
-const uploadPost = multer({ storage: storagePost });
+var maxSize = 1 * 1000 * 1000*1000*1000;
+const uploadProfile = multer({
+    storage: storageProfile,
+    limits: { fileSize: maxSize }
+});
+const uploadPost = multer({
+    storage: storagePost,
+    limits: { fileSize: maxSize },
+    onFileUploaded: function(){
+
+    }
+}).single('image');
 
 const app = express();
 const port = process.env.PORT;
@@ -279,22 +293,29 @@ app.get('/new-post-en', requireLogin, (req, res) => {     // ///////////////////
   res.render('./new-post/new-post-ca.pug');
 });
 
-app.post('/post-story', uploadPost.single('image'), (req, res) => {
-  if (!fileUploaded) {
-    console.log(`BADBAD ${req.body.image}`);
-    const description = req.body.description;
-    const date = new Date();
-    const dateInMilliseconds = date.getTime();
-    const usuari = `${user.name} ${user.surname}`;
-    db.newPost(user.email, description, 'nothing', dateInMilliseconds, usuari)
-            .then(() => {
-              db.relationToNewPost(user.email, dateInMilliseconds).then(() => res.redirect('/main-page-en'));
-              fileUploaded = false;
-            });
-  } else {
-    fileUploaded = false;
-    res.redirect('/main-page-en');
-  }
+app.post('/post-story', requireLogin, (req, res) => {
+  uploadPost(req,res, function(err){
+      if(err){
+
+      }
+      else{
+          const description = req.body.description;
+          const date = new Date();
+          const dateInMilliseconds = date.getTime();
+          const usuari = `${user.name} ${user.surname}`;
+          if(fileUploaded===true){
+              db.newPost(user.email, description, lastUpload, dateInMilliseconds, usuari).then(() => {
+                  db.relationToNewPost(user.email, dateInMilliseconds);
+              });
+          }
+          else{
+              db.newPost(user.email, description, 'nothing', dateInMilliseconds, usuari).then(() => {
+                  db.relationToNewPost(user.email, dateInMilliseconds);
+              });
+          }
+      }
+      fileUploaded = false;
+  });
 });
 
 /* MY STORIES*/
@@ -391,6 +412,13 @@ app.post('/accept-request/:targetEmail', requireLogin, (req, res) => {
       });
     });
   });
+});
+
+app.post('/accept-request/:targetEmail', requireLogin, (req, res) => {
+    const targetEmail = req.params.targetEmail;
+    db.deleteRequest(user.email, targetEmail).then(() => {
+        res.send("OK");
+    });
 });
 
 /* OTHER PROFILE*/

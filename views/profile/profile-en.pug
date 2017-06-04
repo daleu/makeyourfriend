@@ -96,12 +96,12 @@ body
                     h3
                         b
                             span.fa.fa-exchange
-                        | &nbsp; LAST ACTIVITY
-                .w3-container(style="margin-top: 10px;")
+                        | &nbsp; MY POSTS
+                .w3-container.w3-center(style="margin-top: 10px;")
                     if(posts.length == 0)
                         p He do not have posts.
                     else
-                        div(style="width: 49%;display:inline-block;margin-bottom:20px;")
+                        .w3-col.l6
                             each post,index in posts
                                 if(index % 2 == 0)
                                     .post.w3-card-4.w3-white(style="position: relative;margin: 0 auto; margin-top: 10px;")
@@ -115,7 +115,7 @@ body
                                                 hr
                                                 b DESCRIPTION
                                                 p(style='word-wrap: break-word;text-align: left;')= post.description
-                        div(style="width: 49%;display:inline-block;margin-bottom:10px;")
+                        .w3-col.l6
                             each post,index in posts
                                 if(index % 2 == 1)
                                     .post.w3-card-4.w3-white(style="position: relative;margin: 0 auto;margin-top: 10px;")
@@ -137,7 +137,7 @@ body
                         b
                             span.fa.fa-users
                         | &nbsp; MY FRIENDS
-                .w3-container#resultPeople
+                .w3-container.w3-center#resultPeople(style="background-color: #EEFBDC")
                     each friend in friends
                         a(href='/profile-out-en/' + friend.email)
                             #friendcard.w3-card-4.w3-white(style='cursor: pointer;')
@@ -177,18 +177,19 @@ style.
         max-width: 400px;
         display: block;
         margin-left: 2.5%;
-    margin-right: 2.5%;
-    margin-bottom: 20px;
+        margin-right: 2.5%;
+        margin-bottom: 20px;
     }
 
     #friendcard{
         vertical-align: middle;
-        width: 300px;
+        width: 90%;
         height: 150px;
         display: inline-block;
         margin-left: 2.5%;
-    margin-right: 2.5%;
-    margin-bottom: 20px;
+        margin-right: 2.5%;
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 
     .circletagfriend {

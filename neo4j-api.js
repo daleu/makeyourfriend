@@ -94,8 +94,6 @@ class Neo4jApi {
       resp.then(() => session.close())
           .catch(()=> session.close());
 
-      console.log(resp);
-
       return resp;
   }
 
@@ -229,7 +227,7 @@ class Neo4jApi {
       return promise;
   }
 
-    getMyEvents(email){
+    getMyEvents(email)  {
         const session = this.driver.session();
 
         const promise = new Promise((resolve, reject) => {
