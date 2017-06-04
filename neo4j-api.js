@@ -120,7 +120,7 @@ class Neo4jApi {
       return resp;
   }
 
-  newEvent(email,title, dateEvent,description, date, usuari){
+  newEvent(email,title, start, end,place,description, date, usuari){
         const session = this.driver.session();
 
         console.log("before neo4j");
@@ -128,14 +128,18 @@ class Neo4jApi {
         const resp = session
             .run(`CREATE (n:EVENT {
             title: {title},
-            dateEvent: {dateEvent},
+            start: {start},
+            end: {end},
+            place: {place},
             description: {description},
             date: {date},
             usuari: {usuari},
             uuid: {uuid}
             }) RETURN n.uuid`, {
                 title,
-                dateEvent,
+                start,
+                end,
+                place,
                 description,
                 date,
                 usuari,
@@ -145,9 +149,30 @@ class Neo4jApi {
         resp.then(() => session.close())
             .catch(()=> session.close());
 
-        console.log(resp);
-
         return resp;
+    }
+
+    getEventByTime(date){
+        const session = this.driver.session();
+
+        console.log("wfasgpgjwofkwfop");
+
+        const promise = new Promise((resolve, reject) => {
+            session
+                .run(`
+            MATCH (n:EVENT) WHERE n.date = `+date+`
+            RETURN n`)
+                .then((result) => {
+                    session.close();
+                    resolve(result.records
+                        .map(record => record._fields[0].properties));
+                })
+                .catch((error) => {
+                    session.close();
+                    reject(error);
+                });
+        });
+        return promise;
     }
 
     relationToNewEvent(email,date){
@@ -203,6 +228,25 @@ class Neo4jApi {
       });
       return promise;
   }
+
+    getMyEvents(email){
+        const session = this.driver.session();
+
+        const promise = new Promise((resolve, reject) => {
+            session
+                .run(`MATCH (n:USER {email: "`+email+`"})-[:MY_EVENT]->(p:EVENT) RETURN p`)
+                .then((result) => {
+                    session.close();
+                    resolve(result.records
+                        .map(record => record._fields[0].properties));
+                })
+                .catch((error) => {
+                    session.close();
+                    reject(error);
+                });
+        });
+        return promise;
+    }
 
   getFriendsPosts(email){
       const session = this.driver.session();
@@ -304,6 +348,21 @@ class Neo4jApi {
 
       return resp;
   }
+
+    sendInvitation(uuidevent,targetemail){
+        const session = this.driver.session();
+
+        var query = "MATCH (u:EVENT {uuid:'"+uuidevent+"'}), (p:USER {email:'"+targetemail+"'}) CREATE (u)-[r:EVENT_REQUEST]->(p) RETURN r";
+
+        console.log(query);
+
+        const resp = session.run(query);
+
+        resp.then(()=> session.close())
+            .catch(()=> session.close());
+
+        return resp;
+    }
 
     deleteRequest(myemail,targetemail){
         const session = this.driver.session();

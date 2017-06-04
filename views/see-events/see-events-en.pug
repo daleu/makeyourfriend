@@ -50,33 +50,149 @@ body
                                 a(href='#') CASTELLANO
                             li
                                 a(href='#') ENGLISH
-    //FUNCTION TO PUT GOOD DATE
-    - function dateToYMD(date) {
-    -   var d = date.getDate();
-    -   var m = date.getMonth() + 1;
-    -   var y = date.getFullYear();
-    -   var h = date.getHours();
-    -   var min = date.getMinutes();
-    -   var s = date.getSeconds();
-    -   return (m <= 9 ? '0' + m : m) + '/' + (d <= 9 ? '0' + d : d) + '/' + y + " " + (h <= 9 ? '0' + h : h) + ":" + (min <= 9 ? '0' + min : min) + ":" + (s <= 9 ? '0' + s : s);
-    - }
+    .container.w3-center
+        .w3-row
+            button#myCalendar.w3-button.w3-padding-large.w3-blue.w3-border(style='margin-bottom: 15px; width: 290px;')
+                span.fa.fa-calendar
+                b &nbsp; &nbsp; MY CALENDAR
+            button#myInvitations.w3-button.w3-padding-large.w3-border.w3-black(style='margin-bottom: 15px;width: 290px;')
+                span.fa.fa-paper-plane
+                b &nbsp; &nbsp; MY INVITATIONS
 
-    .w3-display-topmiddle
-        .w3-card-4(style='margin-top:90px; margin-bottom:50px; background-color: white;')
+    .container.w3-center#calendarDisplay(style="margin-top:30px !important;")
+        .w3-card-4(style='margin-bottom:50px; background-color: white;')
             header.w3-container
                 h1 EVENTS CALENDAR
             #calendar(style='margin: auto;margin-top:20px; margin-bottom:20px; width:90%;display: block;')
             div(style='height:20px;')
 
+    .container.w3-center#invitationsDisplay(style="margin-top:30px !important; display:none;")
+        .w3-card-4(style='margin-bottom:50px; background-color: white;')
+            header.w3-container
+                h1 INVITATIONS
+            #invitations(style='margin: auto;margin-top:20px; margin-bottom:20px; width:90%;display: block;')
+            div(style='height:20px;')
+
+    #infobackground
+    #infocard.w3-display-middle
+        .w3-card-4(style='margin-top:75px !important; width: 700px !important;')
+            header.w3-container.w3-blue
+                h1 EVENT INFO
+                    span.fa.fa-info-circle(style='margin-left:10px;')
+            .w3-container(style="background-color: white;")
+                p
+                h4 TITLE:
+                p
+                p#title
+                p
+                h4 START DATE:
+                p
+                p#startdate
+                p
+                h4 END DATE:
+                p
+                p#enddate
+                p
+                h4 PLACE:
+                p
+                p#place
+                p
+                h4 DESCRIPTION:
+                p
+                p#description
+                p
+            footer.w3-container.w3-blue
+                button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
+style.
+
+    .container {
+        margin-top: 90px;
+        margin-bottom: 20px;
+    }
+
+    .w3-container div {
+        vertical-align: middle;
+        width: 300px;
+        height: 150px;
+        display: inline-block;
+        margin-left: 2.5%;
+        margin-right: 2.5%;
+        margin-bottom: 20px;
+    }
+
 script.
+
+    function dateToYMD(dat) {
+        var date = new Date(dat);
+        var d = date.getDate();
+        var m = date.getMonth() + 1;
+        var y = date.getFullYear();
+        var h = date.getHours();
+        var min = date.getMinutes();
+        var s = date.getSeconds();
+        return (m <= 9 ? '0' + m : m) + '/' + (d <= 9 ? '0' + d : d) + '/' + y + " " + (h <= 9 ? '0' + h : h) + ":" + (min <= 9 ? '0' + min : min);
+    };
+
     $(document).ready(function () {
 
-        // page is now ready, initialize the calendar...
+        $.ajax({
+            url: "/getevents", success: function (result) {
+                var events = [];
+                $(result).each(function (item) {
+                    var startDate = new Date(this.start);
+                    var endDate = new Date(this.end);
+                    events.push({
+                        start: startDate,
+                        end: endDate,
+                        title: this.title,
+                        place: this.place,
+                        description: this.description
+                    });
+                });
+                $('#calendar').fullCalendar({
+                    events: events,
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay,listWeek'
+                    },
+                    eventColor: "#37ab74",
+                    eventClick: function (calEvent, jsEvent, view) {
 
-        $('#calendar').fullCalendar({
-            // put your options and callbacks here
-        })
+                        $("#title").text(calEvent.title);
+                        $("#startdate").text(dateToYMD(calEvent.start));
+                        $("#enddate").text(dateToYMD(calEvent.end));
+                        $("#place").text(calEvent.place);
+                        $("#description").text(calEvent.description);
 
+
+                        $('#infobackground').css('display', 'block');
+                        $('#infocard').css('display', 'block');
+                        /*alert('Event: ' + calEvent.title);
+                        alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+                        alert('View: ' + view.name);*/
+
+                        // change the border color just for fun
+                        $(this).css('border-color', 'red');
+
+                    }
+                });
+            }
+        });
     });
 
-style.
+    $("#myInvitations").click(function () {
+        $("#myInvitations").removeClass("w3-black").addClass("w3-blue");
+        $("#myCalendar").removeClass("w3-blue").addClass("w3-black");
+    });
+
+    $("#myCalendar").click(function () {
+        $("#myCalendar").removeClass("w3-black").addClass("w3-blue");
+        $("#myInvitations").removeClass("w3-blue").addClass("w3-black");
+    });
+
+    $("#closeinfo").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#infocard').css('display', 'none');
+    });

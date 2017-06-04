@@ -74,6 +74,12 @@ body
                     input#datapickerend.datepicker-here.w3-input.w3-border(type='text',name='end', data-language='en', data-timepicker="true", placeholder="WRITE OR SELECT YOUR EVENT DATE. THE FORMAT NEEDS TO BE LIKE THIS EXAMPLE: 10/22/1995" required)
                 p
                 label.w3-text
+                    b(style='text-decoration:underline;') EVENT PLACE
+                        sup
+                            span.fa.fa-asterisk
+                input.w3-input.w3-border(type='text', style="text-transform:uppercase;",name='place', placeholder="WRITE THE TITLE OF THE EVENT" required)
+                p
+                label.w3-text
                     b(style='text-decoration:underline;') STORY DESCRIPTION
                 textarea.w3-input.w3-border(style='width:50vw; text-transform:uppercase;',name='description',placeholder="WRITE HERE WHAT YOU WANT TO TELL YOUR FRIENDS" required)
                 button#infobutton.w3-btn.w3-padding(type='button', style='margin-top:10px; margin-bottom:10px; float: left;position:relative;')
@@ -144,10 +150,10 @@ script.
         form.validate({
             rules: {
                 start: {
-                    isValidDate: true
+                    isValidDateStart: true
                 },
                 end: {
-                    isValidDate: true
+                    isValidDateEnd: true
                 }
             }
         });
@@ -170,12 +176,13 @@ script.
     });
 
     /*TEST VALID DATE*/
-    $.validator.addMethod("isValidDate",
+    $.validator.addMethod("isValidDateStart",
         function () {
 
-            var dateString = $('#datapicker').val();
+            var dateString = $('#datapickerstart').val();
 
             var dateStringArray = dateString.split(" ");
+
 
             if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateStringArray[0])) return false;
 
@@ -196,7 +203,56 @@ script.
             if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)) monthLenght[1] = 29;
 
             //Check day range
-            return day > 0 && day <= monthLenght[month - 1];
+            if(day <= 0 || day > monthLenght[month - 1]) return false;
+
+            if(dateStringArray[2]!= "PM" && dateStringArray[2]!= "AM" && dateStringArray[2]!= "am" && dateStringArray[2]!= "pm") return false;
+
+            var parts2 = dateStringArray[1].split(":");
+            var hour = parseInt(parts2[0]);
+            var minute = parseInt(parts2[1]);
+
+            return hour > 0 && hour <13 && minute >=0 && minute<60;
+        },
+        "Please enter a date in the format mm/dd/yyyy."
+    );
+
+    /*TEST VALID DATE*/
+    $.validator.addMethod("isValidDateEnd",
+        function () {
+
+            var dateString = $('#datapickerend').val();
+
+            var dateStringArray = dateString.split(" ");
+
+
+            if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateStringArray[0])) return false;
+
+            //Get Date parts to Integer
+            var parts = dateStringArray[0].split("/");
+            var day = parseInt(parts[1], 10);
+            var month = parseInt(parts[0], 10);
+            var year = parseInt(parts[2], 10);
+
+            //Check month and year ranges
+            var actualYear = new Date().getFullYear();
+            if (year < actualYear - 100 || year > actualYear || month <= 0 || month > 12) return false;
+
+            //Define month days
+            var monthLenght = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+            //Leap years
+            if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)) monthLenght[1] = 29;
+
+            //Check day range
+            if (day <= 0 || day > monthLenght[month - 1]) return false;
+
+            if (dateStringArray[2] != "PM" && dateStringArray[2] != "AM" && dateStringArray[2] != "am" && dateStringArray[2] != "pm") return false;
+
+            var parts2 = dateStringArray[1].split(":");
+            var hour = parseInt(parts2[0]);
+            var minute = parseInt(parts2[1]);
+
+            return hour > 0 && hour < 13 && minute >= 0 && minute < 60;
         },
         "Please enter a date in the format mm/dd/yyyy."
     );
