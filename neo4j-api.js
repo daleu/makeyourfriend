@@ -274,6 +274,25 @@ class Neo4jApi {
         return promise;
     }
 
+    getMyEventsOnly(email)  {
+        const session = this.driver.session();
+
+        const promise = new Promise((resolve, reject) => {
+            session
+                .run(`MATCH (n:USER {email: "`+email+`"})-[:MY_EVENT]->(p:EVENT) RETURN p AS EVENT`)
+                .then((result) => {
+                    session.close();
+                    resolve(result.records
+                        .map(record => record._fields[0].properties));
+                })
+                .catch((error) => {
+                    session.close();
+                    reject(error);
+                });
+        });
+        return promise;
+    }
+
   getFriendsPosts(email){
       const session = this.driver.session();
 
@@ -382,6 +401,30 @@ class Neo4jApi {
         return promise;
     }
 
+
+    getFriendsForEvent(myemail,event){
+        const session = this.driver.session();
+
+        var query = "MATCH (a:USER)-[:MY_FRIEND]->(:USER {email:'"+myemail+"'}) WHERE not ((a)--(:EVENT{uuid:'"+event+"'})) RETURN a;";
+       // var query = "MATCH (n:USER {email: '"+myemail+"'})-[:MY_FRIEND]->(p:USER) RETURN p";
+
+        console.log(query);
+
+        const promise = new Promise((resolve,reject) => {
+            session.run(query)
+                .then((result) => {
+                    session.close();
+                    resolve(result.records
+                        .map(record => record._fields[0].properties));
+                })
+                .catch((error) => {
+                    session.close();
+                    reject(error);
+                });
+        });
+
+        return promise;
+    }
   sendRequest(myemail,targetemail){
       const session = this.driver.session();
 
@@ -416,6 +459,21 @@ class Neo4jApi {
         const session = this.driver.session();
 
         var query = "MATCH (u:POST {uuid:'"+uuid+"'}) DETACH DELETE u";
+
+        console.log(query);
+
+        const resp = session.run(query);
+
+        resp.then(()=> session.close())
+            .catch(()=> session.close());
+
+        return resp;
+    }
+
+    deleteEvent(uuid){
+        const session = this.driver.session();
+
+        var query = "MATCH (u:EVENT {uuid:'"+uuid+"'}) DETACH DELETE u";
 
         console.log(query);
 

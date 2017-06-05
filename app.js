@@ -520,7 +520,7 @@ app.post('/create-event', requireLogin, (req, res) => {
         .then((resp) => {
             db.relationToNewEvent(user.email, dateInMilliseconds).then(() =>{
                 db.getEventByTime(dateInMilliseconds).then((response) =>{
-                    eventx = response[0];
+                    eventx = response[0].uuid;
                     res.redirect('/event-invitations-en');
                 });
             });
@@ -530,27 +530,34 @@ app.post('/create-event', requireLogin, (req, res) => {
 /*EVENT INVITATIONS*/
 
 app.get('/event-invitations-en',requireLogin, (req,res) =>{
-    db.getFriends(user.email).then((friends) => {
-        res.render('./event-invitations/event-invitations-en.pug', {eventx,friends});
+    db.getFriendsForEvent(user.email,eventx).then((friends) => {
+        res.render('./event-invitations/event-invitations-en.pug', {friends});
+    });
+});
+
+app.get('/event-invitations-en/:event',requireLogin, (req,res) =>{
+    eventx = req.params.event;
+    db.getFriendsForEvent(user.email,eventx).then((friends) => {
+        res.render('./event-invitations/event-invitations-en.pug', {friends});
     });
 });
 
 app.get('/event-invitations-es',requireLogin, (req,res) =>{
     db.getFriends(user.email).then((friends) => {
-        res.render('./event-invitations/event-invitations-es.pug', {eventx,friends});
+        res.render('./event-invitations/event-invitations-es.pug', {friends});
     });
 });
 
 app.get('/event-invitations-ca',requireLogin, (req,res) =>{
     db.getFriends(user.email).then((friends) => {
-        res.render('./event-invitations/event-invitations-ca.pug', {eventx,friends});
+        res.render('./event-invitations/event-invitations-ca.pug', {friends});
     });
 });
 
 app.post('/send-invitation/:targetEmail', requireLogin, (req, res) => {
     const targetEmail = req.params.targetEmail;
     console.log("here");
-    db.sendInvitation(eventx.uuid, targetEmail).then(() => {
+    db.sendInvitation(eventx, targetEmail).then(() => {
         res.send('OK');
     });
 });
@@ -565,21 +572,12 @@ app.get('/getevents', requireLogin, (req,res) =>{
 
 app.get('/see-events-en', requireLogin, (req, res) => {
     db.getMyEventsInvitations(user.email).then((invitations) => {
-        res.render('./see-events/see-events-en.pug', { invitations });
-    });
-});
-
-app.get('/see-events-es', requireLogin, (req, res) => {
-    db.getFriendsPosts(user.email).then((result3) => {
-        const posts = result3;
-        res.render('./see-events/see-events-es.pug', { posts });
-    });
-});
-
-app.get('/see-events-ca', requireLogin, (req, res) => {
-    db.getFriendsPosts(user.email).then((result3) => {
-        const posts = result3;
-        res.render('./see-events/see-events-ca.pug', { posts });
+        if(user.isadmin=='YES'){
+            db.getMyEventsOnly(user.email).then((events) => {
+                res.render('./see-events/see-events-en.pug', { invitations,events,user });
+            });
+        }
+        else res.render('./see-events/see-events-en.pug', { invitations,user });
     });
 });
 
@@ -589,6 +587,13 @@ app.post('/accept-invitation/:uuid', requireLogin, (req, res) => {
         db.createEventRelationship(user.email, uuid).then(() => {
             res.send('OK');
         });
+    });
+});
+
+app.post('/delete-event/:uuid', requireLogin, (req, res) => {
+    const uuid = req.params.uuid;
+    db.deleteEvent(uuid).then(() => {
+        res.send("OK");
     });
 });
 
@@ -636,7 +641,6 @@ app.post('/deletePost/:uuid', requireLogin, (req, res) => {
         res.send('OK');
     });
 });
-
 
 
 

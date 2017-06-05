@@ -50,7 +50,7 @@ body
 
     .w3-container#resultPeople(style='margin-top:90px; margin-bottom:50px;')
         each friend in friends
-            .w3-card-4.w3-white(style='cursor: pointer;')
+            .w3-card-4.w3-white(id="friend"+friend.uuid style='cursor: pointer;')
                 .w3-row
                     .w3-col.l3.s3
                         if(friend.foto == undefined)
@@ -61,7 +61,7 @@ body
                         p
                         h5(style='text-transform: uppercase;')= friend.name + ' ' + friend.surname
                         h6(style='text-transform: uppercase;')= friend.birthday
-                        button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(onclick='sendInvitation("'+friend.email+'")', style='margin-bottom: 15px; heigth: 40px;')
+                        button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(onclick='sendInvitation("'+friend.email+'","'+friend.uuid+'")', style='margin-bottom: 15px; heigth: 40px;')
                             span.fa.fa-pencil
                             b     SEND INVITATION
         else
@@ -160,7 +160,7 @@ script.
         }
     });
 
-    function sendInvitation(email) {
+    function sendInvitation(email,uuid) {
         $('#spinnerbackground').css('display', 'block');
         $('#spinner').css('display', 'block');
         $.ajax({
@@ -173,6 +173,7 @@ script.
                 $('#infobackground').css('display', 'block');
                 if(result=="OK"){
                     $('#infocard').css('display', 'block');
+                    $('#friend'+uuid).css('display', 'none');
                     //TREURE l'usuari d'aqui display none card?
                 }
                 else{

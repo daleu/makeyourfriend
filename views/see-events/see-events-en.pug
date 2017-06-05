@@ -52,6 +52,10 @@ body
                                 a(href='#') ENGLISH
     .container.w3-center
         .w3-row
+            if(user.isadmin == 'YES')
+                button#myEvents.w3-button.w3-padding-large.w3-black.w3-border(style='margin-bottom: 15px; width: 290px;')
+                    span.fa.fa-calendar
+                    b &nbsp; &nbsp; MY EVENTS
             button#myCalendar.w3-button.w3-padding-large.w3-blue.w3-border(style='margin-bottom: 15px; width: 290px;')
                 span.fa.fa-calendar
                 b &nbsp; &nbsp; MY CALENDAR
@@ -84,6 +88,28 @@ body
             else
                 p(style="padding-top: 20px;") YOU DO NOT HAVE EVENTS TO ACCEPT
             div(style='height:20px;')
+    if(user.isadmin == 'YES')
+        .container.w3-center#eventsDisplay(style="display:none; margin-top:30px !important;")
+            .w3-card-4(style='margin-bottom:50px; background-color: white;')
+                header.w3-container
+                    h1 MY EVENTS
+                each invitation in events
+                    .w3-card-4.w3-white(id="event"+invitation.uuid, style="margin-top:30px;margin-left:30px;margin-right:30px;")
+                        .w3-row
+                            h3(style='text-transform: uppercase;')= invitation.title
+                            h6(style='text-transform: uppercase;')= "FROM " + invitation.start
+                            h6(style='text-transform: uppercase;')= "TO " + invitation.end
+                            p
+                            form(action="/event-invitations-en/" + invitation.uuid)
+                                button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(style='margin-bottom: 15px; margin-right: 15px;')
+                                    span.fa.fa-pencil
+                                    b &nbsp; &nbsp; INVITE PEOPLE
+                            button.w3-button.w3-padding-large.w3-black.w3-border.w3-left(onclick="deleteEvent('" + invitation.uuid + "')", style='margin-bottom: 15px;margin-left: 15px; heigth: 40px;')
+                                span.fa.fa-pencil
+                                b     DELETE EVENT
+                else
+                    p(style="padding-top: 20px;") YOU DO NOT HAVE EVENTS TO INVITE PEOPLE
+                div(style='height:20px;')
 
     #infobackground
     #infocard.w3-display-middle(style="z-index: 10;")
@@ -199,16 +225,30 @@ script.
     $("#myInvitations").click(function () {
         $("#myInvitations").removeClass("w3-black").addClass("w3-blue");
         $("#myCalendar").removeClass("w3-blue").addClass("w3-black");
+        $("#myEvents").removeClass("w3-blue").addClass("w3-black");
         $("#calendarDisplay").css("display", "none");
         $("#invitationsDisplay").css("display", "block");
+        $("#eventsDisplay").css("display","none");
     });
 
     $("#myCalendar").click(function () {
         $("#myCalendar").removeClass("w3-black").addClass("w3-blue");
         $("#myInvitations").removeClass("w3-blue").addClass("w3-black");
+        $("#myEvents").removeClass("w3-blue").addClass("w3-black");
         $("#calendarDisplay").css("display","block");
         $("#invitationsDisplay").css("display","none");
+        $("#eventsDisplay").css("display","none");
     });
+
+    $("#myEvents").click(function () {
+        $("#myCalendar").removeClass("w3-blue").addClass("w3-black");
+        $("#myInvitations").removeClass("w3-blue").addClass("w3-black");
+        $("#myEvents").removeClass("w3-black").addClass("w3-blue");
+        $("#calendarDisplay").css("display", "none");
+        $("#invitationsDisplay").css("display", "none");
+        $("#eventsDisplay").css("display", "block");
+    });
+
 
     $("#closeinfo").click(function () {
         $('#infobackground').css('display', 'none');
@@ -228,6 +268,28 @@ script.
                 if (result == "OK") {
                     refreshCalendar();
                     $('#'+uuid).css("display","none");
+                }
+                else {
+
+                }
+            }
+        });
+        //alert(email);
+    }
+
+    function deleteEvent(uuid) {
+        $('#spinnerbackground').css('display', 'block');
+        $('#spinner').css('display', 'block');
+        $.ajax({
+            method: "POST",
+            url: "/delete-event/" + uuid,
+            success: function (result) {
+                console.log(result);
+                $('#spinnerbackground').css('display', 'none');
+                $('#spinner').css('display', 'none');
+                if (result == "OK") {
+                    refreshCalendar();
+                    $('#event' + uuid).css("display", "none");
                 }
                 else {
 
