@@ -97,6 +97,27 @@ class Neo4jApi {
       return resp;
   }
 
+  getIfFriend(target,myemail){
+      const session = this.driver.session();
+
+      var query = "MATCH (n:USER {email: '"+myemail+"'})-[r:MY_FRIEND]->(p:USER {email:'"+target+"'}) RETURN r";
+
+      const promise = new Promise((resolve,reject) => {
+          session.run(query)
+              .then((result) => {
+                  session.close();
+                  resolve(result.records
+                      .map(record => record._fields[0].properties));
+              })
+              .catch((error) => {
+                  session.close();
+                  reject(error);
+              });
+      });
+
+      return promise;
+  }
+
   relationToNewPost(email,date){
       const session = this.driver.session();
 
@@ -388,6 +409,21 @@ class Neo4jApi {
         const session = this.driver.session();
 
         var query = "MATCH (u:USER {email:'"+targetemail+"'})-[r:MY_REQUEST]->(p:USER {email:'"+myemail+"'}) DELETE r";
+
+        console.log(query);
+
+        const resp = session.run(query);
+
+        resp.then(()=> session.close())
+            .catch(()=> session.close());
+
+        return resp;
+    }
+
+    deleteFriend(myemail,targetemail){
+        const session = this.driver.session();
+
+        var query = "MATCH (u:USER {email:'"+targetemail+"'})-[r:MY_FRIEND]->(p:USER {email:'"+myemail+"'}) DELETE r";
 
         console.log(query);
 

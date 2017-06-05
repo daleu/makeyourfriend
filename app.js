@@ -434,11 +434,24 @@ app.get('/profile-out-en/:targetEmail', requireLogin, (req, res) => {
         const friends = result2;
         db.getMyStories(email).then((result3) => {
           const posts = result3;
-          res.render('./profile-out/profile-out-en.pug', { usuari, friends, posts });
+          db.getIfFriend(email,user.email).then((result4) => {
+              var isFriend = false;
+              if(result4[0]!=null) isFriend=true;
+              res.render('./profile-out/profile-out-en.pug', { usuari, friends, posts,isFriend});
+          });
         });
       });
     });
   }
+});
+
+app.post('/delete-friend/:targetEmail', requireLogin, (req, res) => {
+    const targetEmail = req.params.targetEmail;
+    db.deleteFriend(user.email, targetEmail).then(() => {
+        db.deleteFriend(targetEmail, user.email).then(() => {
+            res.send("OK");
+        });
+    });
 });
 
 app.get('/profile-out-ca/:targetEmail', requireLogin, (req, res) => {

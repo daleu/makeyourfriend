@@ -85,6 +85,10 @@ body
                                 p(style='text-transform: uppercase; word-wrap: break-word;')= usuari.about
                             else
                                 p(style='text-transform: uppercase; color:silver;') YOU DO NOT HAVE A DESCRIPTION ABOUT YOU.
+                    if(isFriend==true)
+                        button#deleteFriendButton.w3-button.w3-padding-large.w3-black.w3-border.w3-right(onclick='deleteFriend("'+usuari.email+'");', style='margin-bottom: 15px;')
+                            span.fa.fa-pencil
+                            b &nbsp; &nbsp; DELETE FRIEND
             hr
             // Blog entry
             .w3-card-4.w3-margin.w3-white
@@ -93,11 +97,11 @@ body
                         b
                             span.fa.fa-exchange
                         | &nbsp; LAST ACTIVITY
-                .w3-container(style="margin-top: 10px;")
+                .w3-container(style="margin-top: 10px; padding-bottom: 20px;")
                     if(posts.length==0)
                         p He do not have posts.
                     else
-                        div(style="width: 49%;display:inline-block;margin-bottom:20px;")
+                        .w3-col.l6
                             each post,index in posts
                                 if(index % 2 == 0)
                                     .post.w3-card-4.w3-white(style="position: relative;margin: 0 auto; margin-top: 10px;")
@@ -111,7 +115,7 @@ body
                                                 hr
                                                 b DESCRIPTION
                                                 p(style='word-wrap: break-word;text-align: left;')= post.description
-                        div(style="width: 49%;display:inline-block;margin-bottom:10px;")
+                        .w3-col.l6
                             each post,index in posts
                                 if(index % 2 == 1)
                                     .post.w3-card-4.w3-white(style="position: relative;margin: 0 auto;margin-top: 10px;")
@@ -182,7 +186,7 @@ style.
 
     #friendcard{
         vertical-align: middle;
-        width: 300px;
+        width: 90%;
         height: 150px;
         display: inline-block;
         margin-left: 2.5%;
@@ -219,3 +223,26 @@ style.
         background-repeat: no-repeat;
         border: #2D95D2 solid 8px;
     }
+
+script.
+    function deleteFriend(email) {
+        $('#spinnerbackground').css('display', 'block');
+        $('#spinner').css('display', 'block');
+        $.ajax({
+            method: "POST",
+            url: "/delete-friend/" + email,
+            success: function (result) {
+                console.log(result);
+                $('#spinnerbackground').css('display', 'none');
+                $('#spinner').css('display', 'none');
+                $('#infobackground').css('display', 'block');
+                if (result == "OK") {
+                    $('#infocard').css('display', 'block');
+                    $('#deleteFriendButton').css("display", "none");
+                }
+                else {
+                    //ERROR CARD
+                }
+            }
+        });
+    };
