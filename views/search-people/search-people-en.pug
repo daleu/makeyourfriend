@@ -81,8 +81,8 @@ style.
 
     .w3-container div {
         vertical-align: middle;
-        width: 300px;
-        height: 130px;
+        width: 500px;
+        height: 170px;
         display: inline-block;
         margin-left: 2.5%;
         margin-right: 2.5%;
@@ -123,8 +123,8 @@ script.
                     console.log(result);
                     /*$("#resultPeople").html(result);*/
                     $(result).each(function (item) {
-                        if (this.foto == null)append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button onClick="sendRequest(\''+this.email+'\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
-                        else append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="'+this.foto+'" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h3><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button onClick="sendRequest(\''+this.email+'\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
+                        if (this.foto == null)append += '<div id="'+this.uuid+'" style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button onClick="sendRequest(\''+this.email+'\',\''+this.uuid+'\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
+                        else append += '<div id="'+this.uuid+'" style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="'+this.foto+'" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h3><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button onClick="sendRequest(\''+this.email+'\',\''+this.uuid+'\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
                     });
                     $("#resultPeople").html(append);
                     $('#spinnerbackground').css('display', 'none');
@@ -138,8 +138,8 @@ script.
                     console.log(result);
                     /*$("#resultPeople").html(result);*/
                     $(result).each(function (item) {
-                        if (this.foto == null)append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button onClick="sendRequest(\''+this.email+'\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
-                        else append += '<div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">MY</h3><h6 style="text-transform: uppercase;">MYMY</h6><button onClick="sendRequest(\''+this.email+'\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
+                        if (this.foto == null)append += '<div id="'+this.uuid+'" style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button onClick="sendRequest(\''+this.email+'\',\''+this.uuid+'\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
+                        else append += '<div id="'+this.uuid+'" style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">MY</h3><h6 style="text-transform: uppercase;">MYMY</h6><button onClick="sendRequest(\''+this.email+'\',\''+this.uuid+'\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-pencil"></span><b>&nbsp; &nbsp; ADD FRIEND</b></button></div></div></div>';
                     });
                     $("#resultPeople").html(append);
                     $('#spinnerbackground').css('display', 'none');
@@ -149,7 +149,7 @@ script.
         }
     });
 
-    function sendRequest(email) {
+    function sendRequest(email,uuid) {
         $('#spinnerbackground').css('display', 'block');
         $('#spinner').css('display', 'block');
         $.ajax({
@@ -162,7 +162,7 @@ script.
                 $('#infobackground').css('display', 'block');
                 if(result=="OK"){
                     $('#infocard').css('display', 'block');
-                    //TREURE l'usuari d'aqui display none card?
+                    $('#'+uuid).css('display', 'none');
                 }
                 else{
 
