@@ -113,8 +113,24 @@ body
                                         if(post.description != 'nothing')
                                             .w3-container.w3-center(style="width: 95%")
                                                 hr
-                                                b DESCRIPTION
+                                                b DESCRIPTION:
                                                 p(style='word-wrap: break-word;text-align: left;')= post.description
+                                                p LIKES:
+                                                p(id="likes"+post.uuid)= post.likes.low
+                                                if(post.liked.low == 0)
+                                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="like" + post.uuid onclick='like("' + post.uuid + '");', style='margin-bottom: 15px;')
+                                                        span.fa.fa-pencil
+                                                        b &nbsp; &nbsp; LIKE
+                                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style='margin-bottom: 15px; display:none;')
+                                                        span.fa.fa-pencil
+                                                        b &nbsp; &nbsp; DISLIKE
+                                                else
+                                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="like" + post.uuid onclick='like("' + post.uuid + '");', style='margin-bottom: 15px;display:none;')
+                                                        span.fa.fa-pencil
+                                                        b &nbsp; &nbsp; LIKE
+                                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style='margin-bottom: 15px;')
+                                                        span.fa.fa-pencil
+                                                        b &nbsp; &nbsp; DISLIKE
                         .w3-col.l6
                             each post,index in posts
                                 if(index % 2 == 1)
@@ -127,8 +143,24 @@ body
                                         if(post.description != 'nothing')
                                             .w3-container.w3-center(style="width: 95%")
                                                 hr
-                                                b DESCRIPTION
+                                                b DESCRIPTION:
                                                 p(style='word-wrap: break-word;text-align: left;')= post.description
+                                                p LIKES:
+                                                p(id="likes" + post.uuid)= post.likes.low
+                                                if(post.liked.low == 0)
+                                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="like" + post.uuid onclick='like("' + post.uuid + '");', style='margin-bottom: 15px;')
+                                                        span.fa.fa-pencil
+                                                        b &nbsp; &nbsp; LIKE
+                                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style='margin-bottom: 15px; display:none;')
+                                                        span.fa.fa-pencil
+                                                        b &nbsp; &nbsp; DISLIKE
+                                                else
+                                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="like" + post.uuid onclick='like("' + post.uuid + '");', style='margin-bottom: 15px;display:none;')
+                                                        span.fa.fa-pencil
+                                                        b &nbsp; &nbsp; LIKE
+                                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style='margin-bottom: 15px;')
+                                                        span.fa.fa-pencil
+                                                        b &nbsp; &nbsp; DISLIKE
         .w3-col.l4
             // About Card
             .w3-card-2.w3-margin.w3-margin-top.w3-white
@@ -221,3 +253,51 @@ style.
     background-repeat: no-repeat;
     border: #2D95D2 solid 8px;
     }
+
+script.
+
+    function dislike(uuid) {
+        $('#spinnerbackground').css('display', 'block');
+        $('#spinner').css('display', 'block');
+        $.ajax({
+            method: "POST",
+            url: "/unlike/" + uuid,
+            success: function (result) {
+                console.log(result);
+                $('#spinnerbackground').css('display', 'none');
+                $('#spinner').css('display', 'none');
+                if (result == "OK") {
+                    var mb = $('#likes'+uuid).text();
+                    $('#likes'+uuid).text(parseInt(mb)-1);
+                    $('#like'+uuid).css("display", "block");
+                    $('#dislike'+uuid).css("display", "none");
+                }
+                else {
+                    //ERROR CARD
+                }
+            }
+        });
+    };
+
+    function like(uuid) {
+        $('#spinnerbackground').css('display', 'block');
+        $('#spinner').css('display', 'block');
+        $.ajax({
+            method: "POST",
+            url: "/like/" + uuid,
+            success: function (result) {
+                console.log(result);
+                $('#spinnerbackground').css('display', 'none');
+                $('#spinner').css('display', 'none');
+                if (result == "OK") {
+                    var mb = $('#likes' + uuid).text();
+                    $('#likes' + uuid).text(parseInt(mb) + 1);
+                    $('#like' + uuid).css("display", "none");
+                    $('#dislike' + uuid).css("display", "block");
+                }
+                else {
+                    //ERROR CARD
+                }
+            }
+        });
+    };

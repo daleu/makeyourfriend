@@ -229,12 +229,19 @@ class Neo4jApi {
       return promise;
   }
 
-  getMyStories(email){
+  getMyStories(email,myemail){
       const session = this.driver.session();
+
+      var query = `MATCH (n:USER {email: "`+email+`"})-[:MY_POST]->(p:POST), (r:USER {email: "`+myemail+`"})
+              SET p.likes = SIZE(()-[:LIKE]->(p))
+              SET p.liked = SIZE((r)-[:LIKE]->(p))
+              RETURN p`;
+
+      console.log(query);
 
       const promise = new Promise((resolve, reject) => {
           session
-              .run(`MATCH (n:USER {email: "`+email+`"})-[:MY_POST]->(p:POST) RETURN p`)
+              .run(query)
               .then((result) => {
                   session.close();
                   resolve(result.records
@@ -389,6 +396,36 @@ class Neo4jApi {
 
       return resp;
   }
+
+    like(myemail,uuid){
+        const session = this.driver.session();
+
+        var query = "MATCH (u:USER {email:'"+myemail+"'}), (p:POST {uuid:'"+uuid+"'}) CREATE (u)-[r:LIKE]->(p) RETURN r";
+
+        console.log(query);
+
+        const resp = session.run(query);
+
+        resp.then(()=> session.close())
+            .catch(()=> session.close());
+
+        return resp;
+    }
+
+    unlike(myemail,uuid){
+        const session = this.driver.session();
+
+        var query = "MATCH (u:USER {email:'"+myemail+"'})-[r:LIKE]->(p:POST {uuid:'"+uuid+"'}) DELETE r";
+
+        console.log(query);
+
+        const resp = session.run(query);
+
+        resp.then(()=> session.close())
+            .catch(()=> session.close());
+
+        return resp;
+    }
 
     sendInvitation(uuidevent,targetemail){
         const session = this.driver.session();

@@ -242,7 +242,7 @@ app.get('/main-page-es', requireLogin, (req, res) => {   // ////////////////////
 /* MY PROFILE*/
 app.get('/profile-en', requireLogin, (req, res) => {
   db.getFriends(user.email).then((friends) => {
-    db.getMyStories(user.email).then((posts) => {
+    db.getMyStories(user.email,user.email).then((posts) => {
       res.render('./profile/profile-en.pug', { user, friends, posts });
     });
   });
@@ -321,19 +321,19 @@ app.post('/post-story', requireLogin, (req, res) => {
 
 /* MY STORIES*/
 app.get('/my-posts-en', requireLogin, (req, res) => {     // ////////////////////////////////// BULDING
-  db.getMyStories(user.email).then((posts) => {
+  db.getMyStories(user.email,user.email).then((posts) => {
     res.render('./my-posts/my-posts-en.pug', { posts, user });
   });
 });
 
 app.get('/my-posts-es', requireLogin, (req, res) => {     // ////////////////////////////////// FALTA FER
-  db.getMyStories(user.email).then((posts) => {
+  db.getMyStories(user.email,user.email).then((posts) => {
     res.render('./my-posts/my-posts-es.pug', { posts, user });
   });
 });
 
 app.get('/my-posts-ca', requireLogin, (req, res) => {     // ////////////////////////////////// FALTA FER
-  db.getMyStories(user.email).then((posts) => {
+  db.getMyStories(user.email,user.email).then((posts) => {
     res.render('./my-posts/my-posts-ca.pug', { posts, user });
   });
 });
@@ -432,7 +432,7 @@ app.get('/profile-out-en/:targetEmail', requireLogin, (req, res) => {
       const usuari = result[0];
       db.getFriends(email).then((result2) => {
         const friends = result2;
-        db.getMyStories(email).then((result3) => {
+        db.getMyStories(email,user.email).then((result3) => {
           const posts = result3;
           db.getIfFriend(email,user.email).then((result4) => {
               var isFriend = false;
@@ -612,6 +612,21 @@ app.get('/admin-console-es', requireLogin, (req, res) => {
     db.getFriendsPosts(user.email).then((result3) => {
         const posts = result3;
         res.render('./admin-console/admin-console-es.pug', { posts });
+    });
+});
+
+/*LIKE/UNLIKE*/
+app.post('/like/:uuid', requireLogin, (req, res) => {
+    const uuid = req.params.uuid;
+    db.like(user.email, uuid).then(() => {
+        res.send('OK');
+    });
+});
+
+app.post('/unlike/:uuid', requireLogin, (req, res) => {
+    const uuid = req.params.uuid;
+    db.unlike(user.email, uuid).then(() => {
+        res.send('OK');
     });
 });
 
