@@ -72,7 +72,7 @@ body
                     .w3-row
                         .w3-col.l4.s12(style="")
                             if usuari.foto != null
-                                div#profileimg.circletag(style="background-size: cover;background-repeat: no-repeat;background-position: 50% 50%;background-image: url("+user.foto+")")
+                                div#profileimg.circletag(style="background-size: cover;background-repeat: no-repeat;background-position: 50% 50%;background-image: url(/"+usuari.foto+")")
                             else
                                 img(src="/images/profile/profile-en.jpg")#profileimg.circletag
                         .w3-col.l8.s12
@@ -141,10 +141,10 @@ body
                             #friendcard.w3-card-4.w3-white(style='cursor: pointer;')
                                 .w3-row
                                     .w3-col.l3.s3
-                                        if(friend.foto == undefined)
-                                            img.circletagfriend(src='/images/profile/profile-en.jpg')
+                                        if(friend.foto != null)
+                                            img.circletagfriend(style="background-size: cover;background-repeat: no-repeat;background-position: 50% 50%;background-image: url(/"+friend.foto+")")
                                         else
-                                            img.circletagfriend(src=friend.foto)
+                                            img.circletagfriend(src='/images/profile/profile-en.jpg')
                                     .w3-col.l7.s7.w3-center(style='margin-left: 20px;')
                                         p
                                         h5(style='text-transform: uppercase;')= friend.name + ' ' + friend.surname

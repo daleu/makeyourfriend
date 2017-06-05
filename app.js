@@ -313,6 +313,7 @@ app.post('/post-story', requireLogin, (req, res) => {
                   db.relationToNewPost(user.email, dateInMilliseconds);
               });
           }
+          res.redirect('/main-page-en');
       }
       fileUploaded = false;
   });
@@ -414,7 +415,7 @@ app.post('/accept-request/:targetEmail', requireLogin, (req, res) => {
   });
 });
 
-app.post('/accept-request/:targetEmail', requireLogin, (req, res) => {
+app.post('/decline-request/:targetEmail', requireLogin, (req, res) => {
     const targetEmail = req.params.targetEmail;
     db.deleteRequest(user.email, targetEmail).then(() => {
         res.send("OK");

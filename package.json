@@ -10,6 +10,10 @@
   "license": "MIT",
   "repository": "git@github.com:visby/neo4j-express-heroku-sample.git",
   "dependencies": {
+    "angular": "^1.6.4",
+    "angular-animate": "^1.6.4",
+    "angular-aria": "^1.6.4",
+    "angular-material": "^1.1.4",
     "blueimp-file-upload-node": "^2.1.0",
     "body-parser": "^1.15.2",
     "bootstrap": "3.3.7",

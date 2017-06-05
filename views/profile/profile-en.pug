@@ -146,7 +146,7 @@ body
                                         if(friend.foto == undefined)
                                             img.circletagfriend(src='/images/profile/profile-en.jpg')
                                         else
-                                            img.circletagfriend(src=friend.foto)
+                                            div.circletagfriend(style="background-size: cover;background-repeat: no-repeat;background-position: 50% 50%;background-image: url(/"+friend.foto+")")
                                     .w3-col.l7.s7.w3-center(style='margin-left: 20px;')
                                         p
                                         h5(style='text-transform: uppercase;')= friend.name + ' ' + friend.surname
