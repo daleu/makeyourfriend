@@ -104,7 +104,7 @@ body
                         .w3-col.l6
                             each post,index in posts
                                 if(index % 2 == 0)
-                                    .post.w3-card-4.w3-white(style="position: relative;margin: 0 auto; margin-top: 10px;")
+                                    .post.w3-card-4.w3-white(id="delete" + post.uuid style="position: relative;margin: 0 auto; margin-top: 10px;")
                                         if(post.foto != 'nothing')
                                             img(src='.' + post.foto)
                                         p(style="margin-left: 10px; margin-top: 10px;") BY &nbsp;
@@ -131,10 +131,13 @@ body
                                                     button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style='margin-bottom: 15px;')
                                                         span.fa.fa-pencil
                                                         b &nbsp; &nbsp; DISLIKE
+                                                button.w3-button.w3-padding-large.w3-black.w3-border.w3-left(onclick='deletePost("' + post.uuid + '");', style='margin-bottom: 15px;')
+                                                    span.fa.fa-pencil
+                                                    b &nbsp; &nbsp; DELETE POST
                         .w3-col.l6
                             each post,index in posts
                                 if(index % 2 == 1)
-                                    .post.w3-card-4.w3-white(style="position: relative;margin: 0 auto;margin-top: 10px;")
+                                    .post.w3-card-4.w3-white(id="delete" + post.uuid style="position: relative;margin: 0 auto;margin-top: 10px;")
                                         if(post.foto != 'nothing')
                                             img(src='.' + post.foto)
                                         p(style="margin-left: 10px; margin-top: 10px;") BY &nbsp;
@@ -161,6 +164,9 @@ body
                                                     button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style='margin-bottom: 15px;')
                                                         span.fa.fa-pencil
                                                         b &nbsp; &nbsp; DISLIKE
+                                                button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(onclick='deletePost("' + post.uuid + '");', style='margin-bottom: 15px;')
+                                                    span.fa.fa-pencil
+                                                    b &nbsp; &nbsp; DELETE POST
         .w3-col.l4
             // About Card
             .w3-card-2.w3-margin.w3-margin-top.w3-white
@@ -294,6 +300,26 @@ script.
                     $('#likes' + uuid).text(parseInt(mb) + 1);
                     $('#like' + uuid).css("display", "none");
                     $('#dislike' + uuid).css("display", "block");
+                }
+                else {
+                    //ERROR CARD
+                }
+            }
+        });
+    };
+
+    function deletePost(uuid) {
+        $('#spinnerbackground').css('display', 'block');
+        $('#spinner').css('display', 'block');
+        $.ajax({
+            method: "POST",
+            url: "/deletePost/" + uuid,
+            success: function (result) {
+                console.log(result);
+                $('#spinnerbackground').css('display', 'none');
+                $('#spinner').css('display', 'none');
+                if (result == "OK") {
+                    $('#delete' + uuid).css("display", "none");
                 }
                 else {
                     //ERROR CARD

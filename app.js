@@ -615,7 +615,7 @@ app.get('/admin-console-es', requireLogin, (req, res) => {
     });
 });
 
-/*LIKE/UNLIKE*/
+/*LIKE/UNLIKE/DELETE POST*/
 app.post('/like/:uuid', requireLogin, (req, res) => {
     const uuid = req.params.uuid;
     db.like(user.email, uuid).then(() => {
@@ -626,6 +626,13 @@ app.post('/like/:uuid', requireLogin, (req, res) => {
 app.post('/unlike/:uuid', requireLogin, (req, res) => {
     const uuid = req.params.uuid;
     db.unlike(user.email, uuid).then(() => {
+        res.send('OK');
+    });
+});
+
+app.post('/deletePost/:uuid', requireLogin, (req, res) => {
+    const uuid = req.params.uuid;
+    db.deletePost(uuid).then(() => {
         res.send('OK');
     });
 });

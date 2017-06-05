@@ -412,6 +412,21 @@ class Neo4jApi {
         return resp;
     }
 
+    deletePost(uuid){
+        const session = this.driver.session();
+
+        var query = "MATCH (u:POST {uuid:'"+uuid+"'}) DETACH DELETE u";
+
+        console.log(query);
+
+        const resp = session.run(query);
+
+        resp.then(()=> session.close())
+            .catch(()=> session.close());
+
+        return resp;
+    }
+
     unlike(myemail,uuid){
         const session = this.driver.session();
 
