@@ -10,6 +10,24 @@ body{
     text-transform:uppercase;
 }
 
+#floatingbutton{
+    position:fixed;
+    right:    40px;
+    bottom:   40px;
+    height: 100px;
+    width: 100px;
+    text-align: center;
+    font-size: 23px;
+}
+
+#floatingbutton:hover{
+    text-decoration: none;
+}
+
+#floatingbutton p{
+    padding-top: 20px;
+}
+
 .topbar{
     height:70px;
     background-color: #25DA7E;

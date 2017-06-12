@@ -9,11 +9,14 @@ head
     link(rel='stylesheet', href='/css/w3.css')
     link(rel='stylesheet', href='/style/datepicker.min.css')
     link(rel='stylesheet', href='/css/font-awesome.min.css')
+    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     script(src='/js/jquery.min.js')
     script(src='/js/datepicker.min.js')
     script(src='/js/datepicker.en.js')
     script(src='/js/bootstrap.min.js')
     script(src='/js/jquery.validate.min.js')
+    script(type='text/javascript', src='js/materialize.min.js')
     style.
         @media only screen and (max-width: 450px) {
             /* -- If the view port is less than 350px wide (portrait on phone) then display the following styles -- */
@@ -181,6 +184,9 @@ body
             footer.w3-container.w3-red
                 button#closeerror.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
                     span.fa.fa-close(style='margin-left:10px;')
+    a#floatingbutton.btn-floating.btn-large.waves-effect.waves-light
+        p INFO
+            span.fa.fa-info-circle(style='margin-left:10px;')
     script.
 
         /*WHEN SUBMIT IS CLICKED*/
@@ -292,7 +298,7 @@ body
         }
 
         /*WHEN INFO IS CLICKED*/
-        $( "#infobutton" ).click(function() {
+        $( "#floatingbutton" ).click(function() {
             $('#infobackground').css('display', 'block');
             $('#infocard').css('display', 'block');
         });

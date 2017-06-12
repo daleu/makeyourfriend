@@ -81,7 +81,9 @@ app.use('/js', express.static(`${__dirname}/node_modules/jquery/dist`)); // redi
 app.use('/js', express.static(`${__dirname}/node_modules/jquery-validation/dist`));
 app.use('/js', express.static(`${__dirname}/node_modules/moment/min`));
 app.use('/js', express.static(`${__dirname}/node_modules/fullcalendar/dist`));
+app.use('/js', express.static(`${__dirname}/node_modules/materialize-css/dist/js`));
 app.use('/css', express.static(`${__dirname}/node_modules/bootstrap/dist/css`));
+app.use('/css', express.static(`${__dirname}/node_modules/materialize-css/dist/css`));
 app.use('/css', express.static(`${__dirname}/node_modules/w3-css`));
 app.use('/images', express.static(`${__dirname}/public/images`));
 app.use('/style', express.static(`${__dirname}/public/style`));
