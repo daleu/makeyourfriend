@@ -8,15 +8,14 @@ head
     link(rel='stylesheet', href='/style/style.css')
     link(rel='stylesheet', href='/css/w3.css')
     link(rel='stylesheet', href='/style/datepicker.min.css')
+    link(rel='stylesheet', href='/style/dropzone.css')
     link(rel='stylesheet', href='/css/font-awesome.min.css')
     script(src='/js/jquery.min.js')
     script(src='/js/datepicker.min.js')
     script(src='/js/datepicker.en.js')
     script(src='/js/bootstrap.min.js')
     script(src='/js/jquery.validate.min.js')
-    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
-    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
-    script(type='text/javascript', src='js/materialize.min.js')
+    script(src='/js/dropzone.js')
 body
     nav.navbar.navbar-default.navbar-fixed-top
         .container-fluid(style='background-color: rgb(42, 124, 82) important;')
@@ -50,9 +49,6 @@ body
                                 a(href='#') CASTELLANO
                             li
                                 a(href='#') ENGLISH
-    a#floatingbutton.btn-floating.btn-large.waves-effect.waves-light
-        p INFO
-            span.fa.fa-info-circle(style='margin-left:10px;')
     //CONTENT
     .w3-row(style='margin-top:90px;')
         // Blog entries
@@ -78,8 +74,8 @@ body
                     .w3-row
                         .w3-col.l4.s12.header-images
                             h4 UPLOAD IMAGE:
-                        form#imageform.w3-col.l8.s12(action="/upload-profile-image", method="post", enctype="multipart/form-data")
-                            input#profileimage(name='image', type='file', accept="image/x-png,image/jpeg" required)
+                        form#imageform.dropzone.w3-col.l8.s12(action="/upload-profile-image", method="post", enctype="multipart/form-data")
+                            input#profileimage(type='file' required)
                     button#imagebutton.w3-button.w3-padding-large.w3-black.w3-border.w3-right(style='margin-bottom: 15px;',type='button')
                         span.fa.fa-upload
                         b &nbsp; &nbsp; UPLOAD IMAGE
@@ -141,12 +137,17 @@ style.
     }
 
 script.
-    $("#imagebutton").click(function () {
-        var form = $("#imageform");
-        form.submit();
-    });
 
     $("#aboutbutton").click(function () {
         var form = $("#aboutform");
         form.submit();
     });
+
+    $("#imagebutton").click(function () {
+        var form = $("#imageform");
+        form.submit();
+    });
+
+    Dropzone.options.myAwesomeDropzone = {
+        autoProcessQueue: false
+    }

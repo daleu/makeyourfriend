@@ -270,7 +270,7 @@ app.get('/profile-edit-es', requireLogin, (req, res) => {     // ///////////////
   res.render('./profile-edit/profile-edit-es.pug', { user });
 });
 
-app.post('/upload-profile-image', uploadProfile.single('image'), (req, res) => {
+app.post('/upload-profile-image', uploadProfile.single('file'), (req, res) => {
   res.redirect('/profile-en');
 });
 
