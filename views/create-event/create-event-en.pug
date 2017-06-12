@@ -14,6 +14,9 @@ head
     script(src='/js/datepicker.en.js')
     script(src='/js/bootstrap.min.js')
     script(src='/js/jquery.validate.min.js')
+    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
+    script(type='text/javascript', src='js/materialize.min.js')
 body
     nav.navbar.navbar-default.navbar-fixed-top
         .container-fluid(style='background-color: rgb(42, 124, 82) important;')
@@ -47,6 +50,9 @@ body
                                 a(href='#') CASTELLANO
                             li
                                 a(href='#') ENGLISH
+    a#floatingbutton.btn-floating.btn-large.waves-effect.waves-light
+        p INFO
+            span.fa.fa-info-circle(style='margin-left:10px;')
     .w3-display-topmiddle
         .w3-card-4(style='margin-top:90px; margin-bottom:50px; background-color: white;')
             header.w3-container
@@ -82,12 +88,9 @@ body
                 label.w3-text
                     b(style='text-decoration:underline;') STORY DESCRIPTION
                 textarea.w3-input.w3-border(style='width:50vw; text-transform:uppercase;',name='description',placeholder="WRITE HERE WHAT YOU WANT TO TELL YOUR FRIENDS" required)
-                button#infobutton.w3-btn.w3-padding(type='button', style='margin-top:10px; margin-bottom:10px; float: left;position:relative;')
-                    span.fa.fa-info-circle(style='margin-left:10px;')
-                    b &nbsp; &nbsp; INFORMATION
                 button#submitbutton.w3-btn.w3-padding(type='button', style='margin-top:10px; margin-bottom:10px; position:relative; float:right;')
                     span.fa.fa-upload
-                    b &nbsp; &nbsp; POST STORY
+                    b &nbsp; &nbsp; CREATE EVENT
     #spinnerbackground
     #spinner
     #infobackground

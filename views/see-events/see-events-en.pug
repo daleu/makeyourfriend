@@ -17,6 +17,9 @@ headxmlns:z-index="http://www.w3.org/1999/xhtml"
     script(src='/js/jquery.validate.min.js')
     script(src='/js/moment.min.js')
     script(src='/js/fullcalendar.js')
+    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
+    script(type='text/javascript', src='js/materialize.min.js')
 body
     nav.navbar.navbar-default.navbar-fixed-top
         .container-fluid(style='background-color: rgb(42, 124, 82) important;')
@@ -50,6 +53,9 @@ body
                                 a(href='#') CASTELLANO
                             li
                                 a(href='#') ENGLISH
+    a#floatingbutton.btn-floating.btn-large.waves-effect.waves-light
+        p INFO
+            span.fa.fa-info-circle(style='margin-left:10px;')
     .container.w3-center
         .w3-row
             if(user.isadmin == 'YES')
