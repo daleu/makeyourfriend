@@ -9,6 +9,7 @@ head
     link(rel='stylesheet', href='/css/w3.css')
     link(rel='stylesheet', href='/style/datepicker.min.css')
     link(rel='stylesheet', href='/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/style/dropzone.css')
     script(src='/js/jquery.min.js')
     script(src='/js/datepicker.min.js')
     script(src='/js/datepicker.en.js')
@@ -17,6 +18,7 @@ head
     link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
     link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     script(type='text/javascript', src='js/materialize.min.js')
+    script(src='/js/dropzone.js')
 body
     nav.navbar.navbar-default.navbar-fixed-top
         .container-fluid(style='background-color: rgb(42, 124, 82) important;')
@@ -58,14 +60,15 @@ body
             header.w3-container
                 h1 NEW STORY
                     span.fa.fa-plus-circle(style='margin-left:10px;')
+            label.w3-text
+                b(style='text-decoration:underline;') IMAGE
+            form#imageform.dropzone.w3-container(action="/post-story", method="post", enctype="multipart/form-data")
             form#registerform.w3-container(action="/post-story", method="post", enctype="multipart/form-data")
-                label.w3-text
-                    b(style='text-decoration:underline;') IMAGE
-                input#profileimage(name='image', type='file', accept="image/x-png,image/jpeg")
-                p
                 label.w3-text
                     b(style='text-decoration:underline;') STORY DESCRIPTION
                 textarea.w3-input.w3-border(style='width:50vw; text-transform:uppercase;',name='description',placeholder="WRITE HERE WHAT YOU WANT TO TELL YOUR FRIENDS" required)
+                p
+                //input#profileimage(name='image', type='file', accept="image/x-png,image/jpeg")
                 button#infobutton.w3-btn.w3-padding(type='button', style='margin-top:10px; margin-bottom:10px; float: left;position:relative;')
                     span.fa.fa-info-circle(style='margin-left:10px;')
                     b &nbsp; &nbsp; INFORMATION
@@ -137,3 +140,26 @@ script.
         $('#infobackground').css('display', 'none');
         $('#infocard').css('display', 'none');
     });
+
+    Dropzone.options.imageform = {
+
+        // Prevents Dropzone from uploading dropped files immediately
+        autoProcessQueue: false,
+        maxFiles: 1,
+        addRemoveLinks: true,
+        init: function () {
+            var submitButton = document.querySelector("#submitbutton")
+            myDropzone = this; // closure
+
+            submitButton.addEventListener("click", function () {
+                myDropzone.processQueue(); // Tell Dropzone to process all queued files.
+            });
+
+            // You might want to show the submit button only when
+            // files are dropped here:
+            this.on("addedfile", function () {
+
+            });
+
+        }
+    };

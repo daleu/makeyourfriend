@@ -75,7 +75,7 @@ body
                         .w3-col.l4.s12.header-images
                             h4 UPLOAD IMAGE:
                         form#imageform.dropzone.w3-col.l8.s12(action="/upload-profile-image", method="post", enctype="multipart/form-data")
-                            input#profileimage(type='file' required)
+                            //input#profileimage(type='file' required)
                     button#imagebutton.w3-button.w3-padding-large.w3-black.w3-border.w3-right(style='margin-bottom: 15px;',type='button')
                         span.fa.fa-upload
                         b &nbsp; &nbsp; UPLOAD IMAGE
@@ -148,6 +148,25 @@ script.
         form.submit();
     });
 
-    Dropzone.options.myAwesomeDropzone = {
-        autoProcessQueue: false
-    }
+    Dropzone.options.imageform = {
+
+        // Prevents Dropzone from uploading dropped files immediately
+        autoProcessQueue: false,
+        maxFiles: 1,
+        addRemoveLinks: true,
+        init: function () {
+            var submitButton = document.querySelector("#imagebutton")
+            myDropzone = this; // closure
+
+            submitButton.addEventListener("click", function () {
+                myDropzone.processQueue(); // Tell Dropzone to process all queued files.
+            });
+
+            // You might want to show the submit button only when
+            // files are dropped here:
+            this.on("addedfile", function () {
+
+            });
+
+        }
+    };
