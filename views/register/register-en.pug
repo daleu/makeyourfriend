@@ -4,13 +4,13 @@ head
     link(rel="shortcut icon" href="/images/logo_v4_100.png")
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/style/style.css')
     link(rel='stylesheet', href='/css/w3.css')
     link(rel='stylesheet', href='/style/datepicker.min.css')
     link(rel='stylesheet', href='/css/font-awesome.min.css')
-    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
-    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     script(src='/js/jquery.min.js')
     script(src='/js/datepicker.min.js')
     script(src='/js/datepicker.en.js')
@@ -55,7 +55,9 @@ body
                                 a(href='#') CASTELLANO
                             li
                                 a(href='#') ENGLISH
-
+    a#floatingbutton.btn-floating.btn-large.waves-effect.waves-light
+        p INFO
+            span.fa.fa-info-circle(style='margin-left:10px;')
     .w3-display-topmiddle
         .w3-card-4(style='margin-top:90px; margin-bottom:50px; background-color: white;')
             header.w3-container
@@ -79,11 +81,11 @@ body
                         sup
                             span.fa.fa-asterisk
                 p
-                    input.w3-radio(type='radio', name='gender', value='male' required)
-                    label(style='margin-left: 10px;') MALE
+                    input.with-gap(id="male",type='radio', name='gender', value='male' required)
+                    label(for="male") MALE
                 p
-                    input.w3-radio(type='radio', name='gender', value='female' required)
-                    label(style='margin-left: 10px;') FEMALE
+                    input.with-gap(id="female",type='radio', name='gender', value='female' required)
+                    label(for="female") FEMALE
                 label.w3-text
                     b(style='text-decoration:underline;') BIRTHDAY
                         sup
@@ -101,6 +103,13 @@ body
                 label.w3-text
                     b(style='text-decoration:underline;') ABOUT YOU
                 textarea.w3-input.w3-border(style='width:50vw; text-transform:uppercase;',name='about',placeholder="WRITE SOMETHING ABOUT YOU HERE")
+                p
+                label.w3-text
+                    b(style='text-decoration:underline;') VALIDATION CODE
+                        sup
+                            span.fa.fa-asterisk
+                input.w3-input.w3-border(type='text', style="text-transform:uppercase;",name='code', placeholder="WRITE YOUR FIRST NAME HERE" required)
+                p
                 label.w3-text
                     b(style='text-decoration:underline;') PASSWORD
                         sup
@@ -121,10 +130,6 @@ body
                         input#pass2.w3-input.w3-border(type='password', name='pass2', placeholder="WRITE YOUR PASSWORD HERE AGAIN" required)
                     .col-sm-2
                         span#pass2span.fa.fa-eye.fa-2x(style='color: rgb(204, 204, 204);' onmouseover="onoverpass2();" onmouseout="onoutpass2();")
-                p
-                    label.w3-text
-                        b(style='text-decoration:underline;') IS ADMIN?
-                    input.w3-check(name='isAdmin' type='checkbox' value='YES')
             footer.w3-container
                 button#submitbutton.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right; position:relative;') REGISTER   ❯
     #spinnerbackground
@@ -182,9 +187,19 @@ body
             footer.w3-container.w3-red
                 button#closeerror.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
                     span.fa.fa-close(style='margin-left:10px;')
-    a#floatingbutton.btn-floating.btn-large.waves-effect.waves-light
-        p INFO
-            span.fa.fa-info-circle(style='margin-left:10px;')
+    #errorcardcode.w3-display-middle(style="display:none;")
+        .w3-card-4
+            header.w3-container.w3-red
+                h1 ERROR
+                    span.fa.fa-exclamation-circle(style='margin-left:10px;')
+            .w3-container(style="background-color: white;")
+                p
+                | THE CODE YOU FILLED IS NOT VALID.
+                | PLIS, PUT A VALID CODE OR REQUEST YOUR ADMIN TO ACQUIRE ONE.
+                p
+            footer.w3-container.w3-red
+                button#closeerrorcode.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
     script.
 
         /*WHEN SUBMIT IS CLICKED*/
@@ -218,10 +233,14 @@ body
                 }).done(function (users) {
                     var i = 0;
                     var exists = false;
+                    var validCode = false;
                     for(i=0;i<users.length;++i){
                         if(users[i].email == document.getElementsByName("email")[0].value){
                             exists = true;
                             i=users.length;
+                        }
+                        if(users[i].uuid == document.getElementsByName("code")[0].value & users[i].isadmin=="YES"){
+                            validCode = true;
                         }
                     }
                     if (exists) {
@@ -231,7 +250,13 @@ body
                         $('#errorcard').css('display', 'block');
                     }
                     else {
-                        form.submit();
+                        if(validCode == false){
+                            $('#spinnerbackground').css('display', 'none');
+                            $('#spinner').css('display', 'none');
+                            $('#infobackground').css('display', 'block');
+                            $('#errorcardcode').css('display', 'block');
+                        }
+                        else form.submit();
                     }
                 }).fail(function () {
                     $('#spinnerbackground').css('display', 'none');
@@ -309,4 +334,9 @@ body
         $("#closeerror").click(function () {
             $('#infobackground').css('display', 'none');
             $('#errorcard').css('display', 'none');
+        });
+
+        $("#closeerrorcode").click(function () {
+            $('#infobackground').css('display', 'none');
+            $('#errorcardcode').css('display', 'none');
         });

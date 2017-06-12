@@ -1,0 +1,146 @@
+doctype html(lang='en')
+head
+    title ADMIN CONSOLE
+    link(rel="shortcut icon" href="/images/logo_v4_100.png")
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel='stylesheet', href='/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/style/style.css')
+    link(rel='stylesheet', href='/css/w3.css')
+    link(rel='stylesheet', href='/style/datepicker.min.css')
+    link(rel='stylesheet', href='/css/font-awesome.min.css')
+    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
+    script(src='/js/jquery.min.js')
+    script(src='/js/datepicker.min.js')
+    script(src='/js/datepicker.en.js')
+    script(src='/js/bootstrap.min.js')
+    script(src='/js/jquery.validate.min.js')
+    script(type='text/javascript', src='js/materialize.min.js')
+body
+    nav.navbar.navbar-default.navbar-fixed-top
+        .container-fluid(style='background-color: rgb(42, 124, 82) important;')
+            .navbar-header
+                button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+                    span.sr-only Toggle navigation
+                    span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+                a.navbar-brand(href='/')
+                    img(alt="Brand" src="/images/logo_v4_100.png" height='60px;' style='margin-top:5px !important;')
+            #bs-example-navbar-collapse-1.collapse.navbar-collapse
+                ul.nav.navbar-nav
+                    li
+                        a(href='/') HOME
+                ul.nav.navbar-nav.navbar-right
+                    li.dropdown
+                        a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
+                            | LANGUAGE
+                            span.fa.fa-chevron-down(style='margin-left:10px;')
+                        ul.dropdown-menu
+                            li
+                                a(href='/register-ca') CATALÀ
+                            li
+                                a(href='#') CASTELLANO
+                            li
+                                a(href='#') ENGLISH
+    a#floatingbutton.btn-floating.btn-large.waves-effect.waves-light
+        p INFO
+            span.fa.fa-info-circle(style='margin-left:10px;')
+    a#floatingbuttonleft.btn-floating.btn-large.waves-effect.waves-light
+        p CODE
+            span.fa.fa-info-circle(style='margin-left:10px;')
+    .w3-container#resultPeople(style="margin-top:70px;")
+        each friend in friends
+            a(href='profile-out-en/' + friend.email)
+                .w3-card-4.w3-white(style='cursor: pointer;')
+                    .w3-row
+                        .w3-col.l3.s3
+                            if(friend.foto == undefined)
+                                img.circletag(src='/images/profile/profile-en.jpg')
+                            else
+                                img.circletag(src=friend.foto)
+                        .w3-col.l7.s7.w3-center(style='margin-left: 20px;')
+                            p
+                            h5(style='text-transform: uppercase;')= friend.name + ' ' + friend.surname
+                            h6(style='text-transform: uppercase;')= friend.birthday
+                            //button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(onclick="sendRequest(\''+this.email+'\')", style='margin-bottom: 15px; heigth: 40px;')
+                                span.fa.fa-pencil
+                                b     ADD FRIEND
+        else
+            p YOU DON'T HAVE FRIENDS, PLEASE GO TO SEARCH PEOPLE SECTION AND SEND REQUESTS TO HAVE FRIENDS! :)
+    #spinnerbackground
+    #spinner
+    #infobackground
+    #infocard.w3-display-middle
+        .w3-card-4(style='margin-top:75px !important;')
+            header.w3-container.w3-blue
+                h1 SUCCESS!
+                    span.fa.fa-info-circle(style='margin-left:10px;')
+            .w3-container(style="background-color: white;")
+                p
+                | YOUR FRIEND REQUEST HAS BEEN SENT CORRECTLY!
+                | WAIT FOR A RESPONSE!
+                p
+            footer.w3-container.w3-blue
+                button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
+    #infocardcode.w3-display-middle(style="display: none;")
+        .w3-card-4(style='margin-top:75px !important;')
+            header.w3-container.w3-blue
+                h1 INVITATION CODE
+                    span.fa.fa-info-circle(style='margin-left:10px;')
+            .w3-container(style="background-color: white;padding-top:20px;padding-bottom:20px;")
+                p= "YOUR INVITATION CODE IS: "
+                p(style="font-weight: bold; font-size:20px; ")= user.uuid
+            footer.w3-container.w3-blue
+                button#closeinfocode.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
+style.
+    /*RESPONSIVE TEXT*/
+    .container {
+        margin-top: 90px;
+        margin-bottom: 20px;
+    }
+
+    .w3-container div {
+        vertical-align: middle;
+        width: 500px;
+        height: 170px;
+        display: inline-block;
+        margin-left: 2.5%;
+        margin-right: 2.5%;
+        margin-bottom: 20px;
+    }
+
+    .circletag {
+        margin: 0 auto;
+        margin-bottom: 15px;
+        margin-top: 15px;
+        display: block;
+        width: 100px;
+        height: 100px;
+        background: #E6E7ED;
+        -moz-border-radius: 200px;
+        -webkit-border-radius: 200px;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        border: #2D95D2 solid 5px;
+    }
+
+    h5 {
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: bold;
+    }
+
+script.
+    /*WHEN INFO IS CLICKED*/
+    $("#floatingbuttonleft").click(function () {
+        $('#infobackground').css('display', 'block');
+        $('#infocardcode').css('display', 'block');
+    });
+
+    $("#closeinfocode").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#infocardcode').css('display', 'none');
+    });

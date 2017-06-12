@@ -13,7 +13,9 @@ class Neo4jApi {
     this.driver = neo4j.driver(url, neo4j.auth.basic(user, pass));
   }
 
-  createUser(name,surname,gender,birthday,email,about,password,isadmin){
+  createUser(name,surname,gender,birthday,email,about,password,code){
+    var isadmin = "NO";
+
     const session = this.driver.session();
 
     const hash = crypto.createHash('sha256').update(password).digest('base64');
@@ -27,9 +29,10 @@ class Neo4jApi {
             birthday: {birthday},
             email: {email},
             about: {about},
-            isadmin: {isadmin},
+            code: {code},
             password: {hash},
-            uuid: {uuid}
+            uuid: {uuid},
+            isAdmin: {isadmin}
           })
           RETURN n.name`, {
           name,
@@ -38,9 +41,10 @@ class Neo4jApi {
           birthday,
           email,
           about,
-          isadmin,
+          code,
           hash,
           uuid: uuid(),
+          isadmin
         });
 
     resp.then(() => session.close())
@@ -732,6 +736,26 @@ class Neo4jApi {
     this.driver.close();
   }
 
+    getUsersWithCode(code) {
+
+        const session = this.driver.session();
+
+        const promise = new Promise((resolve, reject) => {
+            session
+                .run("MATCH (n:USER {code: '"+code+"'}) RETURN n")
+                .then((result) => {
+                    session.close();
+                    resolve(result.records
+                        .map(record => record._fields[0].properties));
+                })
+                .catch((error) => {
+                    session.close();
+                    reject(error);
+                });
+        });
+
+        return promise;
+    }
 }
 
 module.exports = Neo4jApi;

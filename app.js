@@ -209,8 +209,7 @@ app.post('/register-en', (req, res) => {
   const name = req.body.name;
   const surname = req.body.surname;
   const gender = req.body.gender;
-  let isAdmin = req.body.isAdmin;
-  if (isAdmin == undefined) isAdmin = 'NO';
+  const code = req.body.code;
 
     // FORMAT TO STANDAR DATE
   const auxDate = req.body.birthday;
@@ -221,7 +220,7 @@ app.post('/register-en', (req, res) => {
   const about = req.body.about;
   const password = req.body.pass1;
 
-  db.createUser(name, surname, gender, birthday, email, about, password, isAdmin)
+  db.createUser(name, surname, gender, birthday, email, about, password, code)
         .then(() => res.redirect('/'))
         .catch(error => res.status(500).send(error));
 });
@@ -602,9 +601,9 @@ app.post('/delete-event/:uuid', requireLogin, (req, res) => {
 /*ADMIN-CONSOLE*/                                           //TODO
 
 app.get('/admin-console-en', requireLogin, (req, res) => {
-    db.getFriendsPosts(user.email).then((result3) => {
-        const posts = result3;
-        res.render('./admin-console/admin-console-en.pug', { posts });
+    db.getUsersWithCode(user.uuid).then((result3) => {
+        const friends = result3;
+        res.render('./admin-console/admin-console-en.pug', { friends,user });
     });
 });
 
