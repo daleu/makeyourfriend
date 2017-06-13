@@ -80,6 +80,8 @@ class Neo4jApi {
 
       console.log("before neo4j");
 
+      console.log(email+" "+description+" "+foto+" "+date+" "+usuari);
+
       const resp = session
           .run(`CREATE (n:POST {
             description: {description},
@@ -97,6 +99,8 @@ class Neo4jApi {
 
       resp.then(() => session.close())
           .catch(()=> session.close());
+
+      console.log("mec neo4j");
 
       return resp;
   }

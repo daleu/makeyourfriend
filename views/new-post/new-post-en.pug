@@ -60,19 +60,19 @@ body
             header.w3-container
                 h1 NEW STORY
                     span.fa.fa-plus-circle(style='margin-left:10px;')
-            label.w3-text
-                b(style='text-decoration:underline;') IMAGE
-            form#imageform.dropzone.w3-container(action="/post-story", method="post", enctype="multipart/form-data")
-            form#registerform.w3-container(action="/post-story", method="post", enctype="multipart/form-data")
+            div(style="margin-top:40px !important;margin-left:40px !important;margin-right:40px !important;")
+                form#imageform.dropzone.w3-container(action="/post-image", method="post", enctype="multipart/form-data")
+                    label.w3-text(style="margin-top:-45px;margin-left:-40px !important;")
+                        b(style='text-decoration:underline;') IMAGE
+            form#registerform.w3-container(action="/redirect-after-post", method="post", enctype="multipart/form-data")
                 label.w3-text
                     b(style='text-decoration:underline;') STORY DESCRIPTION
-                textarea.w3-input.w3-border(style='width:50vw; text-transform:uppercase;',name='description',placeholder="WRITE HERE WHAT YOU WANT TO TELL YOUR FRIENDS" required)
+                textarea#description.w3-input.w3-border(style='width:50vw; text-transform:uppercase;', name='description', placeholder="WRITE HERE WHAT YOU WANT TO TELL YOUR FRIENDS" required)
                 p
-                //input#profileimage(name='image', type='file', accept="image/x-png,image/jpeg")
                 button#infobutton.w3-btn.w3-padding(type='button', style='margin-top:10px; margin-bottom:10px; float: left;position:relative;')
                     span.fa.fa-info-circle(style='margin-left:10px;')
                     b &nbsp; &nbsp; INFORMATION
-                button#submitbutton.w3-btn.w3-padding(type='submit', style='margin-top:10px; margin-bottom:10px; position:relative; float:right;')
+                button#submitbutton.w3-btn.w3-padding(type='button', style='margin-top:10px; margin-bottom:10px; position:relative; float:right;')
                     span.fa.fa-upload
                     b &nbsp; &nbsp; POST STORY
     #spinnerbackground
@@ -130,6 +130,8 @@ body
             footer.w3-container.w3-red
                 button#closeerror.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
                     span.fa.fa-close(style='margin-left:10px;')
+style
+
 script.
     $("#infobutton").click(function () {
         $('#infobackground').css('display', 'block');
@@ -140,6 +142,7 @@ script.
         $('#infobackground').css('display', 'none');
         $('#infocard').css('display', 'none');
     });
+
 
     Dropzone.options.imageform = {
 
@@ -152,7 +155,23 @@ script.
             myDropzone = this; // closure
 
             submitButton.addEventListener("click", function () {
-                myDropzone.processQueue(); // Tell Dropzone to process all queued files.
+                var form = $("#registerform");
+                if(form.valid()) {
+                    $('#spinnerbackground').css('display', 'block');
+                    $('#spinner').css('display', 'block');
+                    myDropzone.processQueue();
+                    setTimeout(function () {
+                        var description = $("#description").val();
+                        console.log(description);
+                        $.ajax({
+                            method: "POST",
+                            url: "/post-story/" + description,
+                            success: function () {
+                                form.submit();
+                            }
+                        });
+                    }, 2000);
+                }
             });
 
             // You might want to show the submit button only when

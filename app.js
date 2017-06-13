@@ -39,19 +39,7 @@ const storagePost = multer.diskStorage({
     crypto.pseudoRandomBytes(16, (err, raw) => {
       if (err) return cb(err);
       lastUpload = `./uploadsPost/${raw.toString('hex')}${path.extname(file.originalname)}`;
-        fileUploaded = true;
-      /*const description = req.body.description;
-      console.log(description);
-      const foto = `./uploadsPost/${raw.toString('hex')}${path.extname(file.originalname)}`;
-      const date = new Date();
-      const dateInMilliseconds = date.getTime();
-      const usuari = `${user.name} ${user.surname}`;
       fileUploaded = true;
-      console.log('VAAAAAAAAAAAAAA');
-      db.newPost(user.email, description, foto, dateInMilliseconds, usuari).then(() => {
-        console.log('relation');
-        db.relationToNewPost(user.email, dateInMilliseconds);
-      });*/
       cb(null, raw.toString('hex') + path.extname(file.originalname));
     });
   }
@@ -65,10 +53,7 @@ const uploadProfile = multer({
 const uploadPost = multer({
     storage: storagePost,
     limits: { fileSize: maxSize },
-    onFileUploaded: function(){
-
-    }
-}).single('image');
+});
 
 const app = express();
 const port = process.env.PORT;
@@ -294,30 +279,38 @@ app.get('/new-post-en', requireLogin, (req, res) => {     // ///////////////////
   res.render('./new-post/new-post-ca.pug');
 });
 
-app.post('/post-story', requireLogin, (req, res) => {
-  uploadPost(req,res, function(err){
-      if(err){
+app.post('/post-image', uploadPost.single('file'), (req, res) => {
+    res.send('OK');
+});
 
+app.post('/post-story/:description', requireLogin, (req, res) => {
+      const description = req.params.description;
+      const date = new Date();
+      const dateInMilliseconds = date.getTime();
+      const usuari = `${user.name} ${user.surname}`;
+      console.log("ehehehehehhehehe");
+      if(fileUploaded===true){
+          console.log("1");
+          db.newPost(user.email, description, lastUpload, dateInMilliseconds, usuari).then(() => {
+              console.log("POST");
+              db.relationToNewPost(user.email, dateInMilliseconds);
+          });
+          console.log("LOG");
       }
       else{
-          const description = req.body.description;
-          const date = new Date();
-          const dateInMilliseconds = date.getTime();
-          const usuari = `${user.name} ${user.surname}`;
-          if(fileUploaded===true){
-              db.newPost(user.email, description, lastUpload, dateInMilliseconds, usuari).then(() => {
-                  db.relationToNewPost(user.email, dateInMilliseconds);
-              });
-          }
-          else{
-              db.newPost(user.email, description, 'nothing', dateInMilliseconds, usuari).then(() => {
-                  db.relationToNewPost(user.email, dateInMilliseconds);
-              });
-          }
-          res.redirect('/main-page-en');
+          console.log("2");
+          db.newPost(user.email, description, 'nothing', dateInMilliseconds, usuari).then(() => {
+              console.log("POST");
+              db.relationToNewPost(user.email, dateInMilliseconds);
+          });
+          console.log("LOG");
       }
-      fileUploaded = false;
-  });
+      fileUploaded=false;
+      res.send('OK');
+});
+
+app.post('/redirect-after-post', requireLogin, (req, res) => {     // ////////////////////////////////// FALTA FER
+    res.redirect('/main-page-en');
 });
 
 /* MY STORIES*/
