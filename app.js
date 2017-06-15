@@ -71,6 +71,7 @@ app.use('/css', express.static(`${__dirname}/node_modules/bootstrap/dist/css`));
 app.use('/css', express.static(`${__dirname}/node_modules/materialize-css/dist/css`));
 app.use('/css', express.static(`${__dirname}/node_modules/w3-css`));
 app.use('/images', express.static(`${__dirname}/public/images`));
+app.use('/images', express.static(`${__dirname}/public/images/pictograms`));
 app.use('/style', express.static(`${__dirname}/public/style`));
 app.use('/css', express.static(`${__dirname}/node_modules/font-awesome/css`));
 app.use('/fonts', express.static(`${__dirname}/node_modules/font-awesome/fonts`));

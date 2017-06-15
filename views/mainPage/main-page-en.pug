@@ -4,6 +4,8 @@ head
     link(rel="shortcut icon" href="/images/logo_v4_100.png")
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/style/style.css')
     link(rel='stylesheet', href='/css/w3.css')
@@ -14,8 +16,6 @@ head
     script(src='/js/datepicker.en.js')
     script(src='/js/bootstrap.min.js')
     script(src='/js/jquery.validate.min.js')
-    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
-    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     script(type='text/javascript', src='js/materialize.min.js')
 body
     nav.navbar.navbar-default.navbar-fixed-top
@@ -59,33 +59,101 @@ body
         .row
             h3.w3-center= "WHAT DO YOU WANT TO DO?"
         a.w3-hover-shadow.w3-center(href='/profile-en' style='background-color: #25DA7E; color: white;')
-            p.fa.fa-user-circle.fa-2x
-            p MY PROFILE
+            img(src="/images/profile-ic.png" height='60px;')
+            p(style="margin-top:20px;") MY PROFILE
         a.w3-hover-shadow.w3-center(href='/my-posts-en' style='background-color: #00CD65; color: white;')
-            p.fa.fa-book.fa-2x
-            p MY HISTORIES
+            img(src="/images/my-stories-ic.png" height='60px;')
+            p(style="margin-top:20px;") MY HISTORIES
         a.w3-hover-shadow.w3-center(href='/my-friends-en' style='background-color: #008B44; color: white;')
-            p.fa.fa-address-book.fa-2x
-            p MY FRIENDS
+            img(src="/images/amics-ic.png" height='60px;')
+            p(style="margin-top:20px;") MY FRIENDS
         a.w3-hover-shadow.w3-center(href='/see-events-en' style='background-color: #036E61; color: white;')
-            p.fa.fa-calendar.fa-2x
-            p MY EVENTS &nbsp;
+            img(src="/images/calendario-ic.png" height='60px;')
+            p(style="margin-top:20px;") MY EVENTS &nbsp;
         a.w3-hover-shadow.w3-center(href='/timeline-en' style='background-color: #06517E; color: white;')
-            p.fa.fa-clock-o.fa-2x
-            p TIMELINE &nbsp;
+            P
+                img(src="/images/tiempo-ic.png" height='60px;')
+                | +
+                img(src="/images/amics-ic.png" height='60px;')
+                | +
+                img(src="/images/my-stories-ic.png" height='60px;')
+            p(style="margin-top:20px;") TIMELINE &nbsp;
         a.w3-hover-shadow.w3-center(href='/search-people-en' style='background-color: #097EC3; color: white;')
-            p.fa.fa-search.fa-2x
-            p SEARCH PEOPLE &nbsp;
+            img(src="/images/buscar-ic.png" height='60px;')
+            p(style="margin-top:20px;") SEARCH PEOPLE &nbsp;
         a.w3-hover-shadow.w3-center(href='/new-post-en' style='background-color: #2D95D2; color: white;')
-            p.fa.fa-plus-circle.fa-2x
-            p POST HISTORY
+            img(src="/images/new-post-ic.png" height='60px;')
+            p(style="margin-top:20px;") POST HISTORY
         if(user.isadmin=='YES')
             a.w3-hover-shadow.w3-center(href='/create-event-en' style='background-color: #41A8B0; color: white;')
                 p.fa.fa-pie-chart.fa-2x
-                p CREATE EVENT
+                p(style="margin-top:20px;") CREATE EVENT
             a.w3-hover-shadow.w3-center(href='/admin-console-en' style='background-color: #37AB74; color: white;')
                 p.fa.fa-pie-chart.fa-2x
-                p ADMIN CONSOLE
+                p(style="margin-top:20px;") ADMIN CONSOLE
+    #infobackground
+    #infocard.w3-display-middle
+        .w3-card-4(style='margin-top:75px !important;')
+            header.w3-container.w3-blue
+                h1 INFORMATION
+                    span.fa.fa-info-circle(style='margin-left:10px;')
+            .w3-container(style="background-color: white;")
+                p
+                | ON THIS PAGE, YOU CAN CHOOSE AN OPTION TO INTERACT WITH YOUR FRIENDS CLICKING THE QUADS.
+                p
+                | THE OPTIONS THAT YOU CAN DO ARE THE FOLLOWING:
+                p
+                    | - &nbsp
+                    b MY PROFILE &nbsp
+                    img(src="/images/profile-ic.png" height='30px;')
+                    |:
+                    | IF YOU CLICK THIS OPTION, YOU WILL SEE HOW THE OTHER USERS SEE YOUR PROFILE. ALSO, YOU CAN EDIT YOUR PROFILE IMAGE AND YOUR "ABOUT ME"
+                p
+                    | - &nbsp
+                    b MY STORIES &nbsp
+                    img(src="/images/my-stories-ic.png" height='30px;')
+                    |:
+                    | IF YOU CLICK THIS OPTION, YOU WILL SEE ALL OF YOUR STORIES ORDENED DESCENDENT BY DATE OF PUBLICATION. YOU WILL BE ABLE TO DELETE YOUR STORIES.
+                P
+                    | - &nbsp
+                    b MY FRIENDS &nbsp
+                    img(src="/images/amics-ic.png" height='30px;')
+                    |:
+                    | IF YOU CLICK THIS OPTION, YOU WILL SEE YOUR FRIENDS, YOUR REQUESTS TO OTHER PEOPLE AND THE REQUESTS THAT YOU HAVE.
+                P
+                    | - &nbsp
+                    b MY EVENTS &nbsp
+                    img(src="/images/calendario-ic.png" height='30px;')
+                    |:
+                    | IF YOU CLICK THIS OPTION, YOU WILL SEE A CALENDAR WITH ALL EVENTS THAT YOU ASSISTED OR YOU ARE GOING TO ASSIST. ALSO, YOU WILL SEE ALL OF YOUR INVITATIONS TO FUTURE EVENTS.
+                P
+                    | - &nbsp
+                    b TIMELINE &nbsp
+                    img(src="/images/tiempo-ic.png" height='30px;')
+                    | +
+                    img(src="/images/amics-ic.png" height='30px;')
+                    | +
+                    img(src="/images/my-stories-ic.png" height='30px;')
+                    |:
+                    | IF YOU CLICK THIS OPTION, YOU WILL SEE ALL OF YOUR FRIENDS STORIES ORDENED DESCENDENT BY DATE OF PUBLICATION. YOU WILL BE ABLE TO REACT TO THESE STORIES.
+                P
+                    | - &nbsp
+                    b SEARCH PEOPLE &nbsp
+                    img(src="/images/buscar-ic.png" height='30px;')
+                    | :
+                    | IF YOU CLICK THIS OPTION, YOU WILL BE ABLE TO SEARCH ALL PEOPLE THAT IS NOT YOUR FRIEND AND SEND A FRIEND REQUEST.
+                P
+                    | - &nbsp
+                    b POST STORY &nbsp
+                    img(src="/images/new-post-ic.png" height='30px;')
+                    | :
+                    | IF YOU CLICK THIS OPTION, YOU WILL BE ABLE TO POST A NEW STORY ON YOUR PROFILE.
+                p
+                    b ENJOY THE EXPERIENCE!!! :-)
+                p
+            footer.w3-container.w3-blue
+                button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
 style.
     /*RESPONSIVE TEXT*/
     .container {
@@ -100,8 +168,8 @@ style.
         display: inline-block;
         vertical-align: middle;
         width: 20%;
-        padding-bottom: 7%;
-        padding-top: 7%;
+        padding-bottom: 5.5%;
+        padding-top: 5.5%;
         margin-left: 2.5%;
         margin-right: 2.5%;
         margin-top: 50px;
@@ -117,3 +185,14 @@ style.
             width: 100%;
         }
     }
+
+script.
+    $("#floatingbutton").click(function () {
+        $('#infobackground').css('display', 'block');
+        $('#infocard').css('display', 'block');
+    });
+
+    $("#closeinfo").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#infocard').css('display', 'none');
+    });
