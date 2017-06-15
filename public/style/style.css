@@ -58,6 +58,10 @@ body{
     margin-left: 5px;
 }
 
+.forPost{
+    position: initial !important;
+}
+
 /*NAVBAR*/
 .navbar-brand,
 .navbar-nav li a {
