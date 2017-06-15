@@ -81,7 +81,7 @@ body
                                 p(style='word-wrap: break-word;')= post.description
                                 b(style='word-wrap: break-word;') LIKES:
                                 p(id="likes" + post.uuid style='word-wrap: break-word;')= post.likes.low
-                                .fixed-action-btn.horizontal.w3-right(style='position: relative; display: inline-block; right:-15px;bottom:-10px;')
+                                .fixed-action-btn.horizontal.w3-right(style='position: relative; display: inline-block; right:-15px;bottom:-10px;z-index:1;')
                                     a.btn-floating.btn-large.purple
                                         i.material-icons menu
                                     ul
@@ -119,7 +119,7 @@ body
                                 p(style='word-wrap: break-word;')= post.description
                                 b(style='word-wrap: break-word;') LIKES:
                                 p(id="likes" + post.uuid style='word-wrap: break-word;')= post.likes.low
-                                .fixed-action-btn.horizontal.w3-right(style='position: relative; display: inline-block; right:-15px;bottom:-10px;')
+                                .fixed-action-btn.horizontal.w3-right(style='position: relative; display: inline-block; right:-15px;bottom:-10px;z-index:1;')
                                     a.btn-floating.btn-large.purple
                                         i.material-icons menu
                                     ul
@@ -157,7 +157,7 @@ body
                                 p(style='word-wrap: break-word;')= post.description
                                 b(style='word-wrap: break-word;') LIKES:
                                 p(id="likes" + post.uuid style='word-wrap: break-word;')= post.likes.low
-                                .fixed-action-btn.horizontal.w3-right(style='position: relative; display: inline-block; right:-15px;bottom:-10px;')
+                                .fixed-action-btn.horizontal.w3-right(style='position: relative; display: inline-block; right:-15px;bottom:-10px;z-index:1;')
                                     a.btn-floating.btn-large.purple
                                         i.material-icons menu
                                     ul
@@ -179,9 +179,37 @@ body
                                             li
                                                 a.btn-floating.red(onclick='deletePost("' + post.uuid + '");',style="display:block;")
                                                     i.material-icons delete
-        //else
-            p There are no stories
-
+    #infobackground
+    #infocard.w3-display-middle(style="z-index:10;")
+        .w3-card-4(style='margin-top:75px !important;')
+            header.w3-container.w3-blue.infoclass
+                h1 INFORMATION
+                    span.fa.fa-info-circle(style='margin-left:10px;')
+            .w3-container.infoclass(style="background-color: white;")
+                p
+                | HERE, YOU CAN SEE ALL OF YOUR STORIES.
+                p
+                | FOR EACH STORY, IF YOU PASS YOUR MOUSE ABOVE THE MENU BUTTON &nbsp;
+                a.btn-floating.purple
+                    i.material-icons menu
+                | &nbsp; , YOU CAN DO TWO ACTIONS:
+                P
+                    | - LIKE &nbsp;
+                    a.btn-floating.blue
+                        i.material-icons thumb_up
+                    | &nbsp; OR DISLIKE &nbsp;
+                    a.btn-floating.blue
+                        i.material-icons thumb_down
+                    | &nbsp; THE STORIES.
+                P
+                    | - DELETE &nbsp;
+                    a.btn-floating.red
+                        i.material-icons delete
+                    | &nbsp; YOUR STORY.
+                p
+            footer.w3-container.w3-blue.infoclass
+                button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
 style.
     /*RESPONSIVE TEXT*/
     .w3-container {
@@ -206,6 +234,11 @@ style.
 
     .container {
         margin-top: -15px;
+    }
+
+    .infoclass{
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
     }
 
 
@@ -275,3 +308,13 @@ script.
             }
         });
     };
+
+    $("#closeinfo").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#infocard').css('display', 'none');
+    });
+
+    $("#floatingbutton").click(function () {
+        $('#infobackground').css('display', 'block');
+        $('#infocard').css('display', 'block');
+    });

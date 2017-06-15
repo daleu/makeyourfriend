@@ -4,6 +4,8 @@ head
     link(rel="shortcut icon" href="/images/logo_v4_100.png")
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/style/style.css')
     link(rel='stylesheet', href='/css/w3.css')
@@ -14,8 +16,6 @@ head
     script(src='/js/datepicker.en.js')
     script(src='/js/bootstrap.min.js')
     script(src='/js/jquery.validate.min.js')
-    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
-    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     script(type='text/javascript', src='js/materialize.min.js')
 body
     nav.navbar.navbar-default.navbar-fixed-top
@@ -64,120 +64,140 @@ body
     -   return (m <= 9 ? '0' + m : m) + '/' + (d <= 9 ? '0' + d : d) + '/' + y + " " + (h <= 9 ? '0' + h : h) + ":" + (min <= 9 ? '0' + min : min) + ":" + (s <= 9 ? '0' + s : s);
     - }
 
-    .container
+    .w3-container.w3-center
         div(style="width: 33%;display:inline-block;")
             each post,index in posts
                 if(index % 3 == 0)
-                    .w3-card-4.w3-white
+                    .w3-card-4.w3-white(id="delete" + post.uuid)
                         if(post.foto != 'nothing')
                             img(src= post.foto)
-                        p(style="margin-left: 10px; margin-top: 10px;") BY &nbsp;
+                        p(style="margin-left: 10px; margin-top: 10px;text-align: left;") BY &nbsp;
                             b= post.usuari
-                            p(style="margin-left: 20px; margin-top: 10px; font-color: #434343;")= "ON " + dateToYMD(new Date(post.date))
+                            p(style="margin-left: 10px; margin-top: 10px; font-color: #434343;text-align: left;")= "ON " + dateToYMD(new Date(post.date))
                         if(post.description != 'nothing')
-                            .w3-container.w3-center(style="width: 95%")
+                            .container.w3-center(style="width: 95%")
                                 hr
-                                b DESCRIPTION
-                                p(style='word-wrap: break-word;text-align: left;')= post.description
-                                p LIKES:
-                                p(id="likes" + post.uuid)= post.likes.low
-                                if(post.liked.low == 0)
-                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="like" + post.uuid onclick='like("' + post.uuid + '");', style='margin-bottom: 15px;')
-                                        span.fa.fa-pencil
-                                        b &nbsp; &nbsp; LIKE
-                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style='margin-bottom: 15px; display:none;')
-                                        span.fa.fa-pencil
-                                        b &nbsp; &nbsp; DISLIKE
-                                else
-                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="like" + post.uuid onclick='like("' + post.uuid + '");', style='margin-bottom: 15px;display:none;')
-                                        span.fa.fa-pencil
-                                        b &nbsp; &nbsp; LIKE
-                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style='margin-bottom: 15px;')
-                                        span.fa.fa-pencil
-                                        b &nbsp; &nbsp; DISLIKE
+                                b(style='word-wrap: break-word;') DESCRIPTION
+                                p(style='word-wrap: break-word;')= post.description
+                                b(style='word-wrap: break-word;') LIKES:
+                                p(id="likes" + post.uuid style='word-wrap: break-word;')= post.likes.low
+                                .fixed-action-btn.horizontal.w3-right(style='position: relative; display: inline-block; right:-15px;bottom:-10px;')
+                                    if(post.liked.low == 0)
+                                        a.btn-floating.blue(id="like" + post.uuid onclick='like("' + post.uuid + '");', style="display:block;")
+                                            i.material-icons thumb_up
+                                        a.btn-floating.blue(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style="display:none;")
+                                            i.material-icons thumb_down
+                                    else
+                                        a.btn-floating.blue(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style="display:block;")
+                                            i.material-icons thumb_down
+                                        a.btn-floating.blue(id="like" + post.uuid onclick='like("' + post.uuid + '");', style="display:none;")
+                                            i.material-icons thumb_up
         div(style="width: 33%;display:inline-block;")
             each post,index in posts
                 if(index % 3 == 1)
-                    .w3-card-4.w3-white
+                    .w3-card-4.w3-white(id="delete" + post.uuid)
                         if(post.foto != 'nothing')
                             img(src= post.foto)
-                        p(style="margin-left: 10px; margin-top: 10px;") BY &nbsp;
+                        p(style="margin-left: 10px; margin-top: 10px;text-align: left;") BY &nbsp;
                             b= post.usuari
-                            p(style="margin-left: 20px; margin-top: 10px; font-color: #434343;")= "ON " + dateToYMD(new Date(post.date))
+                            p(style="margin-left: 10px; margin-top: 10px; font-color: #434343;text-align: left;")= "ON " + dateToYMD(new Date(post.date))
                         if(post.description != 'nothing')
-                            .w3-container.w3-center(style="width: 95%")
+                            .container.w3-center(style="width: 95%")
                                 hr
-                                b DESCRIPTION
-                                p(style='word-wrap: break-word;text-align: left;')= post.description
-                                p LIKES:
-                                p(id="likes" + post.uuid)= post.likes.low
-                                if(post.liked.low == 0)
-                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="like" + post.uuid onclick='like("' + post.uuid + '");', style='margin-bottom: 15px;')
-                                        span.fa.fa-pencil
-                                        b &nbsp; &nbsp; LIKE
-                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style='margin-bottom: 15px; display:none;')
-                                        span.fa.fa-pencil
-                                        b &nbsp; &nbsp; DISLIKE
-                                else
-                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="like" + post.uuid onclick='like("' + post.uuid + '");', style='margin-bottom: 15px;display:none;')
-                                        span.fa.fa-pencil
-                                        b &nbsp; &nbsp; LIKE
-                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style='margin-bottom: 15px;')
-                                        span.fa.fa-pencil
-                                        b &nbsp; &nbsp; DISLIKE
+                                b(style='word-wrap: break-word;') DESCRIPTION
+                                p(style='word-wrap: break-word;')= post.description
+                                b(style='word-wrap: break-word;') LIKES:
+                                p(id="likes" + post.uuid style='word-wrap: break-word;')= post.likes.low
+                                .fixed-action-btn.horizontal.w3-right(style='position: relative; display: inline-block; right:-15px;bottom:-10px;')
+                                    if(post.liked.low == 0)
+                                        a.btn-floating.blue(id="like" + post.uuid onclick='like("' + post.uuid + '");', style="display:block;")
+                                            i.material-icons thumb_up
+                                        a.btn-floating.blue(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style="display:none;")
+                                            i.material-icons thumb_down
+                                    else
+                                        a.btn-floating.blue(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style="display:block;")
+                                            i.material-icons thumb_down
+                                        a.btn-floating.blue(id="like" + post.uuid onclick='like("' + post.uuid + '");', style="display:none;")
+                                            i.material-icons thumb_up
         div(style="width: 33%;display:inline-block;")
             each post,index in posts
                 if(index%3==2)
-                    .w3-card-4.w3-white
-                        if(post.foto!='nothing')
+                    .w3-card-4.w3-white(id="delete" + post.uuid)
+                        if(post.foto != 'nothing')
                             img(src= post.foto)
-                        p(style="margin-left: 10px; margin-top: 10px;") BY &nbsp;
+                        p(style="margin-left: 10px; margin-top: 10px;text-align: left;") BY &nbsp;
                             b= post.usuari
-                            p(style="margin-left: 20px; margin-top: 10px; font-color: #434343;")= "ON " + dateToYMD(new Date(post.date))
-                        if(post.description!='nothing')
-                            .w3-container.w3-center(style="width: 95%")
+                            p(style="margin-left: 10px; margin-top: 10px; font-color: #434343;text-align: left;")= "ON " + dateToYMD(new Date(post.date))
+                        if(post.description != 'nothing')
+                            .container.w3-center(style="width: 95%")
                                 hr
-                                b DESCRIPTION
-                                p(style='word-wrap: break-word;text-align: left;')= post.description
-                                p LIKES:
-                                p(id="likes" + post.uuid)= post.likes.low
-                                if(post.liked.low == 0)
-                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="like" + post.uuid onclick='like("' + post.uuid + '");', style='margin-bottom: 15px;')
-                                        span.fa.fa-pencil
-                                        b &nbsp; &nbsp; LIKE
-                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style='margin-bottom: 15px; display:none;')
-                                        span.fa.fa-pencil
-                                        b &nbsp; &nbsp; DISLIKE
-                                else
-                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="like" + post.uuid onclick='like("' + post.uuid + '");', style='margin-bottom: 15px;display:none;')
-                                        span.fa.fa-pencil
-                                        b &nbsp; &nbsp; LIKE
-                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style='margin-bottom: 15px;')
-                                        span.fa.fa-pencil
-                                        b &nbsp; &nbsp; DISLIKE
-        //else
-            p There are no stories
-
+                                b(style='word-wrap: break-word;') DESCRIPTION
+                                p(style='word-wrap: break-word;')= post.description
+                                b(style='word-wrap: break-word;') LIKES:
+                                p(id="likes" + post.uuid style='word-wrap: break-word;')= post.likes.low
+                                .fixed-action-btn.horizontal.w3-right(style='position: relative; display: inline-block; right:-15px;bottom:-10px;')
+                                    if(post.liked.low == 0)
+                                        a.btn-floating.blue(id="like" + post.uuid onclick='like("' + post.uuid + '");', style="display:block;")
+                                            i.material-icons thumb_up
+                                        a.btn-floating.blue(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style="display:none;")
+                                            i.material-icons thumb_down
+                                    else
+                                        a.btn-floating.blue(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style="display:block;")
+                                            i.material-icons thumb_down
+                                        a.btn-floating.blue(id="like" + post.uuid onclick='like("' + post.uuid + '");', style="display:none;")
+                                            i.material-icons thumb_up
+    #infobackground
+    #infocard.w3-display-middle(style="z-index:10;")
+        .w3-card-4(style='margin-top:75px !important;')
+            header.w3-container.w3-blue.infoclass
+                h1 INFORMATION
+                    span.fa.fa-info-circle(style='margin-left:10px;')
+            .w3-container.infoclass(style="background-color: white;")
+                p
+                | HERE, YOU CAN SEE ALL OF YOUR FRIENDS STORIES.
+                p
+                | FOR EACH STORY, YOU CAN DO TWO ACTIONS;
+                P
+                    | - LIKE &nbsp;
+                    a.btn-floating.blue
+                        i.material-icons thumb_up
+                    | &nbsp; OR DISLIKE &nbsp;
+                    a.btn-floating.blue
+                        i.material-icons thumb_down
+                    | &nbsp; THE STORIES.
+                p
+            footer.w3-container.w3-blue.infoclass
+                button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
 style.
     /*RESPONSIVE TEXT*/
-    .container {
+    .w3-container {
         margin-top: 90px;
         margin-bottom: 20px;
     }
 
-    .container div img{
+    .w3-container div img{
         max-width: 100%;
         display: inline-block;
         margin: auto;
     }
 
-    .container div{
+    .w3-container div{
         vertical-align: top;
         max-width: 320px;
         display: block;
         margin-left: 2.5%;
         margin-right: 2.5%;
         margin-bottom: 20px;
+    }
+
+    .container {
+        margin-top: -15px;
+    }
+
+    .infoclass {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
     }
 
 script.
@@ -226,3 +246,13 @@ script.
             }
         });
     };
+
+    $("#closeinfo").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#infocard').css('display', 'none');
+    });
+
+    $("#floatingbutton").click(function () {
+        $('#infobackground').css('display', 'block');
+        $('#infocard').css('display', 'block');
+    });
