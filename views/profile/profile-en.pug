@@ -102,7 +102,7 @@ body
                     h3
                         b
                             span.fa.fa-exchange
-                        | &nbsp; MY POSTS
+                        | &nbsp; MY STORIES
                 .w3-container.w3-center(style="padding-top: 10px;background-color: #EEFBDC;")
                     if(posts.length == 0)
                         p He do not have posts.
@@ -207,7 +207,49 @@ body
                                         h6(style='text-transform: uppercase;')= friend.birthday
                     else
                         p You do not have friends.
-    // END w3-content
+    #infobackground
+    #infocard.w3-display-middle(style="z-index:10;")
+        .w3-card-4(style='margin-top:75px !important;')
+            header.w3-container.w3-blue.infoclass
+                h1 INFORMATION
+                    span.fa.fa-info-circle(style='margin-left:10px;')
+            .w3-container.infoclass(style="background-color: white;")
+                p
+                | ON THIS PAGE, YOU CAN SEE YOUR PROFILE
+                p
+                | THERE ARE THREE SECTIONS:
+                p
+                b - PERSONAL INFORMATION:
+                |&nbsp; ON THIS SECTION YOU CAN SEE YOUR PROFILE PICTURE, YOUR NAME, YOUR BIRTHDAY DATE AND YOUR "ABOUT ME". ALSO, YOU CAN EDIT YOUR PROFILE BY CLICKING "EDIT PROFILE".
+                p
+                b - MY STORIES:
+                | &nbsp; HERE, YOU CAN SEE ALL OF YOUR STORIES.
+                p
+                | &ensp;&ensp;&ensp; FOR EACH STORY, IF YOU PASS YOUR MOUSE ABOVE THE MENU BUTTON &nbsp;
+                a.btn-floating.purple
+                    i.material-icons menu
+                p
+                | &ensp;&ensp;&ensp; YOU CAN DO TWO ACTIONS:
+                P
+                    | &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; - LIKE &nbsp;
+                    a.btn-floating.blue
+                        i.material-icons thumb_up
+                    | &nbsp; OR DISLIKE &nbsp;
+                    a.btn-floating.blue
+                        i.material-icons thumb_down
+                    | &nbsp; THE STORIES.
+                P
+                    | &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; - DELETE &nbsp;
+                    a.btn-floating.red
+                        i.material-icons delete
+                    | &nbsp; YOUR STORY.
+                p
+                b - MY FRIENDS:
+                | &nbsp; HERE, YOU CAN SEE ALL YOUR FRIENDS AND YOU CAN NAVIGATE TO THEIR PROFILES BY CLICKING ON YOUR FRIEND CARD.
+                p
+            footer.w3-container.w3-blue.infoclass
+                button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
 style.
     h3{
         font-family: 'Montserrat', sans-serif !important;
@@ -274,6 +316,11 @@ style.
         background-position: 50% 50%;
     background-repeat: no-repeat;
     border: #2D95D2 solid 8px;
+    }
+
+    .infoclass {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
     }
 
 script.
@@ -343,3 +390,13 @@ script.
             }
         });
     };
+
+    $("#closeinfo").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#infocard').css('display', 'none');
+    });
+
+    $("#floatingbutton").click(function () {
+        $('#infobackground').css('display', 'block');
+        $('#infocard').css('display', 'block');
+    });
