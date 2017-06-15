@@ -145,7 +145,7 @@ app.get('/', requireLogin, (req, res) => {
 
 /* LOGIN*/
 app.get('/login-en', (req, res) => {
-    var passedVariable = req.query.valid;
+    var passedVariable = req.query.fromreg;
   res.render('./login/login-en.pug',{passedVariable});
 });
 

@@ -4,6 +4,8 @@ head
     link(rel="shortcut icon" href="/images/logo_v4_100.png")
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/style/style.css')
     link(rel='stylesheet', href='/css/w3.css')
@@ -14,8 +16,6 @@ head
     script(src='/js/datepicker.en.js')
     script(src='/js/bootstrap.min.js')
     script(src='/js/jquery.validate.min.js')
-    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
-    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     script(type='text/javascript', src='js/materialize.min.js')
 body
     nav.navbar.navbar-default.navbar-fixed-top
@@ -57,7 +57,7 @@ body
                     b(style='text-decoration:underline;') EMAIL
                         sup
                             span.fa.fa-asterisk
-                input.w3-input.w3-border(type='text', style="text-transform:uppercase; width:50vw;",name='email', placeholder="WRITE E-MAIL HERE" required)
+                input.w3-input.w3-border(type='text', style="text-transform:uppercase; width:50vw;", name='email', placeholder="WRITE E-MAIL HERE" required)
                 p
                 label.w3-text
                     b(style='text-decoration:underline;') PASSWORD
@@ -78,6 +78,20 @@ body
     #spinnerbackground
     #spinner
     #infobackground
+    if(passedVariable=="YES")
+        #infocreatedbackground
+        #infocreated.w3-display-middle
+            .w3-card-4(style='margin-top:75px !important;')
+                header.w3-container.w3-blue
+                    h1 SUCCESS
+                        span.fa.fa-info-circle(style='margin-left:10px;')
+                .w3-container(style="background-color: white;")
+                    p
+                    | YOUR USER HAD BEEN SIGNED UP SUCCESFULLY! SIGN IN TO ENJOY THE EXPERIENCE! :)
+                    p
+                footer.w3-container.w3-blue
+                    button#closecreated.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                        span.fa.fa-close(style='margin-left:10px;')
     #infocard.w3-display-middle
         .w3-card-4(style='margin-top:75px !important;')
             header.w3-container.w3-blue
@@ -87,9 +101,9 @@ body
                 p
                 | YOU NEED TO FILL UP THIS PAGE, AND THEN CLICK ON SIGN IN BUTTON BELOW TO ENJOY THE PAGE.
                 p
-                | THING TO BE CONSIDERED:
+                | THINGS TO BE CONSIDERED:
                 p
-                    | - THE FIELDS THAT HAVE
+                    | - THE FIELDS THAT HAVE &nbsp
                     sup
                         span.fa.fa-asterisk
                     |  SYMBOL ARE REQUIRED TO BE REGISTRED ON THIS PAGE.
@@ -98,11 +112,11 @@ body
                     b  EMAIL
                     |  FIELD NEEDS TO BE A REAL EMAIL AND NEEDS TO BE THE MAIL YOU REGISTERED BEFORE.
                 P
-                    | - AL CAMP DE LA
-                    b  CONTRASENYA
-                    | , POTS VEURE EL QUE HAS ESCRIT PASSANT EL RATOLÍ PER SOBRE DE L'ULL '
-                    span.fa.fa-eye
-                    | ' OQUE ES TROBA A LA DRETA.
+                    | - IN THE
+                    b  PASSWORD FIELD
+                    | , YOU CAN SEE WHAT YOU HAVE WRITTEN PASSING YOUR MOUSE ABOVE THE EYE " &nbsp
+                    span.fa.fa-eye.fa-2x
+                    | &nbsp " ON THE RIGHT.
                 p
                     b ENJOY THE EXPERIENCE!!! :-)
                 p
@@ -180,4 +194,9 @@ script.
     $("#closeerror").click(function () {
         $('#infobackground').css('display', 'none');
         $('#errorcard').css('display', 'none');
+    });
+
+    $("#closecreated").click(function () {
+       $('#infocreatedbackground').css('display', 'none');
+       $('#infocreated').css('display', 'none');
     });

@@ -214,8 +214,23 @@ form.w3-container{
     opacity: 0.3;
 }
 
+#infocreatedbackground{
+    display: block;
+    position:fixed;
+    top:0px;
+    right:0px;
+    width:100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.3;
+}
+
 #infocard{
     display: none;
+}
+
+#infocreated{
+    display: block;
 }
 
 #closeinfo:hover{
