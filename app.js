@@ -145,11 +145,13 @@ app.get('/', requireLogin, (req, res) => {
 
 /* LOGIN*/
 app.get('/login-en', (req, res) => {
-  res.render('./login/login-en.pug');
+    var passedVariable = req.query.valid;
+  res.render('./login/login-en.pug',{passedVariable});
 });
 
 app.get('/login-ca', (req, res) => {
-  res.render('./login/login-ca.pug'); // ///////////////////////////////////////////// INFO CATALÀ I CAT REQUIRED FIELDS
+    var passedVariable = req.query.valid;
+  res.render('./login/login-ca.pug',{passedVariable}); // ///////////////////////////////////////////// INFO CATALÀ I CAT REQUIRED FIELDS
 });
 
 app.post('/login-en', (req, res) => {
@@ -206,7 +208,7 @@ app.post('/register-en', (req, res) => {
   const password = req.body.pass1;
 
   db.createUser(name, surname, gender, birthday, email, about, password, code)
-        .then(() => res.redirect('/'))
+        .then(() => res.redirect('/login-en?fromreg=YES'))
         .catch(error => res.status(500).send(error));
 });
 

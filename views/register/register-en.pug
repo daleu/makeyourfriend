@@ -9,13 +9,13 @@ head
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/style/style.css')
     link(rel='stylesheet', href='/css/w3.css')
-    link(rel='stylesheet', href='/style/datepicker.min.css')
     link(rel='stylesheet', href='/css/font-awesome.min.css')
     script(src='/js/jquery.min.js')
     script(src='/js/datepicker.min.js')
     script(src='/js/datepicker.en.js')
     script(src='/js/bootstrap.min.js')
     script(src='/js/jquery.validate.min.js')
+    link(rel='stylesheet', href='/style/datepicker.min.css')
     script(type='text/javascript', src='js/materialize.min.js')
     style.
         @media only screen and (max-width: 450px) {
@@ -144,7 +144,7 @@ body
                 p
                 | TO HAVE AN ACCOUNT ON THIS PAGE, YOU NEED TO FILL UP THIS PAGE, AND THEN CLICK ON REGISTER BUTTON BELOW.
                 p
-                | THING TO BE CONSIDERED:
+                | THINGS TO BE CONSIDERED:
                 p
                     | - THE FIELDS THAT HAVE
                     sup
@@ -165,9 +165,9 @@ body
                 P
                     | - IN THE
                     b  PASSWORD FIELDS
-                    | , YOU CAN SEE WHAT YOU HAVE WRITTEN PASSING YOUR MOUSE ABOVE THE EYE '
-                    span.fa.fa-eye
-                    | ' ON THE RIGHT.
+                    | , YOU CAN SEE WHAT YOU HAVE WRITTEN PASSING YOUR MOUSE ABOVE THE EYE " &nbsp
+                    span.fa.fa-eye.fa-2x
+                    | &nbsp " ON THE RIGHT.
                 p
                     b ENJOY THE EXPERIENCE!!! :-)
                 p
@@ -200,143 +200,154 @@ body
             footer.w3-container.w3-red
                 button#closeerrorcode.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
                     span.fa.fa-close(style='margin-left:10px;')
-    script.
+style.
+    .picker__wrap{
+        margin-top: 90px !important;
+    }
 
-        /*WHEN SUBMIT IS CLICKED*/
-        $( "#submitbutton" ).click(function() {
-            var form = $("#registerform");
-            form.validate({
-                rules: {
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    pass1: {
-                        required: true,
-                        minlength: 8
-                    },
-                    pass2: {
-                        required: true,
-                        equalTo: "#pass1"
-                    },
-                    birthday:{
-                        isValidDate: true
-                    }
+script.
+
+    $('.datepicker-here').pickadate({
+        selectMonths: true, // Creates a dropdown to control month
+        selectYears: 30, // Creates a dropdown of 15 years to control year
+        format: 'mm/dd/yyyy',
+        max: new Date()
+    });
+
+    /*WHEN SUBMIT IS CLICKED*/
+    $( "#submitbutton" ).click(function() {
+        var form = $("#registerform");
+        form.validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true
+                },
+                pass1: {
+                    required: true,
+                    minlength: 8
+                },
+                pass2: {
+                    required: true,
+                    equalTo: "#pass1"
+                },
+                birthday:{
+                    isValidDate: true
                 }
-            });
-
-            if(form.valid()) {
-                $('#spinnerbackground').css('display', 'block');
-                $('#spinner').css('display', 'block');
-                $.ajax({
-                    url: "/getUsers"
-                }).done(function (users) {
-                    var i = 0;
-                    var exists = false;
-                    var validCode = false;
-                    for(i=0;i<users.length;++i){
-                        if(users[i].email == document.getElementsByName("email")[0].value){
-                            exists = true;
-                            i=users.length;
-                        }
-                        if(users[i].uuid == document.getElementsByName("code")[0].value & users[i].isadmin=="YES"){
-                            validCode = true;
-                        }
-                    }
-                    if (exists) {
-                        $('#spinnerbackground').css('display', 'none');
-                        $('#spinner').css('display', 'none');
-                        $('#infobackground').css('display', 'block');
-                        $('#errorcard').css('display', 'block');
-                    }
-                    else {
-                        if(validCode == false){
-                            $('#spinnerbackground').css('display', 'none');
-                            $('#spinner').css('display', 'none');
-                            $('#infobackground').css('display', 'block');
-                            $('#errorcardcode').css('display', 'block');
-                        }
-                        else form.submit();
-                    }
-                }).fail(function () {
-                    $('#spinnerbackground').css('display', 'none');
-                    $('#spinner').css('display', 'none');
-                });
             }
         });
 
-        /*TEST VALID DATE*/
-        $.validator.addMethod(
-                "isValidDate",
-                function () {
-
-                    var dateString = $('#datapicker').val();
-
-                    if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString)) return false;
-
-                    //Get Date parts to Integer
-                    var parts = dateString.split("/");
-                    var day = parseInt(parts[1], 10);
-                    var month = parseInt(parts[0], 10);
-                    var year = parseInt(parts[2], 10);
-
-                    //Check month and year ranges
-                    var actualYear = new Date().getFullYear();
-                    if (year < actualYear - 100 || year > actualYear || month <= 0 || month > 12) return false;
-
-                    //Define month days
-                    var monthLenght = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-                    //Leap years
-                    if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)) monthLenght[1] = 29;
-
-                    //Check day range
-                    return day > 0 && day <= monthLenght[month - 1];
-                },
-                "Please enter a date in the format mm/dd/yyyy."
-        );
-
-        /*SEE PASSWORD FUNCTIONS*/
-        function onoverpass1() {
-            var obj = document.getElementById('pass1');
-            obj.type = "text";
-            $('#pass1span').css('color', 'black');
+        if(form.valid()) {
+            $('#spinnerbackground').css('display', 'block');
+            $('#spinner').css('display', 'block');
+            $.ajax({
+                url: "/getUsers"
+            }).done(function (users) {
+                var exists = false;
+                var validCode = false;
+                for(i=0;i<users.length;++i){
+                    if(users[i].email == document.getElementsByName("email")[0].value){
+                        exists = true;
+                        i=users.length;
+                    }
+                    if(users[i].uuid.toLowerCase() == document.getElementsByName("code")[0].value.toLowerCase() && users[i].isadmin=="YES"){
+                        validCode = true;
+                    }
+                }
+                if (exists) {
+                    $('#spinnerbackground').css('display', 'none');
+                    $('#spinner').css('display', 'none');
+                    $('#infobackground').css('display', 'block');
+                    $('#errorcard').css('display', 'block');
+                }
+                else {
+                    if(validCode == false){
+                        $('#spinnerbackground').css('display', 'none');
+                        $('#spinner').css('display', 'none');
+                        $('#infobackground').css('display', 'block');
+                        $('#errorcardcode').css('display', 'block');
+                    }
+                    else form.submit();
+                }
+            }).fail(function () {
+                $('#spinnerbackground').css('display', 'none');
+                $('#spinner').css('display', 'none');
+            });
         }
+    });
 
-        function onoutpass1() {
-            var obj = document.getElementById('pass1');
-            obj.type = "password";
-            $('#pass1span').css('color', 'rgb(204, 204, 204)');
-        }
-        function onoverpass2() {
-            var obj = document.getElementById('pass2');
-            obj.type = "text";
-            $('#pass2span').css('color', 'black');
-        }
+    /*TEST VALID DATE*/
+    $.validator.addMethod(
+            "isValidDate",
+            function () {
 
-        function onoutpass2() {
-            var obj = document.getElementById('pass2');
-            obj.type = "password";
-            $('#pass2span').css('color', 'rgb(204, 204, 204)');
-        }
+                var dateString = $('#datapicker').val();
 
-        /*WHEN INFO IS CLICKED*/
-        $( "#floatingbutton" ).click(function() {
-            $('#infobackground').css('display', 'block');
-            $('#infocard').css('display', 'block');
-        });
+                if (!/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateString)) return false;
 
-        $("#closeinfo").click(function () {
-            $('#infobackground').css('display', 'none');
-            $('#infocard').css('display', 'none');
-        });
+                //Get Date parts to Integer
+                var parts = dateString.split("/");
+                var day = parseInt(parts[1], 10);
+                var month = parseInt(parts[0], 10);
+                var year = parseInt(parts[2], 10);
 
-        $("#closeerror").click(function () {
-            $('#infobackground').css('display', 'none');
-            $('#errorcard').css('display', 'none');
-        });
+                //Check month and year ranges
+                var actualYear = new Date().getFullYear();
+                if (year < actualYear - 100 || year > actualYear || month <= 0 || month > 12) return false;
 
-        $("#closeerrorcode").click(function () {
-            $('#infobackground').css('display', 'none');
-            $('#errorcardcode').css('display', 'none');
-        });
+                //Define month days
+                var monthLenght = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+                //Leap years
+                if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)) monthLenght[1] = 29;
+
+                //Check day range
+                return day > 0 && day <= monthLenght[month - 1];
+            },
+            "Please enter a date in the format mm/dd/yyyy."
+    );
+
+    /*SEE PASSWORD FUNCTIONS*/
+    function onoverpass1() {
+        var obj = document.getElementById('pass1');
+        obj.type = "text";
+        $('#pass1span').css('color', 'black');
+    }
+
+    function onoutpass1() {
+        var obj = document.getElementById('pass1');
+        obj.type = "password";
+        $('#pass1span').css('color', 'rgb(204, 204, 204)');
+    }
+    function onoverpass2() {
+        var obj = document.getElementById('pass2');
+        obj.type = "text";
+        $('#pass2span').css('color', 'black');
+    }
+
+    function onoutpass2() {
+        var obj = document.getElementById('pass2');
+        obj.type = "password";
+        $('#pass2span').css('color', 'rgb(204, 204, 204)');
+    }
+
+    /*WHEN INFO IS CLICKED*/
+    $( "#floatingbutton" ).click(function() {
+        $('#infobackground').css('display', 'block');
+        $('#infocard').css('display', 'block');
+    });
+
+    $("#closeinfo").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#infocard').css('display', 'none');
+    });
+
+    $("#closeerror").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#errorcard').css('display', 'none');
+    });
+
+    $("#closeerrorcode").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#errorcardcode').css('display', 'none');
+    });
