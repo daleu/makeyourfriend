@@ -587,6 +587,14 @@ app.post('/accept-invitation/:uuid', requireLogin, (req, res) => {
     });
 });
 
+app.post('/delete-invitation/:uuid', requireLogin, (req, res) => {
+    const uuid = req.params.uuid;
+    console.log("deleted");
+    db.deleteRequestEvent(user.email, uuid).then(() => {
+            res.send('OK');
+    });
+});
+
 app.post('/delete-event/:uuid', requireLogin, (req, res) => {
     const uuid = req.params.uuid;
     db.deleteEvent(uuid).then(() => {

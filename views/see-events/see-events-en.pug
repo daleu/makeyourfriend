@@ -4,6 +4,8 @@ headxmlns:z-index="http://www.w3.org/1999/xhtml"
     link(rel="shortcut icon" href="/images/logo_v4_100.png")
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/style/style.css')
     link(rel='stylesheet', href='/css/w3.css')
@@ -17,8 +19,6 @@ headxmlns:z-index="http://www.w3.org/1999/xhtml"
     script(src='/js/jquery.validate.min.js')
     script(src='/js/moment.min.js')
     script(src='/js/fullcalendar.js')
-    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
-    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     script(type='text/javascript', src='js/materialize.min.js')
 body
     nav.navbar.navbar-default.navbar-fixed-top
@@ -88,9 +88,12 @@ body
                         h6(style='text-transform: uppercase;')= "TO "+invitation.end
                         p
                         h6(style='text-transform: uppercase;')= "INVITED BY "+invitation.usuari
-                        button.w3-button.w3-padding-large.w3-black.w3-border(onclick="acceptInvitation('"+invitation.uuid+"')", style='margin-bottom: 15px; heigth: 40px;')
+                        button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(onclick="acceptInvitation('"+invitation.uuid+"')", style='margin-bottom: 15px;margin-right: 15px; heigth: 40px;')
                             span.fa.fa-pencil
                             b     ACCEPT INVITATION
+                        button.w3-button.w3-padding-large.w3-black.w3-border.w3-left(onclick="declineInvitation('" + invitation.uuid + "')", style='margin-bottom: 15px;margin-left: 15px; heigth: 40px;')
+                            i.material-icons delete
+                            b     DECLINE INVITATION
             else
                 p(style="padding-top: 20px;") YOU DO NOT HAVE EVENTS TO ACCEPT
             div(style='height:20px;')
@@ -147,6 +150,22 @@ body
                 p
             footer.w3-container.w3-blue
                 button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
+    #infocard2.w3-display-middle(style="z-index: 10; display:none;")
+        .w3-card-4(style='margin-top:75px !important;')
+            header.w3-container.w3-blue
+                h1 INFORMATION
+                    span.fa.fa-info-circle(style='margin-left:10px;')
+            .w3-container(style="background-color: white;")
+                p
+                | ON THIS PAGE YOU CAN A CALENDAR WITH ALL EVENTS THAT YOU ASSISTED OR YOU ARE GOING TO ASSIST. ALSO, YOU CAN SEE ALL OF YOUR INVITATIONS TO FUTURE EVENTS.
+                p
+                | IF YOU GO TO "MY CALENDAR" TAB, YOU WILL SEE A CALENDAR WITH ALL THE EVENT THAT YOU ASSISTED OR YOU ARE GOING TO ASSIST. ALSO, IF YOU CLICK AN EVENT ON THE CALENDAR, YOU WILL SEE THE DETAILED INFORMATION ABOUT THIS EVENT.
+                p
+                | IF YOU GO TO "MY INVITATIONS" TAB, YOU WILL BE ABLE TO ACCEPT OR DECLINE YOUR INVITATIONS REQUESTS.
+                p
+            footer.w3-container.w3-blue
+                button#closeinfo2.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
                     span.fa.fa-close(style='margin-left:10px;')
 style.
 
@@ -283,6 +302,28 @@ script.
         //alert(email);
     }
 
+    function declineInvitation(uuid) {
+        $('#spinnerbackground').css('display', 'block');
+        $('#spinner').css('display', 'block');
+        $.ajax({
+            method: "POST",
+            url: "/delete-invitation/" + uuid,
+            success: function (result) {
+                console.log(result);
+                $('#spinnerbackground').css('display', 'none');
+                $('#spinner').css('display', 'none');
+                if (result == "OK") {
+                    refreshCalendar();
+                    $('#' + uuid).css("display", "none");
+                }
+                else {
+
+                }
+            }
+        });
+        //alert(email);
+    }
+
     function deleteEvent(uuid) {
         $('#spinnerbackground').css('display', 'block');
         $('#spinner').css('display', 'block');
@@ -304,3 +345,13 @@ script.
         });
         //alert(email);
     }
+
+    $("#closeinfo2").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#infocard2').css('display', 'none');
+    });
+
+    $("#floatingbutton").click(function () {
+        $('#infobackground').css('display', 'block');
+        $('#infocard2').css('display', 'block');
+    });
