@@ -4,6 +4,8 @@ head
     link(rel="shortcut icon" href="/images/logo_v4_100.png")
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/style/style.css')
     link(rel='stylesheet', href='/css/w3.css')
@@ -16,6 +18,7 @@ head
     script(src='/js/bootstrap.min.js')
     script(src='/js/jquery.validate.min.js')
     script(src='/js/dropzone.js')
+    script(type='text/javascript', src='js/materialize.min.js')
 body
     nav.navbar.navbar-default.navbar-fixed-top
         .container-fluid(style='background-color: rgb(42, 124, 82) important;')
@@ -49,6 +52,9 @@ body
                                 a(href='#') CASTELLANO
                             li
                                 a(href='#') ENGLISH
+    a#floatingbutton.btn-floating.btn-large.waves-effect.waves-light
+        p INFO
+            span.fa.fa-info-circle(style='margin-left:10px;')
     //CONTENT
     .w3-row(style='margin-top:90px;')
         // Blog entries
@@ -100,6 +106,22 @@ body
                     button#aboutbutton.w3-button.w3-padding-large.w3-black.w3-border.w3-right(style='margin-bottom: 15px;')
                         span.fa.fa-upload
                         b &nbsp; &nbsp; UPLOAD DESCRIPTION
+    #infobackground
+    #infocard.w3-display-middle(style="z-index:10;")
+        .w3-card-4(style='margin-top:75px !important;')
+            header.w3-container.w3-blue.infoclass
+                h1 INFORMATION
+                    span.fa.fa-info-circle(style='margin-left:10px;')
+            .w3-container.infoclass(style="background-color: white;")
+                p
+                | ON THIS PAGE, YOU CAN EDIT YOUR PERSONAL IMAGE AND YOUR DESCRIPTION.
+                p
+                | TO UPLOAD YOUR PERSONAL IMAGE, YOU ONLY NEED DRAG AND DROP THE IMAGE THAT YOU WANT ON "DROP FILES HERE TO UPLOAD" FIELD OR CLICK THERE AND SELECT THE IMAGE. AFTER IT, CLICK UPLOAD IMAGE.
+                p
+                | TO UPLOAD YOUR DESCRIPTION, YOU ONLY NEED TO FILL UP YOUR NEW DESCRIPTION FIELD AND THEN CLICK UPLOAD DESCRIPTION BUTTON.
+                p
+            footer.w3-container.w3-blue.infoclass
+                button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
 style.
     .circletag {
         margin: 0 auto;
@@ -170,3 +192,13 @@ script.
 
         }
     };
+
+    $("#closeinfo").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#infocard').css('display', 'none');
+    });
+
+    $("#floatingbutton").click(function () {
+        $('#infobackground').css('display', 'block');
+        $('#infocard').css('display', 'block');
+    });
