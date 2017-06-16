@@ -4,6 +4,8 @@ head
     link(rel="shortcut icon" href="/images/logo_v4_100.png")
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/style/style.css')
     link(rel='stylesheet', href='/css/w3.css')
@@ -14,8 +16,6 @@ head
     script(src='/js/datepicker.en.js')
     script(src='/js/bootstrap.min.js')
     script(src='/js/jquery.validate.min.js')
-    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
-    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     script(type='text/javascript', src='js/materialize.min.js')
 body
     nav.navbar.navbar-default.navbar-fixed-top
@@ -50,6 +50,9 @@ body
                                 a(href='#') CASTELLANO
                             li
                                 a(href='#') ENGLISH
+    a#floatingbutton.btn-floating.btn-large.waves-effect.waves-light
+        p INFO
+            span.fa.fa-info-circle(style='margin-left:10px;')
     .container.w3-center
         .w3-row
             button#myRequestsButton.w3-button.w3-padding-large.w3-black.w3-border(style='margin-bottom: 15px; width: 290px;')
@@ -61,10 +64,6 @@ body
             button#myInRequestsButton.w3-button.w3-padding-large.w3-border.w3-black(style='margin-bottom: 15px;width: 290px;')
                 span.fa.fa-mail-reply
                 b &nbsp; &nbsp; REQUESTS THAT I HAVE
-        input#searchPeople.w3-input.w3-border(name='name', placeholder="WRITE LETTERS OF YOUR FRIEND NAME" required)
-        button#buttonSearch.w3-button.w3-padding-large.w3-black.w3-border(style='margin-top: 15px;')
-            span.fa.fa-search
-            b &nbsp; &nbsp; SEARCH
     .w3-container
         hr
     .w3-container#resultPeople
@@ -92,15 +91,43 @@ body
     #infocard.w3-display-middle
         .w3-card-4(style='margin-top:75px !important;')
             header.w3-container.w3-blue
-                h1 SUCCESS!
+                h1 INFORMATION
                     span.fa.fa-info-circle(style='margin-left:10px;')
             .w3-container(style="background-color: white;")
                 p
-                | YOUR FRIEND REQUEST HAS BEEN SENT CORRECTLY!
-                | WAIT FOR A RESPONSE!
+                | ON THIS PAGE YOU CAN SEE YOUR FRIENDS, YOUR REQUESTS TO OTHER PEOPLE AND THE REQUESTS THAT YOU HAVE BY CLICKING THE THREE TABS ON THE TOP OF THE PAGE.
+                p
+                | IF YOU GO TO "REQUESTS THAT I HAVE" TAB, YOU CAN ACCEPT THE REQUEST BY CLICKING ACCEPT BUTTON ON THE CARD, OR DECLINE CLIKING DECLINE BUTTON ON THE CARD.
+                p
+                | ALSO, IF YOU GO TO "MY FRIENDS" TAB, YOU CAN SEE HIS PROFILE BY CLICKING ON THE CARD.
                 p
             footer.w3-container.w3-blue
                 button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
+    #infocarddecline.w3-display-middle(style="display:none;")
+        .w3-card-4(style='margin-top:75px !important;')
+            header.w3-container.w3-red
+                h1 DECLINED
+                    span.fa.fa-info-circle(style='margin-left:10px;')
+            .w3-container(style="background-color: white;")
+                p
+                | INVITATION HAVE BEEN DECLINED CORRECTLY.
+                p
+            footer.w3-container.w3-red
+                button#closeinfodecline.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
+    #infocardaccept.w3-display-middle(style="display:none;")
+        .w3-card-4(style='margin-top:75px !important;')
+            header.w3-container.w3-blue
+                h1 ACCEPTED!
+                    span.fa.fa-info-circle(style='margin-left:10px;')
+            .w3-container(style="background-color: white;")
+                p
+                | INVITATION ACCEPTED CORRECTLY!
+                | NOW YOU ARE FRIENDS!! :)
+                p
+            footer.w3-container.w3-blue
+                button#closeinfoaccept.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
                     span.fa.fa-close(style='margin-left:10px;')
 style.
     /*RESPONSIVE TEXT*/
@@ -124,8 +151,8 @@ style.
         margin-bottom: 15px;
         margin-top: 15px;
         display: block;
-        width: 100px;
-        height: 100px;
+        width: 130px;
+        height: 130px;
         background: #E6E7ED;
         -moz-border-radius: 200px;
         -webkit-border-radius: 200px;
@@ -134,17 +161,12 @@ style.
         border: #2D95D2 solid 5px;
     }
 
-    h5 {
+    h3 {
         font-family: 'Montserrat', sans-serif !important;
         font-weight: bold;
     }
 
 script.
-
-    $("#buttonSearch").click(function () {
-        $('#spinnerbackground').css('display', 'block');
-        $('#spinner').css('display', 'block');
-    });
 
     $("#myRequestsButton").click(function () {
         $('#spinnerbackground').css('display', 'block');
@@ -158,9 +180,12 @@ script.
                 console.log(result);
                 /*$("#resultPeople").html(result);*/
                 $(result).each(function (item) {
-                    if (this.foto == null)append += '<a href="profile-out-en/' + this.email + '"><div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6></div></div></div></a>';
-                    else append += '<a href="profile-out-en/' + this.email + '"><div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="' + this.foto + '" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h3><h6 style="text-transform: uppercase;">' + this.birthday + '</h6></div></div></div></a>';
+                    if (this.foto == null)append += '<div class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6></div></div></div>';
+                    else append += '<div class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="' + this.foto + '" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h3><h6 style="text-transform: uppercase;">' + this.birthday + '</h6></div></div></div>';
                 });
+                if (result.length == 0) {
+                    append += "<p>YOU HAVE NOT SEND INVITATIONS TO OTHER USERS.</p>";
+                }
                 $("#resultPeople").html(append);
                 $('#spinnerbackground').css('display', 'none');
                 $('#spinner').css('display', 'none');
@@ -180,9 +205,12 @@ script.
                 console.log(result);
                 /*$("#resultPeople").html(result);*/
                 $(result).each(function (item) {
-                    if (this.foto == null)append += '<div id="'+this.uuid+'" style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button onClick="declineRequest(\'' + this.email + '\',\'' + this.uuid + '\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-left"><span class="fa fa-check"></span><b>&nbsp; &nbsp; DECLINE</b></button><button onClick="acceptRequest(\'' + this.email + '\',\'' + this.uuid + '\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-check"></span><b>&nbsp; &nbsp; ACCEPT</b></button></div></div></div>';
-                    else append += '<div id="'+this.uuid+'" style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="' + this.foto + '" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h3><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button onClick="declineRequest(\'' + this.email + '\',\'' + this.uuid + '\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-left"><span class="fa fa-check"></span><b>&nbsp; &nbsp; DECLINE</b></button><button onClick="acceptRequest(\'' + this.email + '\',\'' + this.uuid + '\')" style="margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-check"></span><b>&nbsp; &nbsp; ACCEPT</b></button></div></div></div>';
+                    if (this.foto == null)append += '<div id="'+this.uuid+'" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button onClick="declineRequest(\'' + this.email + '\',\'' + this.uuid + '\')" style="margin-top: 30px; margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-left"><span class="fa fa-check"></span><b>&nbsp; &nbsp; DECLINE</b></button><button onClick="acceptRequest(\'' + this.email + '\',\'' + this.uuid + '\')" style="margin-bottom: 15px;margin-top: 30px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-check"></span><b>&nbsp; &nbsp; ACCEPT</b></button></div></div></div>';
+                    else append += '<div id="'+this.uuid+'" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="' + this.foto + '" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h3><h6 style="text-transform: uppercase;">' + this.birthday + '</h6><button onClick="declineRequest(\'' + this.email + '\',\'' + this.uuid + '\')" style="margin-top: 30px; margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-left"><span class="fa fa-check"></span><b>&nbsp; &nbsp; DECLINE</b></button><button onClick="acceptRequest(\'' + this.email + '\',\'' + this.uuid + '\')" style="margin-top: 30px; margin-bottom: 15px; heigth: 40px;" class="w3-button w3-padding-large w3-black w3-border w3-right"><span class="fa fa-check"></span><b>&nbsp; &nbsp; ACCEPT</b></button></div></div></div>';
                 });
+                if (result.length == 0) {
+                    append += "<p>YOU DO NOT HAVE REQUESTS TO ACCEPT OR DECLINE.</p>";
+                }
                 $("#resultPeople").html(append);
                 $('#spinnerbackground').css('display', 'none');
                 $('#spinner').css('display', 'none');
@@ -205,6 +233,9 @@ script.
                     if (this.foto == null)append += '<a href="profile-out-en/' + this.email + '"><div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="/images/profile/profile-en.jpg" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h5 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h5><h6 style="text-transform: uppercase;">' + this.birthday + '</h6></div></div></div></a>';
                     else append += '<a href="profile-out-en/' + this.email + '"><div style="cursor: pointer;" class="w3-card-4 w3-white"><div class="w3-row"><div class="w3-col l3 s3"><img src="' + this.foto + '" class="circletag"/></div><div style="margin-left: 20px;" class="w3-col l7 s7 w3-center"><p></p><h3 style="text-transform: uppercase;">' + this.name + ' ' + this.surname + '</h3><h6 style="text-transform: uppercase;">' + this.birthday + '</h6></div></div></div></a>';
                 });
+                if(result.length==0){
+                    append+= "<p>YOU DO NOT HAVE FRIENDS, PLEASE GO TO SEARCH PEOPLE SECTION AND SEND REQUESTS TO HAVE FRIENDS! :)</p>";
+                }
                 $("#resultPeople").html(append);
                 $('#spinnerbackground').css('display', 'none');
                 $('#spinner').css('display', 'none');
@@ -224,7 +255,7 @@ script.
                 $('#spinner').css('display', 'none');
                 $('#infobackground').css('display', 'block');
                 if (result == "OK") {
-                    $('#infocard').css('display', 'block');
+                    $('#infocardaccept').css('display', 'block');
                     $('#' + uuid).css("display", "none");
                 }
                 else {
@@ -246,7 +277,7 @@ script.
                 $('#spinner').css('display', 'none');
                 $('#infobackground').css('display', 'block');
                 if (result == "OK") {
-                    $('#infocard').css('display', 'block');
+                    $('#infocarddecline').css('display', 'block');
                     $('#'+uuid).css("display","none");
                 }
                 else {
@@ -255,4 +286,24 @@ script.
             }
         });
     };
+
+    $("#closeinfodecline").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#infocarddecline').css('display', 'none');
+    });
+
+    $("#closeinfoaccept").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#infocardaccept').css('display', 'none');
+    });
+
+    $("#closeinfo").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#infocard').css('display', 'none');
+    });
+
+    $("#floatingbutton").click(function () {
+        $('#infobackground').css('display', 'block');
+        $('#infocard').css('display', 'block');
+    });
 
