@@ -113,9 +113,9 @@ body
                                     .post.w3-card-4.w3-white(style="position: relative;margin: 0 auto; margin-top: 10px;")
                                         if(post.foto != 'nothing')
                                             img(src='.'+ post.foto)
-                                        p(style="margin-left: 10px; margin-top: 10px;") BY &nbsp;
+                                        p(style="margin-left: 10px; margin-top: 10px;text-align: left;") BY &nbsp;
                                             b= usuari.name + ' ' + usuari.surname
-                                            p(style="margin-left: 20px; margin-top: 10px; font-color: #434343;")= "ON " + dateToYMD(new Date(post.date))
+                                            p(style="margin-left: 10px; margin-top: 10px; font-color: #434343;text-align: left;")= "ON " + dateToYMD(new Date(post.date))
                                         if(post.description != 'nothing')
                                             .w3-container.w3-center(style="width: 95%")
                                                 hr
@@ -123,29 +123,26 @@ body
                                                 p(style='word-wrap: break-word;text-align: left;')= post.description
                                                 p LIKES:
                                                 p(id="likes" + post.uuid)= post.likes.low
-                                                if(post.liked.low == 0)
-                                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="like" + post.uuid onclick='like("' + post.uuid + '");', style='margin-bottom: 15px;')
-                                                        span.fa.fa-pencil
-                                                        b &nbsp; &nbsp; LIKE
-                                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style='margin-bottom: 15px; display:none;')
-                                                        span.fa.fa-pencil
-                                                        b &nbsp; &nbsp; DISLIKE
-                                                else
-                                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="like" + post.uuid onclick='like("' + post.uuid + '");', style='margin-bottom: 15px;display:none;')
-                                                        span.fa.fa-pencil
-                                                        b &nbsp; &nbsp; LIKE
-                                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style='margin-bottom: 15px;')
-                                                        span.fa.fa-pencil
-                                                        b &nbsp; &nbsp; DISLIKE
+                                                .fixed-action-btn.horizontal.w3-right(style='position: relative; display: inline-block; right:-15px;bottom:10px;')
+                                                    if(post.liked.low == 0)
+                                                        a.btn-floating.blue(id="like" + post.uuid onclick='like("' + post.uuid + '");', style="display:block;")
+                                                            i.material-icons thumb_up
+                                                        a.btn-floating.blue(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style="display:none;")
+                                                            i.material-icons thumb_down
+                                                    else
+                                                        a.btn-floating.blue(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style="display:block;")
+                                                            i.material-icons thumb_down
+                                                        a.btn-floating.blue(id="like" + post.uuid onclick='like("' + post.uuid + '");', style="display:none;")
+                                                            i.material-icons thumb_up
                         .w3-col.l6
                             each post,index in posts
                                 if(index % 2 == 1)
                                     .post.w3-card-4.w3-white(style="position: relative;margin: 0 auto;margin-top: 10px;")
                                         if(post.foto != 'nothing')
                                             img(src='.'+ post.foto)
-                                        p(style="margin-left: 10px; margin-top: 10px;") BY &nbsp;
+                                        p(style="margin-left: 10px; margin-top: 10px;text-align: left;") BY &nbsp;
                                             b= usuari.name + ' ' + usuari.surname
-                                            p(style="margin-left: 20px; margin-top: 10px; font-color: #434343;")= "ON " + dateToYMD(new Date(post.date))
+                                            p(style="margin-left: 10px; margin-top: 10px; font-color: #434343;text-align: left;")= "ON " + dateToYMD(new Date(post.date))
                                         if(post.description != 'nothing')
                                             .w3-container.w3-center(style="width: 95%")
                                                 hr
@@ -153,20 +150,17 @@ body
                                                 p(style='word-wrap: break-word;text-align: left;')= post.description
                                                 p LIKES:
                                                 p(id="likes" + post.uuid)= post.likes.low
-                                                if(post.liked.low == 0)
-                                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="like" + post.uuid onclick='like("' + post.uuid + '");', style='margin-bottom: 15px;')
-                                                        span.fa.fa-pencil
-                                                        b &nbsp; &nbsp; LIKE
-                                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style='margin-bottom: 15px; display:none;')
-                                                        span.fa.fa-pencil
-                                                        b &nbsp; &nbsp; DISLIKE
-                                                else
-                                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="like" + post.uuid onclick='like("' + post.uuid + '");', style='margin-bottom: 15px;display:none;')
-                                                        span.fa.fa-pencil
-                                                        b &nbsp; &nbsp; LIKE
-                                                    button.w3-button.w3-padding-large.w3-black.w3-border.w3-right(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style='margin-bottom: 15px;')
-                                                        span.fa.fa-pencil
-                                                        b &nbsp; &nbsp; DISLIKE
+                                                .fixed-action-btn.horizontal.w3-right(style='position: relative; display: inline-block; right:-15px;bottom:10px;')
+                                                    if(post.liked.low == 0)
+                                                        a.btn-floating.blue(id="like" + post.uuid onclick='like("' + post.uuid + '");', style="display:block;")
+                                                            i.material-icons thumb_up
+                                                        a.btn-floating.blue(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style="display:none;")
+                                                            i.material-icons thumb_down
+                                                    else
+                                                        a.btn-floating.blue(id="dislike" + post.uuid onclick='dislike("' + post.uuid + '");', style="display:block;")
+                                                            i.material-icons thumb_down
+                                                        a.btn-floating.blue(id="like" + post.uuid onclick='like("' + post.uuid + '");', style="display:none;")
+                                                            i.material-icons thumb_up
             // END BLOG ENTRIES
         // Introduction menu
         .w3-col.l4
@@ -193,7 +187,38 @@ body
                                         h6(style='text-transform: uppercase;')= friend.birthday
                     else
                         p YOU DON'T HAVE FRIENDS, PLEASE GO TO SEARCH PEOPLE SECTION AND SEND REQUESTS TO HAVE FRIENDS! :)
-    // END w3-content
+    #infobackground
+    #infocard.w3-display-middle(style="z-index:10;")
+        .w3-card-4(style='margin-top:75px !important;')
+            header.w3-container.w3-blue.infoclass
+                h1 INFORMATION
+                    span.fa.fa-info-circle(style='margin-left:10px;')
+            .w3-container.infoclass(style="background-color: white;")
+                p
+                | ON THIS PAGE, YOU CAN SEE A PROFILE OF A FRIEND
+                p
+                | THERE ARE THREE SECTIONS:
+                p
+                b - PERSONAL INFORMATION:
+                | &nbsp; ON THIS SECTION YOU CAN SEE HIS PROFILE PICTURE, HIS NAME, HIS BIRTHDAY DATE AND HIS "ABOUT ME".
+                p
+                b - MY STORIES:
+                | &nbsp; HERE, YOU CAN SEE ALL OF HIS STORIES. FOR EACH STORY, YOU CAN DO TWO ACTIONS:
+                P
+                    | &ensp;&ensp;&ensp;&ensp;&ensp;&ensp; - LIKE &nbsp;
+                    a.btn-floating.blue
+                        i.material-icons thumb_up
+                    | &nbsp; OR DISLIKE &nbsp;
+                    a.btn-floating.blue
+                        i.material-icons thumb_down
+                    | &nbsp; THE STORIES.
+                p
+                b - MY FRIENDS:
+                | &nbsp; HERE, YOU CAN SEE ALL HIS FRIENDS AND YOU CAN NAVIGATE TO THEIR PROFILES BY CLICKING ON YOUR FRIEND CARD.
+                p
+            footer.w3-container.w3-blue.infoclass
+                button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
+                    span.fa.fa-close(style='margin-left:10px;')
 style.
 
     h3{
@@ -261,6 +286,11 @@ style.
         background-position: 50% 50%;
         background-repeat: no-repeat;
         border: #2D95D2 solid 8px;
+    }
+
+    .infoclass {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
     }
 
 script.
@@ -331,3 +361,13 @@ script.
             }
         });
     };
+
+    $("#closeinfo").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#infocard').css('display', 'none');
+    });
+
+    $("#floatingbutton").click(function () {
+        $('#infobackground').css('display', 'block');
+        $('#infocard').css('display', 'block');
+    });

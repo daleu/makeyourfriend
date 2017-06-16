@@ -113,9 +113,9 @@ body
                                     .post.w3-card-4.w3-white(id="delete" + post.uuid style="position: relative;margin: 0 auto; margin-top: 10px;")
                                         if(post.foto != 'nothing')
                                             img(src='.' + post.foto)
-                                        p(style="margin-left: 10px; margin-top: 10px;") BY &nbsp;
+                                        p(style="margin-left: 10px; margin-top: 10px;text-align: left;") BY &nbsp;
                                             b= user.name + ' ' + user.surname
-                                            p(style="margin-left: 20px; margin-top: 10px; font-color: #434343;")= "ON " + dateToYMD(new Date(post.date))
+                                            p(style="margin-left: 10px; margin-top: 10px; font-color: #434343;text-align: left;")= "ON " + dateToYMD(new Date(post.date))
                                         if(post.description != 'nothing')
                                             .w3-container.w3-center(style="width: 95%")
                                                 hr
@@ -151,9 +151,9 @@ body
                                     .post.w3-card-4.w3-white(id="delete" + post.uuid style="position: relative;margin: 0 auto;margin-top: 10px;")
                                         if(post.foto != 'nothing')
                                             img(src='.' + post.foto)
-                                        p(style="margin-left: 10px; margin-top: 10px;") BY &nbsp;
+                                        p(style="margin-left: 10px; margin-top: 10px;text-align: left;") BY &nbsp;
                                             b= user.name + ' ' + user.surname
-                                            p(style="margin-left: 20px; margin-top: 10px; font-color: #434343;")= "ON " + dateToYMD(new Date(post.date))
+                                            p(style="margin-left: 10px; margin-top: 10px; font-color: #434343;text-align: left;")= "ON " + dateToYMD(new Date(post.date))
                                         if(post.description != 'nothing')
                                             .w3-container.w3-center(style="width: 95%")
                                                 hr
