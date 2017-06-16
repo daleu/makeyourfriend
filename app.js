@@ -156,14 +156,14 @@ app.get('/login-ca', (req, res) => {
 });
 
 app.post('/login-en', (req, res) => {
-  const email = req.body.email;
-  const password = req.body.pass1;
+  const email = req.body.email.toLowerCase();
+  const password = req.body.pass1.toLowerCase();
   setLogin(email, password, res, req, '/main-page-en', './login/login-en.pug');
 });
 
 app.post('/login-ca', (req, res) => {
-  const email = req.body.email;
-  const password = req.body.pass1;
+  const email = req.body.email.toLowerCase();
+  const password = req.body.pass1.toLowerCase();
   setLogin(email, password, res, req, '/main-page-ca', './login/login-ca.pug');
 });
 
@@ -204,9 +204,9 @@ app.post('/register-en', (req, res) => {
   const parts = auxDate.split('/');
   const birthday = `${parts[1]}/${parts[0]}/${parts[2]}`;
 
-  const email = req.body.email;
+  const email = req.body.email.toLowerCase();
   const about = req.body.about;
-  const password = req.body.pass1;
+  const password = req.body.pass1.toLowerCase();
 
   db.createUser(name, surname, gender, birthday, email, about, password, code)
         .then(() => res.redirect('/login-en?fromreg=YES'))

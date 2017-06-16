@@ -86,10 +86,13 @@ body
             p(style="margin-top:20px;") POST HISTORY
         if(user.isadmin=='YES')
             a.w3-hover-shadow.w3-center(href='/create-event-en' style='background-color: #41A8B0; color: white;')
-                p.fa.fa-pie-chart.fa-2x
+                P
+                    img(src="/images/new-post-ic.png" height='60px;')
+                    | +
+                    img(src="/images/calendario-ic.png" height='60px;')
                 p(style="margin-top:20px;") CREATE EVENT
             a.w3-hover-shadow.w3-center(href='/admin-console-en' style='background-color: #37AB74; color: white;')
-                p.fa.fa-pie-chart.fa-2x
+                img(src="/images/admin.png" height='60px;')
                 p(style="margin-top:20px;") ADMIN CONSOLE
     #infobackground
     #infocard.w3-display-middle

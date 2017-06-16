@@ -4,19 +4,19 @@ head
     link(rel="shortcut icon" href="/images/logo_v4_100.png")
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(type='text/css', rel='stylesheet', href='/css/materialize.min.css', media='screen,projection')
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/style/style.css')
     link(rel='stylesheet', href='/css/w3.css')
-    link(rel='stylesheet', href='/style/datepicker.min.css')
     link(rel='stylesheet', href='/css/font-awesome.min.css')
     script(src='/js/jquery.min.js')
     script(src='/js/datepicker.min.js')
     script(src='/js/datepicker.en.js')
     script(src='/js/bootstrap.min.js')
     script(src='/js/jquery.validate.min.js')
-    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
-    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
-    script(type='text/javascript', src='js/materialize.min.js')
+    link(rel='stylesheet', href='/style/datepicker.min.css')
+    script(type='text/javascript', src='/js/materialize.min.js')
 body
     nav.navbar.navbar-default.navbar-fixed-top
         .container-fluid(style='background-color: rgb(42, 124, 82) important;')
@@ -50,9 +50,11 @@ body
                                 a(href='#') CASTELLANO
                             li
                                 a(href='#') ENGLISH
-    a#floatingbutton.btn-floating.btn-large.waves-effect.waves-light
-        p INFO
-            span.fa.fa-info-circle(style='margin-left:10px;')
+    a#floatingbutton.btn-floating.btn-large.waves-effect.waves-light(href="/")
+        p DONE
+            span.fa.fa-check(style='margin-left:10px;')
+    .row(style="margin-top:70px;")
+        h3.w3-center= "WHO DO YOU WANT TO INVITE?"
     .w3-container#resultPeople(style='margin-top:90px; margin-bottom:50px;')
         each friend in friends
             .w3-card-4.w3-white(id="friend"+friend.uuid style='cursor: pointer;')

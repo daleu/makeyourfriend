@@ -4,13 +4,13 @@ head
     link(rel="shortcut icon" href="/images/logo_v4_100.png")
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/style/style.css')
     link(rel='stylesheet', href='/css/w3.css')
     link(rel='stylesheet', href='/style/datepicker.min.css')
     link(rel='stylesheet', href='/css/font-awesome.min.css')
-    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
-    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     script(src='/js/jquery.min.js')
     script(src='/js/datepicker.min.js')
     script(src='/js/datepicker.en.js')
@@ -33,6 +33,10 @@ body
                     li
                         a(href='/') HOME
                 ul.nav.navbar-nav.navbar-right
+                    li
+                        a(href='/logout')
+                            span.fa.fa-sign-out
+                            |  SIGN OUT
                     li.dropdown
                         a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-haspopup='true', aria-expanded='false')
                             | LANGUAGE
@@ -44,12 +48,11 @@ body
                                 a(href='#') CASTELLANO
                             li
                                 a(href='#') ENGLISH
-    a#floatingbutton.btn-floating.btn-large.waves-effect.waves-light
-        p INFO
-            span.fa.fa-info-circle(style='margin-left:10px;')
     a#floatingbuttonleft.btn-floating.btn-large.waves-effect.waves-light
         p CODE
             span.fa.fa-info-circle(style='margin-left:10px;')
+    .row(style="margin-top:70px;")
+        h3.w3-center= "USERS THAT YOU INVITED:"
     .w3-container#resultPeople(style="margin-top:70px;")
         each friend in friends
             a(href='profile-out-en/' + friend.email)
