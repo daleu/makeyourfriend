@@ -4,6 +4,8 @@ head
     link(rel="shortcut icon" href="/images/logo_v4_100.png")
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/style/style.css')
     link(rel='stylesheet', href='/css/w3.css')
@@ -15,8 +17,6 @@ head
     script(src='/js/datepicker.en.js')
     script(src='/js/bootstrap.min.js')
     script(src='/js/jquery.validate.min.js')
-    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
-    link(type='text/css', rel='stylesheet', href='css/materialize.min.css', media='screen,projection')
     script(type='text/javascript', src='js/materialize.min.js')
     script(src='/js/dropzone.js')
 body
@@ -69,80 +69,43 @@ body
                     b(style='text-decoration:underline;') STORY DESCRIPTION
                 textarea#description.w3-input.w3-border(style='width:50vw; text-transform:uppercase;', name='description', placeholder="WRITE HERE WHAT YOU WANT TO TELL YOUR FRIENDS" required)
                 p
-                button#infobutton.w3-btn.w3-padding(type='button', style='margin-top:10px; margin-bottom:10px; float: left;position:relative;')
-                    span.fa.fa-info-circle(style='margin-left:10px;')
-                    b &nbsp; &nbsp; INFORMATION
                 button#submitbutton.w3-btn.w3-padding(type='button', style='margin-top:10px; margin-bottom:10px; position:relative; float:right;')
                     span.fa.fa-upload
                     b &nbsp; &nbsp; POST STORY
     #spinnerbackground
     #spinner
     #infobackground
-    #infocard.w3-display-middle
+    #infocard.w3-display-middle(style="z-index:10;")
         .w3-card-4(style='margin-top:75px !important;')
-            header.w3-container.w3-blue
+            header.w3-container.w3-blue.infoclass
                 h1 INFORMATION
                     span.fa.fa-info-circle(style='margin-left:10px;')
-            .w3-container(style="background-color: white;")
+            .w3-container.infoclass(style="background-color: white;")
                 p
-                | TO HAVE AN ACCOUNT ON THIS PAGE, YOU NEED TO FILL UP THIS PAGE, AND THEN CLICK ON REGISTER BUTTON BELOW.
+                | ON THIS PAGE, YOU CREATE A NEW STORY.
                 p
-                | THING TO BE CONSIDERED:
+                | TO DO IT, YOU FILL UP THE "STORY DESCRIPTION" FIELD, AND OPTIONALLY, YOU CAN UPLOAD AND IMAGE.
                 p
-                    | - THE FIELDS THAT HAVE
-                    sup
-                        span.fa.fa-asterisk
-                    |  SYMBOL ARE REQUIRED TO BE REGISTRED ON THIS PAGE.
-                P
-                    | - THE
-                    b  BIRTHDAY DATE
-                    |  MUST HAVE THE FORMAT MONTH/DAY/YEAR.
-                P
-                    | - THE
-                    b  EMAIL
-                    |  FIELD NEEDS TO BE A REAL EMAIL.
-                P
-                    | - THE
-                    b  PASSWORDS
-                    |  HAVE TO BE IDENTICAL, AND HAVE TO BE AT LEAST 8 CHARACTERS.
-                P
-                    | - IN THE
-                    b  PASSWORD FIELDS
-                    | , YOU CAN SEE WHAT YOU HAVE WRITTEN PASSING YOUR MOUSE ABOVE THE EYE '
-                    span.fa.fa-eye
-                    | ' ON THE RIGHT.
+                | TO UPLOAD AN IMAGE YOU ONLY NEED DRAG AND DROP THE IMAGE THAT YOU WANT ON "DROP FILES HERE TO UPLOAD" FIELD OR CLICK THERE AND SELECT THE IMAGE.
                 p
-                    b ENJOY THE EXPERIENCE!!! :-)
+                | AFTER IT, CLICK "POST STORY" BUTTON TO CREATE THE STORY.
                 p
             footer.w3-container.w3-blue
                 button#closeinfo.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
                     span.fa.fa-close(style='margin-left:10px;')
-    #errorcard.w3-display-middle
-        .w3-card-4
-            header.w3-container.w3-red
-                h1 ERROR
-                    span.fa.fa-exclamation-circle(style='margin-left:10px;')
-            .w3-container(style="background-color: white;")
-                p
-                | THIS EMAIL ALREADY EXISTS IN OUR SYSTEM.
-                | PLIS, PUT ANOTHER ONE.
-                p
-            footer.w3-container.w3-red
-                button#closeerror.w3-btn.w3-padding(type='button', style='width:155px; margin-top:10px; margin-bottom:10px; float: right;') CLOSE
-                    span.fa.fa-close(style='margin-left:10px;')
 style
 
 script.
-    $("#infobutton").click(function () {
-        $('#infobackground').css('display', 'block');
-        $('#infocard').css('display', 'block');
-    });
 
     $("#closeinfo").click(function () {
         $('#infobackground').css('display', 'none');
         $('#infocard').css('display', 'none');
     });
 
+    $("#floatingbutton").click(function () {
+        $('#infobackground').css('display', 'block');
+        $('#infocard').css('display', 'block');
+    });
 
     Dropzone.options.imageform = {
 
