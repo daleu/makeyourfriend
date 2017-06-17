@@ -196,6 +196,7 @@ script.
             });
 
             myDropzone.on("complete", function (file) {
+                console.log("completed");
                 if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
                     var form = $("#redirectform");
                     form.submit();
