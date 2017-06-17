@@ -41,7 +41,6 @@ const storagePost = multer.diskStorage({
       lastUpload = `./uploadsPost/${raw.toString('hex')}${path.extname(file.originalname)}`;
       fileUploaded = true;
       cb(null, raw.toString('hex') + path.extname(file.originalname));
-        res.send('OK');
     });
   }
 });
