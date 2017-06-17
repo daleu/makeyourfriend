@@ -110,7 +110,7 @@ function setLogin(email, password, res, req, page, pageer) {
 }
 
 function requireLogin(req, res, next) {
-  if (!req.session.usr || user == null) {
+  if (!req.session.usr) {
     if (req.get('accept-language').includes('ca')) {
       res.redirect('/login-ca');
     } else if (req.get('accept-language').includes('es')) {
