@@ -12,7 +12,7 @@ const fs = require('fs');
 var lastUpload;
 var eventx;
 
-let user;
+var user;
 let fileUploaded = false;
 
 const db = new Neo4jApi();
@@ -22,12 +22,12 @@ const storageProfile = multer.diskStorage({
   filename(req, file, cb) {
     crypto.pseudoRandomBytes(16, (err, raw) => {
       if (err) return cb(err);
-      if (user.foto != null) {
-        const pathFoto = user.foto;
+      if (req.session.usr[0].foto != null) {
+        const pathFoto = req.session.usr[0].foto;
         fs.unlink(pathFoto);
       }
-      user.foto = `./uploadsProfile/${raw.toString('hex')}${path.extname(file.originalname)}`;
-      db.updateProfileImage(user.email, user.foto);
+        req.session.usr[0].foto = `./uploadsProfile/${raw.toString('hex')}${path.extname(file.originalname)}`;
+      db.updateProfileImage(req.session.usr[0].email, req.session.usr[0].foto);
       cb(null, raw.toString('hex') + path.extname(file.originalname));
     });
   }
@@ -217,22 +217,23 @@ app.post('/register-en', (req, res) => {
 
 /* MAIN PAGE*/
 app.get('/main-page-en', requireLogin, (req, res) => {
-  res.render('./mainPage/main-page-en.pug', { user });
+    console.log(req.session.usr);
+  res.render('./mainPage/main-page-en.pug', { user: req.session.usr[0] });
 });
 
 app.get('/main-page-ca', requireLogin, (req, res) => {   // ////////////////////////////////// FALTA FER
-  res.render('./mainPage/main-page-ca.pug', { user });
+  res.render('./mainPage/main-page-ca.pug', { user: req.session.usr[0] });
 });
 
 app.get('/main-page-es', requireLogin, (req, res) => {   // ////////////////////////////////// FALTA FER
-  res.render('./mainPage/main-page-es.pug', { user });
+  res.render('./mainPage/main-page-es.pug', { user: req.session.usr[0] });
 });
 
 /* MY PROFILE*/
 app.get('/profile-en', requireLogin, (req, res) => {
-  db.getFriends(user.email).then((friends) => {
-    db.getMyStories(user.email,user.email).then((posts) => {
-      res.render('./profile/profile-en.pug', { user, friends, posts });
+  db.getFriends(req.session.usr[0].email).then((friends) => {
+    db.getMyStories(req.session.usr[0].email,user.email).then((posts) => {
+      res.render('./profile/profile-en.pug', { user:req.session.usr[0], friends, posts });
     });
   });
 });
@@ -247,7 +248,7 @@ app.get('/profile-es', requireLogin, (req, res) => {     // ////////////////////
 
 /* EDIT PROFILE*/
 app.get('/profile-edit-en', requireLogin, (req, res) => {
-  res.render('./profile-edit/profile-edit-en.pug', { user }); // ////////////////////////////////// BULDING
+  res.render('./profile-edit/profile-edit-en.pug', { user:req.session.usr[0] }); // ////////////////////////////////// BULDING
 });
 
 app.get('/profile-edit-ca', requireLogin, (req, res) => {     // ////////////////////////////////// FALTA FER
@@ -290,21 +291,21 @@ app.post('/post-story/:description', requireLogin, (req, res) => {
       const description = req.params.description;
       const date = new Date();
       const dateInMilliseconds = date.getTime();
-      const usuari = `${user.name} ${user.surname}`;
+      const usuari = `${req.session.usr[0].name} ${req.session.usr[0].surname}`;
       console.log("ehehehehehhehehe");
       if(fileUploaded===true){
           console.log("1");
-          db.newPost(user.email, description, lastUpload, dateInMilliseconds, usuari).then(() => {
+          db.newPost(req.session.usr[0].email, description, lastUpload, dateInMilliseconds, usuari).then(() => {
               console.log("POST");
-              db.relationToNewPost(user.email, dateInMilliseconds);
+              db.relationToNewPost(req.session.usr[0].email, dateInMilliseconds);
           });
           console.log("LOG");
       }
       else{
           console.log("2");
-          db.newPost(user.email, description, 'nothing', dateInMilliseconds, usuari).then(() => {
+          db.newPost(req.session.usr[0].email, description, 'nothing', dateInMilliseconds, usuari).then(() => {
               console.log("POST");
-              db.relationToNewPost(user.email, dateInMilliseconds);
+              db.relationToNewPost(req.session.usr[0].email, dateInMilliseconds);
           });
           console.log("LOG");
       }
@@ -318,20 +319,20 @@ app.post('/redirect-after-post', requireLogin, (req, res) => {     // //////////
 
 /* MY STORIES*/
 app.get('/my-posts-en', requireLogin, (req, res) => {     // ////////////////////////////////// BULDING
-  db.getMyStories(user.email,user.email).then((posts) => {
-    res.render('./my-posts/my-posts-en.pug', { posts, user });
+  db.getMyStories(req.session.usr[0].email,req.session.usr[0].email).then((posts) => {
+    res.render('./my-posts/my-posts-en.pug', { posts, user:req.session.usr[0] });
   });
 });
 
 app.get('/my-posts-es', requireLogin, (req, res) => {     // ////////////////////////////////// FALTA FER
-  db.getMyStories(user.email,user.email).then((posts) => {
-    res.render('./my-posts/my-posts-es.pug', { posts, user });
+  db.getMyStories(req.session.usr[0].email,req.session.usr[0].email).then((posts) => {
+    res.render('./my-posts/my-posts-es.pug', { posts, user:req.session.usr[0] });
   });
 });
 
 app.get('/my-posts-ca', requireLogin, (req, res) => {     // ////////////////////////////////// FALTA FER
-  db.getMyStories(user.email,user.email).then((posts) => {
-    res.render('./my-posts/my-posts-ca.pug', { posts, user });
+  db.getMyStories(req.session.usr[0].email,req.session.usr[0].email).then((posts) => {
+    res.render('./my-posts/my-posts-ca.pug', { posts, user:req.session.usr[0] });
   });
 });
 
@@ -350,27 +351,27 @@ app.get('/search-people-en', requireLogin, (req, res) => {     // //////////////
 
 app.get('/get-people-by-name/:letters', requireLogin, (req, res) => {
   const letters = req.params.letters;
-  db.getUsersByName(letters, user.email).then((users) => {
+  db.getUsersByName(letters, req.session.usr[0].email).then((users) => {
     res.send(users);
   });
 });
 
 app.get('/get-people', requireLogin, (req, res) => {
-  db.getAllUsersPossible(user.email).then((users) => {
+  db.getAllUsersPossible(req.session.usr[0].email).then((users) => {
     res.send(users);
   });
 });
 
 app.post('/send-friend-request/:targetEmail', requireLogin, (req, res) => {
   const targetEmail = req.params.targetEmail;
-  db.sendRequest(user.email, targetEmail).then(() => {
+  db.sendRequest(req.session.usr[0].email, targetEmail).then(() => {
     res.send('OK');
   });
 });
 
 /* MY FRIENDS*/
 app.get('/my-friends-en', requireLogin, (req, res) => {     // ////////////////////////////////// BULDING
-  db.getFriends(user.email).then((friends) => {
+  db.getFriends(req.session.usr[0].email).then((friends) => {
     res.render('./my-friends/my-friends-en.pug', { friends });
   });
 });
@@ -384,28 +385,28 @@ app.get('/my-friends-en', requireLogin, (req, res) => {     // /////////////////
 });
 
 app.get('/get-my-requests', requireLogin, (req, res) => {
-  db.getMyFriendResquests(user.email).then((users) => {
+  db.getMyFriendResquests(req.session.usr[0].email).then((users) => {
     res.send(users);
   });
 });
 
 app.get('/get-friends', requireLogin, (req, res) => {
-  db.getFriends(user.email).then((users) => {
+  db.getFriends(req.session.usr[0].email).then((users) => {
     res.send(users);
   });
 });
 
 app.get('/get-requests', requireLogin, (req, res) => {
-  db.getFriendResquests(user.email).then((users) => {
+  db.getFriendResquests(req.session.usr[0].email).then((users) => {
     res.send(users);
   });
 });
 
 app.post('/accept-request/:targetEmail', requireLogin, (req, res) => {
   const targetEmail = req.params.targetEmail;
-  db.deleteRequest(user.email, targetEmail).then(() => {
-    db.createFriend(user.email, targetEmail).then(() => {
-      db.createFriend(targetEmail, user.email).then(() => {
+  db.deleteRequest(req.session.usr[0].email, targetEmail).then(() => {
+    db.createFriend(req.session.usr[0].email, targetEmail).then(() => {
+      db.createFriend(targetEmail, req.session.usr[0].email).then(() => {
         res.send('OK');
       });
     });
@@ -414,7 +415,7 @@ app.post('/accept-request/:targetEmail', requireLogin, (req, res) => {
 
 app.post('/decline-request/:targetEmail', requireLogin, (req, res) => {
     const targetEmail = req.params.targetEmail;
-    db.deleteRequest(user.email, targetEmail).then(() => {
+    db.deleteRequest(req.session.usr[0].email, targetEmail).then(() => {
         res.send("OK");
     });
 });
@@ -423,15 +424,15 @@ app.post('/decline-request/:targetEmail', requireLogin, (req, res) => {
 
 app.get('/profile-out-en/:targetEmail', requireLogin, (req, res) => {
   const email = req.params.targetEmail;
-  if (email == user.email) res.redirect('/profile-en');
+  if (email == req.session.usr[0].email) res.redirect('/profile-en');
   else {
     db.findUser(email).then((result) => {
       const usuari = result[0];
       db.getFriends(email).then((result2) => {
         const friends = result2;
-        db.getMyStories(email,user.email).then((result3) => {
+        db.getMyStories(email,req.session.usr[0].email).then((result3) => {
           const posts = result3;
-          db.getIfFriend(email,user.email).then((result4) => {
+          db.getIfFriend(email,req.session.usr[0].email).then((result4) => {
               var isFriend = false;
               if(result4[0]!=null) isFriend=true;
               res.render('./profile-out/profile-out-en.pug', { usuari, friends, posts,isFriend});
@@ -444,38 +445,38 @@ app.get('/profile-out-en/:targetEmail', requireLogin, (req, res) => {
 
 app.post('/delete-friend/:targetEmail', requireLogin, (req, res) => {
     const targetEmail = req.params.targetEmail;
-    db.deleteFriend(user.email, targetEmail).then(() => {
-        db.deleteFriend(targetEmail, user.email).then(() => {
+    db.deleteFriend(req.session.usr[0].email, targetEmail).then(() => {
+        db.deleteFriend(targetEmail, req.session.usr[0].email).then(() => {
             res.send("OK");
         });
     });
 });
 
 app.get('/profile-out-ca/:targetEmail', requireLogin, (req, res) => {
-  res.render('./profile-out/profile-out-ca.pug', { user });
+  res.render('./profile-out/profile-out-ca.pug', { user:req.session.usr[0] });
 });
 
 app.get('/profile-out-es/:targetEmail', requireLogin, (req, res) => {
-  res.render('./profile-out/profile-out-es.pug', { user });
+  res.render('./profile-out/profile-out-es.pug', { user:req.session.usr[0] });
 });
 
 /*TIMELINE*/
 app.get('/timeline-en', requireLogin, (req, res) => {
-  db.getFriendsPosts(user.email).then((result3) => {
+  db.getFriendsPosts(req.session.usr[0].email).then((result3) => {
     const posts = result3;
     res.render('./timeline/timeline-en.pug', { posts });
   });
 });
 
 app.get('/timeline-ca', requireLogin, (req, res) => {
-    db.getFriendsPosts(user.email).then((result3) => {
+    db.getFriendsPosts(req.session.usr[0].email).then((result3) => {
         const posts = result3;
         res.render('./timeline/timeline-ca.pug', { posts });
     });
 });
 
 app.get('/timeline-es', requireLogin, (req, res) => {
-    db.getFriendsPosts(user.email).then((result3) => {
+    db.getFriendsPosts(req.session.usr[0].email).then((result3) => {
         const posts = result3;
         res.render('./timeline/timeline-es.pug', { posts });
     });
@@ -487,14 +488,14 @@ app.get('/create-event-en', requireLogin, (req, res) => {             //DONE
 });
 
 app.get('/create-event-es', requireLogin, (req, res) => {
-    db.getFriendsPosts(user.email).then((result3) => {
+    db.getFriendsPosts(req.session.usr[0].email).then((result3) => {
         const posts = result3;
         res.render('./timeline/create-event-es.pug', { posts });
     });
 });
 
 app.get('/create-event-es', requireLogin, (req, res) => {
-    db.getFriendsPosts(user.email).then((result3) => {
+    db.getFriendsPosts(req.session.usr[0].email).then((result3) => {
         const posts = result3;
         res.render('./timeline/create-event-es.pug', { posts });
     });
@@ -511,11 +512,11 @@ app.post('/create-event', requireLogin, (req, res) => {
     const date = new Date();
     const dateInMilliseconds = date.getTime();
 
-    const usuari = `${user.name} ${user.surname}`;
+    const usuari = `${req.session.usr[0].name} ${req.session.usr[0].surname}`;
 
-    db.newEvent(user.email, title, start, end, place, description, dateInMilliseconds, usuari)
+    db.newEvent(req.session.usr[0].email, title, start, end, place, description, dateInMilliseconds, usuari)
         .then((resp) => {
-            db.relationToNewEvent(user.email, dateInMilliseconds).then(() =>{
+            db.relationToNewEvent(req.session.usr[0].email, dateInMilliseconds).then(() =>{
                 db.getEventByTime(dateInMilliseconds).then((response) =>{
                     eventx = response[0].uuid;
                     res.redirect('/event-invitations-en');
@@ -527,26 +528,26 @@ app.post('/create-event', requireLogin, (req, res) => {
 /*EVENT INVITATIONS*/
 
 app.get('/event-invitations-en',requireLogin, (req,res) =>{
-    db.getFriendsForEvent(user.email,eventx).then((friends) => {
+    db.getFriendsForEvent(req.session.usr[0].email,eventx).then((friends) => {
         res.render('./event-invitations/event-invitations-en.pug', {friends});
     });
 });
 
 app.get('/event-invitations-en/:event',requireLogin, (req,res) =>{
     eventx = req.params.event;
-    db.getFriendsForEvent(user.email,eventx).then((friends) => {
+    db.getFriendsForEvent(req.session.usr[0].email,eventx).then((friends) => {
         res.render('./event-invitations/event-invitations-en.pug', {friends});
     });
 });
 
 app.get('/event-invitations-es',requireLogin, (req,res) =>{
-    db.getFriends(user.email).then((friends) => {
+    db.getFriends(req.session.usr[0].email).then((friends) => {
         res.render('./event-invitations/event-invitations-es.pug', {friends});
     });
 });
 
 app.get('/event-invitations-ca',requireLogin, (req,res) =>{
-    db.getFriends(user.email).then((friends) => {
+    db.getFriends(req.session.usr[0].email).then((friends) => {
         res.render('./event-invitations/event-invitations-ca.pug', {friends});
     });
 });
@@ -562,26 +563,26 @@ app.post('/send-invitation/:targetEmail', requireLogin, (req, res) => {
 /*EVENT MANAGING*/                                          //TODO
 
 app.get('/getevents', requireLogin, (req,res) =>{
-    db.getMyEvents(user.email).then((events) => {
+    db.getMyEvents(req.session.usr[0].email).then((events) => {
         res.send(events);
     });
 });
 
 app.get('/see-events-en', requireLogin, (req, res) => {
-    db.getMyEventsInvitations(user.email).then((invitations) => {
+    db.getMyEventsInvitations(req.session.usr[0].email).then((invitations) => {
         if(user.isadmin=='YES'){
-            db.getMyEventsOnly(user.email).then((events) => {
-                res.render('./see-events/see-events-en.pug', { invitations,events,user });
+            db.getMyEventsOnly(req.session.usr[0].email).then((events) => {
+                res.render('./see-events/see-events-en.pug', { invitations,events,user:req.session.usr[0] });
             });
         }
-        else res.render('./see-events/see-events-en.pug', { invitations,user });
+        else res.render('./see-events/see-events-en.pug', { invitations,user:req.session.usr[0] });
     });
 });
 
 app.post('/accept-invitation/:uuid', requireLogin, (req, res) => {
     const uuid = req.params.uuid;
-    db.deleteRequestEvent(user.email, uuid).then(() => {
-        db.createEventRelationship(user.email, uuid).then(() => {
+    db.deleteRequestEvent(req.session.usr[0].email, uuid).then(() => {
+        db.createEventRelationship(req.session.usr[0].email, uuid).then(() => {
             res.send('OK');
         });
     });
@@ -590,7 +591,7 @@ app.post('/accept-invitation/:uuid', requireLogin, (req, res) => {
 app.post('/delete-invitation/:uuid', requireLogin, (req, res) => {
     const uuid = req.params.uuid;
     console.log("deleted");
-    db.deleteRequestEvent(user.email, uuid).then(() => {
+    db.deleteRequestEvent(req.session.usr[0].email, uuid).then(() => {
             res.send('OK');
     });
 });
@@ -605,21 +606,21 @@ app.post('/delete-event/:uuid', requireLogin, (req, res) => {
 /*ADMIN-CONSOLE*/                                           //TODO
 
 app.get('/admin-console-en', requireLogin, (req, res) => {
-    db.getUsersWithCode(user.uuid).then((result3) => {
+    db.getUsersWithCode(req.session.usr[0].uuid).then((result3) => {
         const friends = result3;
-        res.render('./admin-console/admin-console-en.pug', { friends,user });
+        res.render('./admin-console/admin-console-en.pug', { friends,user:req.session.usr[0] });
     });
 });
 
 app.get('/admin-console-ca', requireLogin, (req, res) => {
-    db.getFriendsPosts(user.email).then((result3) => {
+    db.getFriendsPosts(req.session.usr[0].email).then((result3) => {
         const posts = result3;
         res.render('./admin-console/admin-console-ca.pug', { posts });
     });
 });
 
 app.get('/admin-console-es', requireLogin, (req, res) => {
-    db.getFriendsPosts(user.email).then((result3) => {
+    db.getFriendsPosts(req.session.usr[0].email).then((result3) => {
         const posts = result3;
         res.render('./admin-console/admin-console-es.pug', { posts });
     });
@@ -628,14 +629,14 @@ app.get('/admin-console-es', requireLogin, (req, res) => {
 /*LIKE/UNLIKE/DELETE POST*/
 app.post('/like/:uuid', requireLogin, (req, res) => {
     const uuid = req.params.uuid;
-    db.like(user.email, uuid).then(() => {
+    db.like(req.session.usr[0].email, uuid).then(() => {
         res.send('OK');
     });
 });
 
 app.post('/unlike/:uuid', requireLogin, (req, res) => {
     const uuid = req.params.uuid;
-    db.unlike(user.email, uuid).then(() => {
+    db.unlike(req.session.usr[0].email, uuid).then(() => {
         res.send('OK');
     });
 });
