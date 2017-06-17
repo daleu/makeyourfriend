@@ -232,7 +232,7 @@ app.get('/main-page-es', requireLogin, (req, res) => {   // ////////////////////
 /* MY PROFILE*/
 app.get('/profile-en', requireLogin, (req, res) => {
   db.getFriends(req.session.usr[0].email).then((friends) => {
-    db.getMyStories(req.session.usr[0].email,user.email).then((posts) => {
+    db.getMyStories(req.session.usr[0].email,req.session.usr[0].email).then((posts) => {
       res.render('./profile/profile-en.pug', { user:req.session.usr[0], friends, posts });
     });
   });
@@ -252,11 +252,11 @@ app.get('/profile-edit-en', requireLogin, (req, res) => {
 });
 
 app.get('/profile-edit-ca', requireLogin, (req, res) => {     // ////////////////////////////////// FALTA FER
-  res.render('./profile-edit/profile-edit-ca.pug', { user });
+  res.render('./profile-edit/profile-edit-ca.pug', { user:req.session.usr[0] });
 });
 
 app.get('/profile-edit-es', requireLogin, (req, res) => {     // ////////////////////////////////// FALTA FER
-  res.render('./profile-edit/profile-edit-es.pug', { user });
+  res.render('./profile-edit/profile-edit-es.pug', { user:req.session.usr[0] });
 });
 
 app.post('/upload-profile-image', uploadProfile.single('file'), (req, res) => {
@@ -265,8 +265,8 @@ app.post('/upload-profile-image', uploadProfile.single('file'), (req, res) => {
 
 app.post('/upload-profile-about', requireLogin, (req, res) => {
   const about = req.body.about;
-  user.about = about;
-  db.updateProfileAbout(user.email, about);
+    req.session.usr[0].about = about;
+  db.updateProfileAbout(req.session.usr[0].email, about);
   res.redirect('/profile-en');
 });
 
@@ -570,7 +570,7 @@ app.get('/getevents', requireLogin, (req,res) =>{
 
 app.get('/see-events-en', requireLogin, (req, res) => {
     db.getMyEventsInvitations(req.session.usr[0].email).then((invitations) => {
-        if(user.isadmin=='YES'){
+        if(req.session.usr[0].isadmin=='YES'){
             db.getMyEventsOnly(req.session.usr[0].email).then((events) => {
                 res.render('./see-events/see-events-en.pug', { invitations,events,user:req.session.usr[0] });
             });
