@@ -260,7 +260,13 @@ app.get('/profile-edit-es', requireLogin, (req, res) => {     // ///////////////
 });
 
 app.post('/upload-profile-image', uploadProfile.single('file'), (req, res) => {
-  res.redirect('/profile-en');
+    res.send('OK');
+  //res.redirect('/profile-en');
+});
+
+app.post('/redirect-after-profile-image', requireLogin, (req, res) => {
+    //res.send('OK');
+    res.redirect('/profile-en');
 });
 
 app.post('/upload-profile-about', requireLogin, (req, res) => {

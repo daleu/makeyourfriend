@@ -123,17 +123,33 @@ script.
                     $('#spinnerbackground').css('display', 'block');
                     $('#spinner').css('display', 'block');
                     myDropzone.processQueue();
-                    setTimeout(function () {
+                    if (myDropzone.getUploadingFiles().length === 0 && myDropzone.getQueuedFiles().length === 0) {
                         var description = $("#description").val();
                         console.log(description);
                         $.ajax({
                             method: "POST",
                             url: "/post-story/" + description,
                             success: function () {
+                                var form = $("#registerform");
                                 form.submit();
                             }
                         });
-                    }, 2000);
+                    }
+                }
+            });
+
+            myDropzone.on("complete", function(file) {
+                if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                    var description = $("#description").val();
+                    console.log(description);
+                    $.ajax({
+                        method: "POST",
+                        url: "/post-story/" + description,
+                        success: function () {
+                            var form = $("#registerform");
+                            form.submit();
+                        }
+                    });
                 }
             });
 

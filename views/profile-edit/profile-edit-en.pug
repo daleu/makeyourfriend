@@ -82,9 +82,10 @@ body
                             h4 UPLOAD IMAGE:
                         form#imageform.dropzone.w3-col.l8.s12(action="/upload-profile-image", method="post", enctype="multipart/form-data")
                             //input#profileimage(type='file' required)
-                    button#imagebutton.w3-button.w3-padding-large.w3-black.w3-border.w3-right(style='margin-bottom: 15px;',type='button')
-                        span.fa.fa-upload
-                        b &nbsp; &nbsp; UPLOAD IMAGE
+                        form#redirectform(action="/redirect-after-profile-image", method="post", enctype="multipart/form-data")
+                            button#imagebutton.w3-button.w3-padding-large.w3-black.w3-border.w3-right(style='margin-bottom: 15px;',type='button')
+                                span.fa.fa-upload
+                                b &nbsp; &nbsp; UPLOAD IMAGE
         .w3-col.l4
             // About Card
             .w3-card-2.w3-margin.w3-margin-top.w3-white
@@ -184,12 +185,12 @@ script.
                 myDropzone.processQueue(); // Tell Dropzone to process all queued files.
             });
 
-            // You might want to show the submit button only when
-            // files are dropped here:
-            this.on("addedfile", function () {
-
+            myDropzone.on("complete", function (file) {
+                if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                    var form = $("#redirectform");
+                    form.submit();
+                }
             });
-
         }
     };
 
