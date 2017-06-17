@@ -108,6 +108,8 @@ body
                         span.fa.fa-upload
                         b &nbsp; &nbsp; UPLOAD DESCRIPTION
     #infobackground
+    #spinnerbackground
+    #spinner
     #infocard.w3-display-middle(style="z-index:10;")
         .w3-card-4(style='margin-top:75px !important;')
             header.w3-container.w3-blue.infoclass
@@ -166,10 +168,16 @@ script.
         form.submit();
     });
 
-    $("#imagebutton").click(function () {
-        var form = $("#imageform");
-        form.submit();
+    $("#closeinfo").click(function () {
+        $('#infobackground').css('display', 'none');
+        $('#infocard').css('display', 'none');
     });
+
+    $("#floatingbutton").click(function () {
+        $('#infobackground').css('display', 'block');
+        $('#infocard').css('display', 'block');
+    });
+
 
     Dropzone.options.imageform = {
 
@@ -182,6 +190,8 @@ script.
             myDropzone = this; // closure
 
             submitButton.addEventListener("click", function () {
+                $('#spinnerbackground').css('display', 'block');
+                $('#spinner').css('display', 'block');
                 myDropzone.processQueue(); // Tell Dropzone to process all queued files.
             });
 
@@ -191,15 +201,9 @@ script.
                     form.submit();
                 }
             });
+
+            this.on("addedfile", function () {
+
+            });
         }
     };
-
-    $("#closeinfo").click(function () {
-        $('#infobackground').css('display', 'none');
-        $('#infocard').css('display', 'none');
-    });
-
-    $("#floatingbutton").click(function () {
-        $('#infobackground').css('display', 'block');
-        $('#infocard').css('display', 'block');
-    });

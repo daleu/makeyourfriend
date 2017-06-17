@@ -22,10 +22,10 @@ const storageProfile = multer.diskStorage({
   filename(req, file, cb) {
     crypto.pseudoRandomBytes(16, (err, raw) => {
       if (err) return cb(err);
-      if (req.session.usr[0].foto != null) {
+      /*if (req.session.usr[0].foto != null) {
         const pathFoto = req.session.usr[0].foto;
         fs.unlink(pathFoto);
-      }
+      }*/
         req.session.usr[0].foto = `./uploadsProfile/${raw.toString('hex')}${path.extname(file.originalname)}`;
       db.updateProfileImage(req.session.usr[0].email, req.session.usr[0].foto);
       cb(null, raw.toString('hex') + path.extname(file.originalname));
@@ -41,6 +41,7 @@ const storagePost = multer.diskStorage({
       lastUpload = `./uploadsPost/${raw.toString('hex')}${path.extname(file.originalname)}`;
       fileUploaded = true;
       cb(null, raw.toString('hex') + path.extname(file.originalname));
+        res.send('OK');
     });
   }
 });
