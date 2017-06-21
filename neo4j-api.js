@@ -245,8 +245,6 @@ class Neo4jApi {
               SET p.liked = SIZE((r)-[:LIKE]->(p))
               RETURN p`;
 
-      console.log(query);
-
       const promise = new Promise((resolve, reject) => {
           session
               .run(query)
